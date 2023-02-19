@@ -9,10 +9,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+@Component
 public class CustomUserDetailService implements UserDetailsService {
 
     private UserService repository;
@@ -26,9 +28,7 @@ public class CustomUserDetailService implements UserDetailsService {
 
         User user = this.repository.findByEmail(username);
 
-        UserDetails userDetails = new CustomUserDetails(user, mapRoles(user.getRoles()));
-
-        return userDetails;
+        return new CustomUserDetails(user, mapRoles(user.getRoles()));
     }
 
     public Collection<? extends GrantedAuthority> mapRoles(Collection<Rol> roles) {

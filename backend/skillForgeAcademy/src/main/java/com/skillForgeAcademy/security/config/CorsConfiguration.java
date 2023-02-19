@@ -6,7 +6,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class CorsConfig {
+public class CorsConfiguration {
 
     /*
     * This method enable all routes with /api/*
@@ -19,7 +19,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/*")
-                        .allowedOrigins("http://localhost:4200/")
+                        .allowedOrigins("*")
                         .allowedMethods("*")
                         .exposedHeaders("*");
             }

@@ -1,5 +1,6 @@
 package com.skillForgeAcademy.components.signup.rest;
 
+import com.skillForgeAcademy.models.rol.domain.model.Rol;
 import com.skillForgeAcademy.models.user.application.ports.output.UserService;
 import com.skillForgeAcademy.models.user.domain.model.User;
 import com.skillForgeAcademy.models.user.infrastructure.database.service.UserEntityServiceImpl;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("/api/signup")
@@ -23,14 +26,20 @@ public class SignUpController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) throws Exception {
 
         User userFound = this.repository.findByEmail(user.getEmail());
 
+        System.out.println(userFound);
+        System.out.println(3);
+
         if (userFound != null) {
             return new ResponseEntity<>(userFound, HttpStatus.BAD_REQUEST);
         }
+
+        // Setting ROL_USER to this user
+        user.setRoles(Arrays.asList(new Rol(1, "ROLE_USER")));
 
         return new ResponseEntity<>(this.repository.create(user), HttpStatus.CREATED);
     }

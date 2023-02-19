@@ -4,9 +4,10 @@ import com.skillForgeAcademy.models.user.domain.model.User;
 import com.skillForgeAcademy.models.user.application.ports.output.UserService;
 import com.skillForgeAcademy.models.user.infrastructure.database.entity.UserEntity;
 import com.skillForgeAcademy.models.user.infrastructure.database.repository.PostgresUserEntityRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -15,6 +16,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class UserEntityServiceImpl implements UserService {
     /*
      * As probably we are going to implement more functionality,
@@ -22,13 +24,10 @@ public class UserEntityServiceImpl implements UserService {
      */
 
     private PostgresUserEntityRepository repository;
-    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    UserEntityServiceImpl(
-            PostgresUserEntityRepository repository,
-            BCryptPasswordEncoder passwordEncoder) {
+    UserEntityServiceImpl(PostgresUserEntityRepository repository) {
         this.repository = repository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -77,7 +76,8 @@ public class UserEntityServiceImpl implements UserService {
         Optional<UserEntity> user = this.repository.findByEmail(email);
 
         if (user.isEmpty()){
-            throw new UsernameNotFoundException("NO USER FOUND");
+
+            return null;
         }
 
         return user.get().toUser();
