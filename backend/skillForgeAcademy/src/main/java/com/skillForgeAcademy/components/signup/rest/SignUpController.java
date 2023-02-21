@@ -7,10 +7,7 @@ import com.skillForgeAcademy.models.user.infrastructure.database.service.UserEnt
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 
@@ -27,12 +24,11 @@ public class SignUpController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) throws Exception {
+    public ResponseEntity<User> signup(@RequestBody User user) throws Exception {
 
         User userFound = this.repository.findByEmail(user.getEmail());
 
-        System.out.println(userFound);
-        System.out.println(3);
+
 
         if (userFound != null) {
             return new ResponseEntity<>(userFound, HttpStatus.BAD_REQUEST);

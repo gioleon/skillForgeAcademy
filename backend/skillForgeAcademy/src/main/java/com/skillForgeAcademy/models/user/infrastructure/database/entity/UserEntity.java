@@ -25,6 +25,7 @@ public class UserEntity {
     private String lastName;
     private String email;
     private String password;
+    private boolean isEnable;
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<RolEntity> roles;
 
@@ -35,6 +36,7 @@ public class UserEntity {
                 .lastName(this.lastName)
                 .email(this.email)
                 .password(this.password)
+                .isEnable(this.isEnable)
                 .roles(this.roles.stream().map(rolEntity -> rolEntity.toRol()).collect(Collectors.toList()))
                 .build();
     }

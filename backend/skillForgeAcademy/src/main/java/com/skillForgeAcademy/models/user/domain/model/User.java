@@ -20,7 +20,16 @@ public class User {
     private String lastName;
     private String email;
     private String password;
+    private boolean isEnable;
     private Collection<Rol> roles;
+
+    public User(String name, String lastName, String email, String password) {
+        this.name = name;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.isEnable = false;
+    }
 
     public UserEntity toUserEntity() {
         return UserEntity.builder()
@@ -29,7 +38,10 @@ public class User {
                 .lastName(this.lastName)
                 .email(this.email)
                 .password(this.password)
+                .isEnable(this.isEnable)
                 .roles(this.roles.stream().map(rol -> rol.toRolEntity()).collect(Collectors.toList()))
                 .build();
     }
+
+
 }
