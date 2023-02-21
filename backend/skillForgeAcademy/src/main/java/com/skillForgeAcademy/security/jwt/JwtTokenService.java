@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.skillForgeAcademy.security.config.CustomUserDetailService;
+import com.skillForgeAcademy.security.config.CustomUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
@@ -34,15 +35,19 @@ public class JwtTokenService {
         this.userDetailService = userDetailService;
     }
 
-    public String generateTokens(UserDetails userDetails) {
+    public String generateTokens(CustomUserDetails userDetails) {
         // Convert list of grantedAuthorities to string
         List<String> authorities = userDetails.getAuthorities().stream()
                 .map(rol -> rol.toString()).collect(Collectors.toList());
 
 
         // Adding those authorities to a map to put them into the token.
-        Map<String, List<String>> extra = new HashMap<>();
-        extra.put("Authorities", authorities);
+        Map<String, String> extra = new HashMap<>();
+        extra.put("id", String.valueOf(userDetails.getId()));
+        extra.put("name", userDetails.getName());
+        extra.put("lastName", userDetails.getLastName());
+        extra.put("roles", authorities.toString());
+
 
         return JWT.create()
                 .withSubject(userDetails.getUsername())
@@ -51,16 +56,16 @@ public class JwtTokenService {
                 .sign(this.hmac512);
     }
 
-    public String validateTokenAndGetUsername(String token){
+    public String validateTokenAndGetUsername(String token) {
         try {
             return this.verifier.verify(token).getSubject();
-        } catch (JWTVerificationException e){
+        } catch (JWTVerificationException e) {
             log.warn("Token invalid: {}", e.getMessage());
             return null;
         }
     }
 
-    public UsernamePasswordAuthenticationToken getAuthentication(String email){
+    public UsernamePasswordAuthenticationToken getAuthentication(String email) {
 
         // load a user if exists
         UserDetails userDetails = this.userDetailService.loadUserByUsername(email);
@@ -70,8 +75,6 @@ public class JwtTokenService {
         );
 
     }
-
-
 
 
 }

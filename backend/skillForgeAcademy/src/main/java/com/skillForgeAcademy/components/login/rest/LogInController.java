@@ -2,6 +2,7 @@ package com.skillForgeAcademy.components.login.rest;
 
 import com.skillForgeAcademy.models.user.domain.model.User;
 import com.skillForgeAcademy.security.config.CustomUserDetailService;
+import com.skillForgeAcademy.security.config.CustomUserDetails;
 import com.skillForgeAcademy.security.jwt.JwtTokenService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/login")
@@ -43,7 +41,7 @@ public class LogInController {
             throw new Exception("CREDENTIALS NOT MATCH");
         }
 
-        UserDetails userDetails = customUserDetailService.loadUserByUsername(user.getEmail());
+        CustomUserDetails userDetails = (CustomUserDetails) customUserDetailService.loadUserByUsername(user.getEmail());
 
         response.addHeader("Authentication", this.jwtTokenService.generateTokens(userDetails));
 
