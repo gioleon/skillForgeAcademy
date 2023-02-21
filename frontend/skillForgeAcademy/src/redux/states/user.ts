@@ -21,11 +21,11 @@ export const UserSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       setLocalStorage<string>("user", action.payload);
-      state = action.payload;
+      return action.payload;
     },
-    clearUser: (state) => {
+    clearUser: () => {
       clearLocalStorage("user");
-      state = EmptyUser;
+      return EmptyUser;
     },
   },
 });

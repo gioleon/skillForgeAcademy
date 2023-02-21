@@ -15,6 +15,7 @@ const publicValidationFragment = (
 export const AuthGuard = ({ privateValidation }: Props) => {
   const user = useSelector((store: AppStore) => store.user);
 
+  console.log(user.email);
   return user.email ? (
     privateValidation ? (
       privateValidationFragment

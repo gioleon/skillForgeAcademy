@@ -6,15 +6,18 @@ import { UserLogin } from "../model";
 const baseUrl = "http://localhost:8080/api";
 export const authenticationKey: string = "Authentication";
 
-export const login = async (user: UserLogin) => {
-
-  return await axios
+export const login =  (user: UserLogin) => {
+  
+  return  axios
     .post(`${baseUrl}/login`, user)
     .then((response: AxiosResponse<UserResponse>) => {
       // if successful, save token in localstorage.
-      setLocalStorage(authenticationKey, response.headers.authentication);       
+      setLocalStorage(authenticationKey, response.headers.authentication); 
+      // return the token.
+      return response.headers.authentication;
     })
     .catch(() => {
-      "CREDENTIALS NOT MATCH";
+      // if failed return empty string.
+      return "";
     });
 };
