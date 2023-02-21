@@ -1,1 +1,1 @@
-export * from './Prueba'
+export * from './error';
