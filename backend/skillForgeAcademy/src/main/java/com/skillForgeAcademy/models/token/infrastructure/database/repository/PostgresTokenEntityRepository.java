@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -14,8 +15,9 @@ import java.util.Optional;
 public interface PostgresTokenEntityRepository extends CrudRepository<TokenEntity, Long> {
 
     Optional<TokenEntity> findByToken(String token);
+    @Transactional
     @Modifying
-    @Query("UPDATE token t SET t.confirmedAt = :confirmedAt WHERE t.token = :token")
+    @Query(value = "UPDATE tokens SET confirmed_at = :confirmedAt WHERE token = :token", nativeQuery = true)
     int updateConfirmedAt(@Param("token") String token,
                           @Param("confirmedAt")LocalDateTime confirmedAt);
 }

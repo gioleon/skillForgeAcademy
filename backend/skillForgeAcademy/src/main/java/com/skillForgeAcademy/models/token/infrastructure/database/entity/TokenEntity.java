@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "token")
+@Table(name = "tokens")
 public class TokenEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +27,7 @@ public class TokenEntity {
     private LocalDateTime expiredAt;
     private LocalDateTime confirmedAt;
 
-    @OneToOne
+    @OneToOne()
     private UserEntity userEntity;
 
     public TokenEntity(

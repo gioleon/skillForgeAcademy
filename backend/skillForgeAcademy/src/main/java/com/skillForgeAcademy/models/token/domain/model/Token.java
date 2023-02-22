@@ -24,12 +24,10 @@ public class Token {
     private LocalDateTime confirmedAt;
     private User user;
 
-    public Token(
-            String token, LocalDateTime createdAt,
-            LocalDateTime expiredAt, User user){
+    public Token(String token, User user){
         this.token = token;
-        this.createdAt = createdAt;
-        this.expiredAt = expiredAt;
+        this.createdAt = LocalDateTime.now();
+        this.expiredAt = LocalDateTime.now().plusHours(24);
         this.user = user;
     }
 

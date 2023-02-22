@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface UserService extends GenericService<User, Long> {
 
     User findByEmail(String email);
+
+    int updateIsEnable(long userId);
 }

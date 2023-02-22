@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@Transactional
 public class UserEntityServiceImpl implements UserService {
     /*
      * As probably we are going to implement more functionality,
@@ -64,7 +66,8 @@ public class UserEntityServiceImpl implements UserService {
     public User delete(Long id) throws Exception {
         User user = this.find(id);
         if (user == null) {
-            throw new Exception("User not exists.");
+            log.warn("ERROR! USER NOT FOUND: {}", user.getId());
+            throw new Exception("USER NOT EXISTS.");
         }
         this.repository.deleteById(id);
 
@@ -81,5 +84,11 @@ public class UserEntityServiceImpl implements UserService {
         }
 
         return user.get().toUser();
+    }
+
+    @Override
+    public int updateIsEnable(long userId) {
+        // change isEnable status to true
+        return this.repository.updateIsEnable(userId);
     }
 }

@@ -4,6 +4,7 @@ import com.skillForgeAcademy.models.token.application.ports.output.TokenService;
 import com.skillForgeAcademy.models.token.domain.model.Token;
 import com.skillForgeAcademy.models.token.infrastructure.database.entity.TokenEntity;
 import com.skillForgeAcademy.models.token.infrastructure.database.repository.PostgresTokenEntityRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class TokenEntityServiceImpl implements TokenService {
 
     private PostgresTokenEntityRepository repository;
@@ -28,10 +30,13 @@ public class TokenEntityServiceImpl implements TokenService {
         Token tokenFound = this.find(token);
 
         if (token == null){
+            log.warn("ERROR! TOKEN NOT FOUND: {}", tokenFound.getToken());
             throw new Exception("TOKEN NOT FOUND");
-        } else if (tokenFound.getExpiredAt().isAfter(LocalDateTime.now())){
+        } else if (tokenFound.getExpiredAt().isBefore(LocalDateTime.now())){
+            log.warn("ERROR! TOKEN IS ALREADY EXPIRE: {}", tokenFound.getToken());
             throw new Exception("TOKEN IS ALREADY EXPIRED");
         } else if (tokenFound.getConfirmedAt() != null) {
+            log.warn("ERROR! TOKEN IS ALREADY CONFIRMED: {}", tokenFound.getToken());
             throw new Exception("TOKEN IS ALREADY CONFIRMED");
         }
 
@@ -42,6 +47,9 @@ public class TokenEntityServiceImpl implements TokenService {
 
     @Override
     public Token create(Token token) {
+
+        TokenEntity tokenEntity = token.toTokenEntity();
+
         return this.repository.save(token.toTokenEntity()).toToken();
     }
 
@@ -68,7 +76,8 @@ public class TokenEntityServiceImpl implements TokenService {
         Token tokenFound = this.find(token);
 
         if (token == null) {
-            throw new Exception("USER NOT EXISTS");
+            log.warn("ERROR! TOKEN NOT EXISTS: {}", tokenFound.getToken());
+            throw new Exception("TOKEN NOT EXISTS");
         }
 
         this.repository.deleteById(tokenFound.getId());
