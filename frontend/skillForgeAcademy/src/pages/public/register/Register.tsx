@@ -17,8 +17,8 @@ function Register() {
 
     // other logic....
 
-    // go to successfulRegister page
-    navigate(`${PublicRoutes.SUCCESSFUL}/${email}`);
+    // go to successfulRegister page and send email
+    navigate(`${PublicRoutes.SUCCESSFUL}`, {state: {"email": email}});
   };
 
   const handleSubmit = (e: any) => {

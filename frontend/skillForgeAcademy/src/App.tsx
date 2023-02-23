@@ -37,7 +37,7 @@ function App() {
                 element={<Register />}
               ></Route>
               <Route
-                path={`${PublicRoutes.REGISTER}/${PublicRoutes.SUCCESSFUL}/:email`}
+                path={`${PublicRoutes.REGISTER}/${PublicRoutes.SUCCESSFUL}`}
                 element={<SuccessfulRegister />}
               ></Route>
               <Route
