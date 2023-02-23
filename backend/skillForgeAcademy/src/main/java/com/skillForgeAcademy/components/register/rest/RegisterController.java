@@ -3,16 +3,13 @@ package com.skillForgeAcademy.components.register.rest;
 import com.skillForgeAcademy.models.rol.domain.model.Rol;
 import com.skillForgeAcademy.models.token.application.ports.output.TokenService;
 import com.skillForgeAcademy.models.token.domain.model.Token;
-import com.skillForgeAcademy.models.token.infrastructure.database.service.TokenEntityServiceImpl;
 import com.skillForgeAcademy.models.user.application.ports.output.UserService;
 import com.skillForgeAcademy.models.user.domain.model.User;
-import com.skillForgeAcademy.models.user.infrastructure.database.service.UserEntityServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 

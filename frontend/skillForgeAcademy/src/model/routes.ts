@@ -2,7 +2,9 @@
 export enum PublicRoutes {
     HOME = "home",
     LOGIN = "login",
-    SIGNUP = "signup"
+    REGISTER = "register",
+    VERIFICATION = "verification",
+    SUCCESSFUL = "successful"
 }
 
 export enum PrivateRoutes {

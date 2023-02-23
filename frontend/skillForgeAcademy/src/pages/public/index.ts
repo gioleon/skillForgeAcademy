@@ -1,4 +1,5 @@
-export * from './accountVerification';
 export * from './home';
 export * from './login';
-export * from './signup';
+export * from './register';
+export * from './register/successfulRegister';
+export * from './register/verification';
