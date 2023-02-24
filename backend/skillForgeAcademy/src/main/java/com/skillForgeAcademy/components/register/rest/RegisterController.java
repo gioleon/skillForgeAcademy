@@ -40,12 +40,12 @@ public class RegisterController {
 //    }
 
     @PostMapping
-    public ResponseEntity<User> register(@RequestBody User user) throws Exception {
+    public ResponseEntity<HttpStatus> register(@RequestBody User user) throws Exception {
 
         // check if user exists
         User userFound = this.userRepository.findByEmail(user.getEmail());
         if (userFound != null) {
-            return new ResponseEntity<>(userFound, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
         // if user not exists, setting user and create verification token
@@ -66,7 +66,7 @@ public class RegisterController {
 
         sender.send("register.token", activeURL);
 
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 
