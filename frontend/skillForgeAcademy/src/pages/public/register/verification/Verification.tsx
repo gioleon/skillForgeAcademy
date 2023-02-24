@@ -26,7 +26,7 @@ function Verification() {
     // call de function define in verification.service.ts
     const verify = async () => {
       const response = await verifyAccount(token!);
-
+      
       // the other alternative is 400 bad request error.
       if (response === 200) {
         setIsVerified(true); // successful result. 200 code
@@ -43,7 +43,7 @@ function Verification() {
   const successfulResponse = <p>Bienvenido a Skill Forge Academy!</p>;
   const failedResponse = (
     <p>
-      El enlace de activacion no es valido, el enlace ya expiro o su cuenta ya
+      El enlace de activacion no es valido, ya expiro o su cuenta ya
       ha sido activada.
     </p>
   );

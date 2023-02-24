@@ -3,13 +3,12 @@ import { setLocalStorage } from "../utilities";
 import { UserResponse } from '../model/user/userResponse';
 import { UserLogin } from "../model";
 
-const baseUrl = "http://localhost:8080/api";
 export const authenticationKey: string = "Authentication";
 
 export const login =  (user: UserLogin) => {
   
   return  axios
-    .post(`${baseUrl}/login`, user)
+    .post(`${import.meta.env.VITE_APP_API_BASE_URL}/login`, user)
     .then((response: AxiosResponse<UserResponse>) => {
       // if successful, save token in localstorage.
       setLocalStorage(authenticationKey, response.headers.authentication); 
