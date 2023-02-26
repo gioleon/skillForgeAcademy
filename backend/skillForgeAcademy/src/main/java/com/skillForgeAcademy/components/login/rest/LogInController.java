@@ -5,6 +5,7 @@ import com.skillForgeAcademy.security.config.CustomUserDetailService;
 import com.skillForgeAcademy.security.config.CustomUserDetails;
 import com.skillForgeAcademy.security.jwt.JwtTokenService;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +17,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/api/login")
+@Slf4j
 public class LogInController {
 
     @Autowired
@@ -36,13 +40,19 @@ public class LogInController {
                     new UsernamePasswordAuthenticationToken(
                             user.getEmail(), user.getPassword()));
 
+
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (BadCredentialsException exception){
-            throw new Exception("CREDENTIALS NOT MATCH");
+            log.warn("CREDENTIAL NOT MATCH.");
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         CustomUserDetails userDetails = (CustomUserDetails) customUserDetailService.loadUserByUsername(user.getEmail());
 
+        if (!userDetails.isAccountActive()){
+            log.warn("ACCOUNT NOT ACTIVE: {}", userDetails.getUsername());
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         response.addHeader("Authentication", this.jwtTokenService.generateTokens(userDetails));
 
         response.getWriter().flush();

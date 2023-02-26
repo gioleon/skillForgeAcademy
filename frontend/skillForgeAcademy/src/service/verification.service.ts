@@ -7,7 +7,6 @@ export const verifyAccount = (token: string) => {
     .then((response: AxiosResponse<number>) => {
       // if peticion is successful, return http 200 status code, otherwise return null
       console.log("status from service: " + response.status);
-      return response.status
     })
     .catch(() => {
       return HttpStatusCode.BadRequest;

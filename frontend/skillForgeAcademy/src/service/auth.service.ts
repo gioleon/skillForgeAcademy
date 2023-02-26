@@ -9,14 +9,14 @@ export const login =  (user: UserLogin) => {
   
   return  axios
     .post(`${import.meta.env.VITE_APP_API_BASE_URL}/login`, user)
-    .then((response: AxiosResponse<UserResponse>) => {
+    .then((response: AxiosResponse<number>) => {
       // if successful, save token in localstorage.
       setLocalStorage(authenticationKey, response.headers.authentication); 
       // return the token.
-      return response.headers.authentication;
+      return response.status;
     })
-    .catch(() => {
-      // if failed return empty string.
-      return "";
+    .catch((error) => {
+      // if wrong return the status code of the error.
+      return error.response.status;
     });
 };

@@ -4,16 +4,18 @@ import { User } from "../../../model/user/user";
 import { useDispatch } from "react-redux";
 import { setUser, clearUser } from "../../../redux/states/user";
 import { clearLocalStorage } from "../../../utilities";
-import { LoginError } from "../../../components";
+import { Error } from "../../../components";
 import { useNavigate } from "react-router-dom";
-import { PrivateRoutes, PublicRoutes, UserLogin } from "../../../model";
+import { PrivateRoutes, UserLogin } from "../../../model";
 import { decodeJwt } from "../../../utilities/jwt.utility";
+import { useFormik, yupToFormErrors } from "formik";
+import * as Yup from "yup";
+import { FormatLineSpacing } from "@mui/icons-material";
 
 function Login() {
   // As we have some inputs, we'll use useState.
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   // Dispatch to execute some actions of our reducer.
   const dispacth = useDispatch();
@@ -26,61 +28,95 @@ function Login() {
     dispacth(clearUser());
   }, []);
 
-  // Change the default behaviour
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-  };
+  const loginSchema = Yup.object().shape({
+    email: Yup.string().required(),
+    password: Yup.string().required(),
+  });
 
-  // Login
-  const handleClickLogin = async (email: string, password: string) => {
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: (values) => {},
+
+    validationSchema: loginSchema,
+  });
+
+  // Change the default behaviour
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    if (
+      !formik.isValid ||
+      formik.values.email === "" ||
+      formik.values.password === ""
+    ) {
+      setError(true);
+      setErrorMessage("Por favor llena todos los campos");
+      return;
+    }
+
+    // create user with the password information.
     const userLogin: UserLogin = {
-      email: email,
-      password: password,
+      email: formik.values.email,
+      password: formik.values.password,
     };
 
     // login return the jwt token if login was successful, otherwise empty string
-    const token: string = await login(userLogin);
+    const statusCode: number = await login(userLogin);
 
     // If token is not empty string
-    if (token) {
+    if (statusCode === 200) {
       // decode the token to User
-      const user: User = decodeJwt(token);
+      const user: User = decodeJwt(localStorage.getItem(authenticationKey)!);
       // asssing the user to the global redux state and save it to local storage.
       dispacth(setUser({ ...user }));
       // Redirect to a private page.
       navigate(`/${PrivateRoutes.PRIVATE}/${PrivateRoutes.PROFILE}`, {
         replace: true,
       });
+    } else if (statusCode === 401) {
+      setError(true);
+      setErrorMessage("Correo o contraseña incorrectos.");
     } else {
       setError(true);
+      setErrorMessage("La cuenta proporcionada no ha sido activada.");
     }
   };
 
-
   return (
     <div>
-      <form action="" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="email"
-          placeholder="username@yourcompany.com"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="********"
-          onChange={(e) => setPassword(e.target.value)}
-        />
+      <form action="" onSubmit={(e) => handleSubmit(e)}>
+        <div>
+          <label htmlFor="email">Email</label>
+          <input
+            type="text"
+            name="email"
+            placeholder="username@yourcompany.com"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+        </div>
+        <div>
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            name="password"
+            placeholder="********"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+        </div>
         <button
           onClick={() => {
-            handleClickLogin(email, password);
+            // handleOnClick();
           }}
         >
           Login
         </button>
       </form>
-      <LoginError error={error} />
+      <Error error={error} message={errorMessage} />
     </div>
   );
 }

@@ -1,1 +1,1 @@
-export { default as LoginError } from './LoginError';
+export { default as Error } from './Error';

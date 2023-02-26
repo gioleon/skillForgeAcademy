@@ -64,7 +64,7 @@ public class RegisterController {
         // sending email
         String activeURL = "http://localhost:8080/api/register/active?token=" + token.getToken();
 
-        sender.send("register.token", activeURL);
+        // sender.send("register.token", activeURL);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
