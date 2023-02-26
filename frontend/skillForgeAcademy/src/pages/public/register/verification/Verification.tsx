@@ -3,52 +3,42 @@ import { verifyAccount } from "../../../../service";
 import { useState, useEffect } from "react";
 
 function Verification() {
-  // isVerified will manage the return in our page.
-  const [isVerified, setIsVerified] = useState(true);
+  const [message, setMessage] = useState("");
 
   // token is the optional parameter in our url.
   let { token } = useParams();
 
   // verify is token is null to show something related to that.
-  if (token == null) {
-    return (
-      <>
-        <p>
-          El enlace de activacion es incorrecto. Por favor verifique que el
-          enlace es exactamente igual al enviado a su correo electronico
-        </p>
-      </>
+  if (token === null)
+    setMessage(
+      "El enlace de activacion es incorrecto. \
+      Por favor verifique que el enlace \
+      es exactamente igual al enviado a su correo electronico"
     );
-  }
 
   //if token is not null, excecute the use effect.
   useEffect(() => {
     // call de function define in verification.service.ts
     const verify = async () => {
       const response = await verifyAccount(token!);
-      
+
       // the other alternative is 400 bad request error.
       if (response === 200) {
-        setIsVerified(true); // successful result. 200 code
+        // successful result. 200 code
+        setMessage("Bienvenido a Skill Forge Academy!");
       } else {
-        setIsVerified(false); // failed result.
+        // failed result.
+        setMessage(
+          " El enlace de activacion no es valido, ya expiro o su cuenta ya ha sido activada."
+        );
       }
     };
 
     verify();
   }, []);
 
-
   // responses.
-  const successfulResponse = <p>Bienvenido a Skill Forge Academy!</p>;
-  const failedResponse = (
-    <p>
-      El enlace de activacion no es valido, ya expiro o su cuenta ya
-      ha sido activada.
-    </p>
-  );
-
-  return isVerified ? successfulResponse : failedResponse;
+  return <p>{message}</p>;
 }
 
 export default Verification;
