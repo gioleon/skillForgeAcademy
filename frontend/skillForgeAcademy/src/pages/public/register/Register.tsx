@@ -1,10 +1,10 @@
-import { ErrorSharp } from "@mui/icons-material";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PublicRoutes, UserRegister } from "../../../model";
 import * as Yup from "yup";
 import { register } from "../../../service";
+import { Error } from "../../../components";
 
 function Register() {
   const [inputErrors, setInputErrors] = useState(false);
@@ -31,10 +31,14 @@ function Register() {
       .required("Email es requerido"),
     password: Yup.string()
       .required("Contraseña es requerida")
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-        "Contraseña no valida"
-      ),
+      // .matches(
+      //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+      //   "Contraseña no valida"
+      // ),
+      .matches(/[A-Z]+/, "debe tener una mayuscula")
+      .matches(/[a-z]+/, "debe tener una minuscula")
+      .matches(/[0-9]+/, "debe tener al menos un numero")
+      .min(8, "contraseña debe tener mas de 8 caracteres"),
     confirmPassword: Yup.string().oneOf(
       [Yup.ref("password")],
       "Las contraseñas no coinciden"
@@ -55,7 +59,9 @@ function Register() {
     validationSchema: registerSchema,
   });
 
-  const handleOnClick = async () => {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
     // check if all fields fullfill the validations.
     // also avoiding clicking the button before interact with the input fields.
     if (!formik.isValid || formik.values.email.length === 0) {
@@ -96,19 +102,11 @@ function Register() {
         action=""
         method="POST"
         onSubmit={(e) => {
-          e.preventDefault();
-          formik.handleSubmit;
+          handleSubmit(e);
         }}
       >
         <div>
-          <label htmlFor="name">
-            {formik.errors.name && formik.touched.name ? (
-              <div>{formik.errors.name}</div>
-            ) : (
-              "Nombre"
-            )}
-          </label>
-
+          <label htmlFor="name">Nombre</label>
           <input
             type="text"
             name="name"
@@ -117,15 +115,13 @@ function Register() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
+          {formik.errors.name ? (
+            <Error  message={formik.errors.name} />
+          ) : null}
         </div>
 
         <div>
-          <label htmlFor="lastName">
-            {formik.errors.lastName && formik.touched.lastName
-              ? formik.errors.lastName
-              : "Apellido"}
-          </label>
-
+          <label htmlFor="lastName">Apellido</label>
           <input
             type="text"
             name="lastName"
@@ -134,14 +130,13 @@ function Register() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
+          {formik.errors.lastName && formik.touched.lastName ? (
+            <Error message={formik.errors.lastName} />
+          ) : null}
         </div>
 
         <div>
-          <label htmlFor="email">
-            {formik.errors.email && formik.touched.email
-              ? formik.errors.email
-              : "Email"}
-          </label>
+          <label htmlFor="email">Email</label>
 
           <input
             type="text"
@@ -150,13 +145,12 @@ function Register() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
+          {formik.errors.email && formik.touched.email ? (
+            <Error message={formik.errors.email} />
+          ) : null}
         </div>
         <div>
-          <label htmlFor="password">
-            {formik.errors.password && formik.touched.password
-              ? formik.errors.password
-              : "Contraseña"}
-          </label>
+          <label htmlFor="password">Contraseña</label>
           <input
             type="password"
             placeholder="Password"
@@ -164,17 +158,12 @@ function Register() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
-          <p>
-            La contraseña debe ser mayor a 8 caracteres y tener al menos una
-            letra mayuscula,una minuscula, un caracter especial y un numero
-          </p>
+          {formik.errors.password && formik.touched.password ? (
+            <Error message={formik.errors.password} />
+          ) : null}
         </div>
         <div>
-          <label htmlFor="confirmPassword">
-            {formik.errors.confirmPassword && formik.touched.confirmPassword
-              ? formik.errors.confirmPassword
-              : "Confirmar contraseña"}
-          </label>
+          <label htmlFor="confirmPassword">Confirmar Contraseña</label>
           <input
             type="password"
             placeholder="Password"
@@ -182,10 +171,11 @@ function Register() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
+          {formik.errors.confirmPassword && formik.touched.confirmPassword ? (
+            <Error message={formik.errors.confirmPassword} />
+          ) : null}
         </div>
-        <button type="submit" onClick={() => handleOnClick()}>
-          Register
-        </button>
+        <button type="submit">Register</button>
         {inputErrors ? <p>Diligencie todos lo campos correctamente</p> : null}
         {userExists ? <p>Ya existe una cuenta con el correo</p> : null}
       </form>

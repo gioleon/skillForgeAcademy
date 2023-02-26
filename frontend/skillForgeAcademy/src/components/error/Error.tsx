@@ -1,11 +1,12 @@
 interface Props {
-  error: boolean;
-  message: string;
+  message?: string;
 }
 
-function Error({ error, message }: Props) {
+function Error({ message }: Props) {
 
-    const response = error ? <p>{message}</p> : null;
+  
+
+    const response =  <p>{message}</p>;
 
     return response;
 }
