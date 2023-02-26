@@ -28,11 +28,13 @@ function Login() {
     dispacth(clearUser());
   }, []);
 
+  // validations
   const loginSchema = Yup.object().shape({
     email: Yup.string().required(),
     password: Yup.string().required(),
   });
 
+  // form attributes.
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -108,11 +110,7 @@ function Login() {
             onBlur={formik.handleBlur}
           />
         </div>
-        <button
-          onClick={() => {
-            // handleOnClick();
-          }}
-        >
+        <button>
           Login
         </button>
       </form>

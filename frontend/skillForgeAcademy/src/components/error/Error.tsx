@@ -1,13 +1,10 @@
 interface Props {
+  error: boolean;
   message?: string;
 }
 
 function Error({ message }: Props) {
 
-  
-
-    const response =  <p>{message}</p>;
-
-    return response;
+    return <p>{message}</p>;
 }
 export default Error;

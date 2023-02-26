@@ -45,6 +45,7 @@ function Register() {
     ),
   });
 
+  // form attributes
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -58,6 +59,7 @@ function Register() {
 
     validationSchema: registerSchema,
   });
+
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -116,7 +118,7 @@ function Register() {
             onBlur={formik.handleBlur}
           />
           {formik.errors.name ? (
-            <Error  message={formik.errors.name} />
+            <Error error={true} message={formik.errors.name} />
           ) : null}
         </div>
 
@@ -131,7 +133,7 @@ function Register() {
             onBlur={formik.handleBlur}
           />
           {formik.errors.lastName && formik.touched.lastName ? (
-            <Error message={formik.errors.lastName} />
+            <Error error={true} message={formik.errors.lastName} />
           ) : null}
         </div>
 
@@ -146,7 +148,7 @@ function Register() {
             onBlur={formik.handleBlur}
           />
           {formik.errors.email && formik.touched.email ? (
-            <Error message={formik.errors.email} />
+            <Error error={true} message={formik.errors.email} />
           ) : null}
         </div>
         <div>
@@ -159,7 +161,7 @@ function Register() {
             onBlur={formik.handleBlur}
           />
           {formik.errors.password && formik.touched.password ? (
-            <Error message={formik.errors.password} />
+            <Error error={true} message={formik.errors.password} />
           ) : null}
         </div>
         <div>
@@ -172,7 +174,7 @@ function Register() {
             onBlur={formik.handleBlur}
           />
           {formik.errors.confirmPassword && formik.touched.confirmPassword ? (
-            <Error message={formik.errors.confirmPassword} />
+            <Error error={true} message={formik.errors.confirmPassword} />
           ) : null}
         </div>
         <button type="submit">Register</button>
