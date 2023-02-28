@@ -10,7 +10,7 @@ import { PrivateRoutes, UserLogin } from "../../../model";
 import { decodeJwt } from "../../../utilities/jwt.utility";
 import { useFormik, yupToFormErrors } from "formik";
 import * as Yup from "yup";
-import { FormatLineSpacing } from "@mui/icons-material";
+import { LoginLayout } from "../../../styled-components";
 
 function Login() {
   // As we have some inputs, we'll use useState.
@@ -88,34 +88,41 @@ function Login() {
   };
 
   return (
-    <div>
-      <form action="" onSubmit={(e) => handleSubmit(e)}>
+    <>
+      <LoginLayout>
         <div>
-          <label htmlFor="email">Email</label>
-          <input
-            type="text"
-            name="email"
-            placeholder="username@yourcompany.com"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
+          <h1>Hello</h1>
         </div>
         <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            placeholder="********"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
+          <div>
+            <form action="" onSubmit={(e) => handleSubmit(e)}>
+              <div>
+                <label htmlFor="email">Email</label>
+                <input
+                  type="text"
+                  name="email"
+                  placeholder="username@yourcompany.com"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
+              <div>
+                <label htmlFor="password">Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="********"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
+              <button>Login</button>
+            </form>
+            <Error error={error} message={errorMessage} />
+          </div>
         </div>
-        <button>
-          Login
-        </button>
-      </form>
-      <Error error={error} message={errorMessage} />
-    </div>
+      </LoginLayout>
+    </>
   );
 }
 

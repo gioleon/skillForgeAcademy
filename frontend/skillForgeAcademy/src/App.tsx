@@ -8,6 +8,7 @@ import { PrivateRoutes, PublicRoutes } from "./model/routes";
 import { AuthGuard } from "./guard/auth.guard";
 import { Home } from "./pages/public";
 import { CircularProgress } from "@mui/material";
+import { Navbar } from "./components";
 
 // lazy imports
 const Private = lazy(() => import("./pages/private/Private"));
@@ -23,9 +24,16 @@ const Verification = lazy(
 function App() {
   return (
     <div className="App">
-      <Suspense fallback={<><CircularProgress/> </>}>
+      <Suspense
+        fallback={
+          <>
+            <CircularProgress />{" "}
+          </>
+        }
+      >
         <Provider store={store}>
           <BrowserRouter>
+            <Navbar />
             <RoutesWithNotFound>
               <Route
                 path="/"
