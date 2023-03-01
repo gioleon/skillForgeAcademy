@@ -4,11 +4,9 @@ import {
   Drawer,
   List,
   ListItem,
-  Menu,
-  MenuItem,
   ThemeProvider,
 } from "@mui/material";
-import { MouseEvent, useState } from "react";
+import { useState } from "react";
 import { PublicRoutes } from "../../../model";
 import { StyledLink } from "../../../styled-components";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -49,12 +47,7 @@ function MenuNavbar() {
           <MenuIcon />
         </StyledButton>
 
-        <Drawer
-          id="menu"
-          open={open}
-          keepMounted
-          onClose={handleCloseMenu}
-        >
+        <Drawer id="menu" open={open} keepMounted onClose={handleCloseMenu}>
           <List>
             {PAGES.map((page) => (
               <ListItem>
