@@ -23,7 +23,7 @@ function Navbar() {
         {/* Logo */}
         <LogoNavbar/>
         {/* Search bar */}
-        <SearchInputNavbar />
+        <SearchInputNavbar displaySettings={{xs: 'none', md: 'flex'}} />
         {/* Items */}
         <ItemsNavbar/>
         {/* Search modal */}

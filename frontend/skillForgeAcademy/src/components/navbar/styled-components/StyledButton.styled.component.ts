@@ -1,16 +1,28 @@
 import { Button, Theme } from "@mui/material";
-import { styled, alpha } from "@mui/material/styles";
+import { FC } from "react";
+import styled from "styled-components";
 
-
-export const StyledButton = styled(Button) (({theme}) => ({
-    
-    color: theme.palette.common.white,
-    "&:hover": {
-        backgroundColor: theme.palette.primary.contrastText,
-        color: alpha(theme.palette.primary.dark, 0.9),
-    },
-    marginLeft: '3px',
-    marginRight: '3px',
-    width: '90px',
-    textTransform: 'none'
-})); 
+export const StyledButton = styled.button<{
+  hoverBackground?: string;
+  color?: string;
+}>`
+  width: 80px;
+  text-decoration: none;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: none;
+  background-color: transparent;
+  color: white;
+  shadow = none;
+  border: none;
+  padding: 5px 5px;
+  margin: 0 3px;
+  cursor: pointer;
+  &:hover {
+      background-color: ${props => (props.hoverBackground? props.hoverBackground : 'none')};
+      color: ${props => (props.color? props.color : 'white')};
+      border-radius: 4px;
+  }
+`;

@@ -10,13 +10,19 @@ function ItemsNavbar() {
     <ThemeProvider theme={theme}>
       <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
         <StyledLink to={PublicRoutes.REGISTER}>
-          <StyledButton size="small">Register</StyledButton>
+          <StyledButton hoverBackground="white" color="#1976d2">
+            Register
+          </StyledButton>
         </StyledLink>
 
-        <StyledButton size="small">Categorias</StyledButton>
+        <StyledButton hoverBackground="white" color="#1976d2">
+          Categorias
+        </StyledButton>
 
         <StyledLink to={PublicRoutes.LOGIN}>
-          <StyledButton size="small">Login</StyledButton>
+          <StyledButton hoverBackground="white" color="#1976d2">
+            Login
+          </StyledButton>
         </StyledLink>
         <IconButton>
           <AccountCircle style={{ color: "white" }} />
