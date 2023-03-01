@@ -1,4 +1,13 @@
-import { Box, Menu, MenuItem, ThemeProvider } from "@mui/material";
+import {
+  Box,
+  Divider,
+  Drawer,
+  List,
+  ListItem,
+  Menu,
+  MenuItem,
+  ThemeProvider,
+} from "@mui/material";
 import { MouseEvent, useState } from "react";
 import { PublicRoutes } from "../../../model";
 import { StyledLink } from "../../../styled-components";
@@ -8,50 +17,55 @@ import { theme } from "./customTheme";
 
 function MenuNavbar() {
   // if a user clicks on the button, set the element
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  const [open, setOpen] = useState(false);
 
-  const handleClickMenu = (event: MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+  const PAGES: string[][] = [
+    [PublicRoutes.HOME, "Home"],
+    [PublicRoutes.LOGIN, "Login"],
+    [PublicRoutes.REGISTER, "Register"],
+  ];
+
+  const handleOpenMenu = () => {
+    setOpen(true);
   };
 
   const handleCloseMenu = () => {
-    setAnchorEl(null);
+    setOpen(false);
   };
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ display: { xxs: "flex", md: "none" } }}>
+      <Box
+        sx={{
+          display: { xxs: "flex", md: "none" },
+          visibility: open ? "hiden" : "visible",
+        }}
+      >
         <StyledButton
           id="menu-button"
-          aria-controls={open ? "menu" : undefined}
-          onClick={handleClickMenu}
+          onClick={handleOpenMenu}
           aria-haspopup="true"
         >
           <MenuIcon />
         </StyledButton>
 
-        <Menu
+        <Drawer
           id="menu"
-          anchorEl={anchorEl}
           open={open}
+          keepMounted
           onClose={handleCloseMenu}
-          MenuListProps={{
-            "aria-labelledby": "menu-button",
-          }}
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-          transformOrigin={{ vertical: "top", horizontal: "center" }}
         >
-          <MenuItem onClick={handleCloseMenu}>
-            <StyledLink to={PublicRoutes.HOME}>Home</StyledLink>
-          </MenuItem>
-          <MenuItem onClick={handleCloseMenu}>
-            <StyledLink to={PublicRoutes.REGISTER}>Register</StyledLink>
-          </MenuItem>
-          <MenuItem onClick={handleCloseMenu}>
-            <StyledLink to={PublicRoutes.LOGIN}>Login</StyledLink>
-          </MenuItem>
-        </Menu>
+          <List>
+            {PAGES.map((page) => (
+              <ListItem>
+                <StyledButton>
+                  <StyledLink to={page[0]}>{page[1]}</StyledLink>
+                </StyledButton>
+              </ListItem>
+            ))}
+          </List>
+          <Divider />
+        </Drawer>
       </Box>
     </ThemeProvider>
   );

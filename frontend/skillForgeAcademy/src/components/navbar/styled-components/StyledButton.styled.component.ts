@@ -11,5 +11,6 @@ export const StyledButton = styled(Button) (({theme}) => ({
     },
     marginLeft: '3px',
     marginRight: '3px',
-    width: '90px'
+    width: '90px',
+    textTransform: 'none'
 })); 

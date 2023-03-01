@@ -10,10 +10,10 @@ function ItemsNavbar() {
     <ThemeProvider theme={theme}>
       <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
         <StyledLink to={PublicRoutes.REGISTER}>
-          <StyledButton size="small">register</StyledButton>
+          <StyledButton size="small">Register</StyledButton>
         </StyledLink>
 
-        <StyledButton size="small">categorias</StyledButton>
+        <StyledButton size="small">Categorias</StyledButton>
 
         <StyledLink to={PublicRoutes.LOGIN}>
           <StyledButton size="small">Login</StyledButton>
