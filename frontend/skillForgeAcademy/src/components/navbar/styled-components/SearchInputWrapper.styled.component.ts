@@ -9,4 +9,5 @@ export const SearchInputWrapper = styled("div")(({ theme }) => ({
   padding: '3px',
   marginLeft: '5px',
   marginRight: '5px',  
+  width: '100%'
 }));

@@ -9,6 +9,7 @@ import { AuthGuard } from "./guard/auth.guard";
 import { Home } from "./pages/public";
 import { CircularProgress } from "@mui/material";
 import { Navbar } from "./components";
+import { PublicGuard } from "./guard/public.guard";
 
 // lazy imports
 const Private = lazy(() => import("./pages/private/Private"));
@@ -35,25 +36,28 @@ function App() {
           <BrowserRouter>
             <Navbar />
             <RoutesWithNotFound>
-              <Route
-                path="/"
-                element={<Navigate to={`/${PublicRoutes.HOME}`} />}
-              ></Route>
-              <Route path={PublicRoutes.HOME} element={<Home />}></Route>
-              <Route path={PublicRoutes.LOGIN} element={<Login />}></Route>
-              <Route
-                path={PublicRoutes.REGISTER}
-                element={<Register />}
-              ></Route>
-              <Route
-                path={`${PublicRoutes.REGISTER}/${PublicRoutes.SUCCESSFUL}`}
-                element={<SuccessfulRegister />}
-              ></Route>
-              <Route
-                path={`${PublicRoutes.REGISTER}/${PublicRoutes.VERIFICATION}/:token?`}
-                element={<Verification />}
-              ></Route>
-
+              {/* public routes */}
+              <Route path={PublicRoutes.LOGIN} element={<Login />}/>
+              <Route element={<PublicGuard />}>
+                <Route
+                  path="/"
+                  element={<Navigate to={`/${PublicRoutes.HOME}`} />}
+                ></Route>
+                <Route path={PublicRoutes.HOME} element={<Home />}></Route>
+                <Route
+                  path={PublicRoutes.REGISTER}
+                  element={<Register />}
+                ></Route>
+                <Route
+                  path={`${PublicRoutes.REGISTER}/${PublicRoutes.SUCCESSFUL}`}
+                  element={<SuccessfulRegister />}
+                ></Route>
+                <Route
+                  path={`${PublicRoutes.REGISTER}/${PublicRoutes.VERIFICATION}/:token?`}
+                  element={<Verification />}
+                ></Route>
+              </Route>
+              {/* private routes */}
               <Route element={<AuthGuard privateValidation={true} />}>
                 <Route
                   path={`/${PrivateRoutes.PRIVATE}/*`}

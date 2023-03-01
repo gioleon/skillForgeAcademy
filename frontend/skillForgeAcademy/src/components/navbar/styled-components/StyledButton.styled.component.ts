@@ -6,8 +6,8 @@ export const StyledButton = styled(Button) (({theme}) => ({
     
     color: theme.palette.common.white,
     "&:hover": {
-        backgroundColor: null,
-        color: alpha(theme.palette.common.black, 0.6),
+        backgroundColor: theme.palette.primary.contrastText,
+        color: alpha(theme.palette.primary.dark, 0.9),
     },
     marginLeft: '3px',
     marginRight: '3px',

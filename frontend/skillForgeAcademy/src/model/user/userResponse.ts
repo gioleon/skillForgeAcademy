@@ -6,4 +6,5 @@ export interface UserResponse {
         roles: string;
         id: string;
     }
+    exp: number;
 }

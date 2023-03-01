@@ -52,7 +52,7 @@ public class JwtTokenService {
         return JWT.create()
                 .withSubject(userDetails.getUsername())
                 .withClaim("extra", extra)
-                .withExpiresAt(new Date(System.currentTimeMillis() + 1000 * this.TOKEN_VALIDITY))
+                .withExpiresAt(new Date(System.currentTimeMillis()))
                 .sign(this.hmac512);
     }
 

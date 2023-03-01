@@ -1,2 +1,1 @@
-export * from './login';
-export * from './navbar';
+export * from './StyledLink.style.component';

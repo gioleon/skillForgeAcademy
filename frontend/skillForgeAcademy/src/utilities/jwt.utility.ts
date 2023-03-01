@@ -16,6 +16,7 @@ export const decodeJwt = (token: string) => {
     lastName: payload.extra.lastName,
     email: payload.sub,
     roles: payload.extra.roles.replace('[', '').replace(']', '').split(','),
+    exp: payload.exp
   }
 
   // return user with all parameters setted.

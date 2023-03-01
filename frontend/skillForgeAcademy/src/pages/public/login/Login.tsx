@@ -10,7 +10,8 @@ import { PrivateRoutes, UserLogin } from "../../../model";
 import { decodeJwt } from "../../../utilities/jwt.utility";
 import { useFormik, yupToFormErrors } from "formik";
 import * as Yup from "yup";
-import { LoginLayout } from "../../../styled-components";
+import { LoginLayout } from "./styled-components";
+
 
 function Login() {
   // As we have some inputs, we'll use useState.
