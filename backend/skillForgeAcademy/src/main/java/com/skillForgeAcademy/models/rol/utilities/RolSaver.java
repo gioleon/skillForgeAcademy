@@ -1,9 +1,9 @@
 package com.skillForgeAcademy.models.rol.utilities;
 
 import com.skillForgeAcademy.models.rol.domain.model.Rol;
-import com.skillForgeAcademy.models.rol.domain.service.RolService;
-import com.skillForgeAcademy.models.rol.infrastructure.service.RolEntityServiceImpl;
+import com.skillForgeAcademy.models.rol.domain.ports.input.RolServicePort;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -11,11 +11,8 @@ import java.util.List;
 @Component
 public class RolSaver {
 
-    private RolService repository;
-
-    RolSaver(RolEntityServiceImpl repository) {
-        this.repository = repository;
-    }
+    @Autowired
+    private RolServicePort repository;
 
     @PostConstruct
     void SaveRoles() {

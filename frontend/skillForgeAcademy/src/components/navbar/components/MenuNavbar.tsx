@@ -49,8 +49,8 @@ function MenuNavbar() {
 
         <Drawer id="menu" open={open} keepMounted onClose={handleCloseMenu}>
           <List>
-            {PAGES.map((page) => (
-              <ListItem>
+            {PAGES.map((page, index) => (
+              <ListItem key={index}>
                 <StyledButton>
                   <StyledLink to={page[0]}>{page[1]}</StyledLink>
                 </StyledButton>

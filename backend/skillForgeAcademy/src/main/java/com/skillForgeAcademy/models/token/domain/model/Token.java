@@ -3,8 +3,6 @@ package com.skillForgeAcademy.models.token.domain.model;
 
 import com.skillForgeAcademy.models.token.infrastructure.database.entity.TokenEntity;
 import com.skillForgeAcademy.models.user.domain.model.User;
-import com.skillForgeAcademy.models.user.infrastructure.database.entity.UserEntity;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

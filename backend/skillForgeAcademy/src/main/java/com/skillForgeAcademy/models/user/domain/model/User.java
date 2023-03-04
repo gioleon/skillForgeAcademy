@@ -1,7 +1,7 @@
 package com.skillForgeAcademy.models.user.domain.model;
 
 import com.skillForgeAcademy.models.rol.domain.model.Rol;
-import com.skillForgeAcademy.models.user.infrastructure.database.entity.UserEntity;
+import com.skillForgeAcademy.models.user.infrastructure.postgresAdapter.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

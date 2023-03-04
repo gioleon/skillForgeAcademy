@@ -2,7 +2,7 @@ package com.skillForgeAcademy.models.token.infrastructure.database.entity;
 
 
 import com.skillForgeAcademy.models.token.domain.model.Token;
-import com.skillForgeAcademy.models.user.infrastructure.database.entity.UserEntity;
+import com.skillForgeAcademy.models.user.infrastructure.postgresAdapter.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,10 +1,11 @@
 package com.skillForgeAcademy.components.register.rest;
 
 import com.skillForgeAcademy.models.rol.domain.model.Rol;
-import com.skillForgeAcademy.models.token.application.ports.output.TokenService;
 import com.skillForgeAcademy.models.token.domain.model.Token;
-import com.skillForgeAcademy.models.user.application.ports.output.UserService;
+import com.skillForgeAcademy.models.token.domain.ports.input.TokenServicePort;
 import com.skillForgeAcademy.models.user.domain.model.User;
+import com.skillForgeAcademy.models.user.domain.ports.input.UserServicePort;
+import com.skillForgeAcademy.models.user.domain.service.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.function.StreamBridge;
@@ -22,22 +23,13 @@ import java.util.UUID;
 public class RegisterController {
 
     @Autowired
-    private UserService userRepository;
+    private UserServicePort userRepository;
     @Autowired
-    private TokenService tokenRepository;
+    private TokenServicePort tokenRepository;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private StreamBridge sender;
-
-//    RegisterController(
-//            UserEntityServiceImpl userRepository,
-//            BCryptPasswordEncoder passwordEncoder,
-//            TokenEntityServiceImpl tokenRepository) {
-//        this.userRepository = userRepository;
-//        this.tokenRepostitory = tokenRepository;
-//        this.passwordEncoder = passwordEncoder;
-//    }
 
     @PostMapping
     public ResponseEntity<HttpStatus> register(@RequestBody User user) throws Exception {

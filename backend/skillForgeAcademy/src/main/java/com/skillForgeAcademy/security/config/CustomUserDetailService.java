@@ -1,9 +1,9 @@
 package com.skillForgeAcademy.security.config;
 
 import com.skillForgeAcademy.models.rol.domain.model.Rol;
-import com.skillForgeAcademy.models.user.application.ports.output.UserService;
 import com.skillForgeAcademy.models.user.domain.model.User;
-import com.skillForgeAcademy.models.user.infrastructure.database.service.UserEntityServiceImpl;
+import com.skillForgeAcademy.models.user.domain.ports.output.UserPersistencePort;
+import com.skillForgeAcademy.models.user.infrastructure.postgresAdapter.adapter.UserPostgresAdapter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 @Component
 public class CustomUserDetailService implements UserDetailsService {
 
-    private UserService repository;
+    private UserPersistencePort repository;
 
-    CustomUserDetailService(UserEntityServiceImpl repository) {
+    CustomUserDetailService(UserPostgresAdapter repository) {
         this.repository = repository;
     }
 
