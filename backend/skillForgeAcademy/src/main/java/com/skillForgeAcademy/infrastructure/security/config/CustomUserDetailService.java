@@ -1,9 +1,8 @@
 package com.skillForgeAcademy.infrastructure.security.config;
 
+import com.skillForgeAcademy.domain.api.IUserServicePort;
 import com.skillForgeAcademy.domain.model.RolModel;
 import com.skillForgeAcademy.domain.model.UserModel;
-import com.skillForgeAcademy.domain.spi.persistence.IUserPersistencePort;
-import com.skillForgeAcademy.infrastructure.output.jpa.adapter.UserJpaAdapter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,16 +16,16 @@ import java.util.stream.Collectors;
 @Component
 public class CustomUserDetailService implements UserDetailsService {
 
-    private IUserPersistencePort repository;
+    private IUserServicePort userServicePort;
 
-    CustomUserDetailService(UserJpaAdapter repository) {
-        this.repository = repository;
+    CustomUserDetailService(IUserServicePort repository) {
+        this.userServicePort = repository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserModel user = this.repository.findByEmail(username);
+        UserModel user = this.userServicePort.findByEmail(username);
 
         return new CustomUserDetails(user, mapRoles(user.getRoles()));
     }

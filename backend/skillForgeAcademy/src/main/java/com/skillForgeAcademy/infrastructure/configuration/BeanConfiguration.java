@@ -48,7 +48,7 @@ public class BeanConfiguration {
 
     @Bean
     public IUserServicePort userService(){
-        return new UserUseCase(userPersistence(), tokenPersistence(), passwordEncoderPort());
+        return new UserUseCase(userPersistence(), tokenService(), passwordEncoderPort());
     }
 
     @Bean

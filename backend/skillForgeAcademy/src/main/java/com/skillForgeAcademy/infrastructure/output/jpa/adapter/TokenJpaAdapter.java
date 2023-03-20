@@ -1,5 +1,6 @@
 package com.skillForgeAcademy.infrastructure.output.jpa.adapter;
 
+import com.skillForgeAcademy.domain.exception.DomainException;
 import com.skillForgeAcademy.domain.model.TokenModel;
 import com.skillForgeAcademy.domain.spi.persistence.ITokenPersistencePort;
 import com.skillForgeAcademy.infrastructure.exception.NoDataFoundException;
@@ -21,26 +22,17 @@ public class TokenJpaAdapter implements ITokenPersistencePort {
     private final ITokenEntityMapper tokenEntityMapper;
 
     @Override
-    public boolean confirmToken(String token) throws Exception {
+    public void confirmToken(String token) {
+        repository.updateConfirmedAt(token, LocalDateTime.now());
+    }
 
-        boolean tokenValidity = true;
-
-        TokenModel tokenFound = this.find(token);
-
-        if (token == null){
-            log.warn("ERROR! TOKEN NOT FOUND: {}", tokenFound.getToken());
-            throw new Exception("TOKEN NOT FOUND");
-        } else if (tokenFound.getExpiredAt().isBefore(LocalDateTime.now())){
-            log.warn("ERROR! TOKEN IS ALREADY EXPIRE: {}", tokenFound.getToken());
-            throw new Exception("TOKEN IS ALREADY EXPIRED");
-        } else if (tokenFound.getConfirmedAt() != null) {
-            log.warn("ERROR! TOKEN IS ALREADY CONFIRMED: {}", tokenFound.getToken());
-            throw new Exception("TOKEN IS ALREADY CONFIRMED");
+    @Override
+    public TokenModel findByToken(String token) {
+        Optional<TokenEntity> tokenEntity = repository.findByToken(token);
+        if (tokenEntity.isEmpty()) {
+            throw new NoDataFoundException();
         }
-
-        this.repository.updateConfirmedAt(tokenFound.getToken(), LocalDateTime.now());
-
-        return tokenValidity;
+        return tokenEntityMapper.toModel(tokenEntity.get());
     }
 
     @Override

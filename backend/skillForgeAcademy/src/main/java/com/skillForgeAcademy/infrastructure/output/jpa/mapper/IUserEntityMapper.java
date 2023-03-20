@@ -4,6 +4,7 @@ import com.skillForgeAcademy.domain.model.UserModel;
 import com.skillForgeAcademy.infrastructure.output.jpa.entity.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 

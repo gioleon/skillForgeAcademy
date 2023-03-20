@@ -6,15 +6,17 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "tokens")
 public class TokenEntity {
@@ -29,23 +31,4 @@ public class TokenEntity {
     @OneToOne()
     private UserEntity userEntity;
 
-    public TokenEntity(
-            String token, LocalDateTime createdAt,
-            LocalDateTime expiredAt, UserEntity userEntity){
-        this.token = token;
-        this.createdAt = createdAt;
-        this.expiredAt = expiredAt;
-        this.userEntity = userEntity;
-    }
-
-    public TokenModel toToken(){
-        return TokenModel.builder()
-                .id(this.id)
-                .token(this.token)
-                .createdAt(this.createdAt)
-                .expiredAt(this.expiredAt)
-                .confirmedAt(this.confirmedAt)
-                .user(this.userEntity.toUser())
-                .build();
-    }
 }

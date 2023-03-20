@@ -5,28 +5,19 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
-@Builder
+@NoArgsConstructor
 @Entity
 @Table(name = "roles")
 public class RolEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
-    String name;
-
-    public RolEntity(String name) {
-        this.name = name;
-    }
-
-    public RolModel toRol(){
-        return RolModel.builder()
-                .id(this.id)
-                .name(this.name)
-                .build();
-    }
+    private int id;
+    private String name;
 }

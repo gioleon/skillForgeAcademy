@@ -1,5 +1,7 @@
 package com.skillForgeAcademy.domain.usecase;
 
+import com.skillForgeAcademy.application.dto.response.TokenResponseDto;
+import com.skillForgeAcademy.domain.api.ITokenServicePort;
 import com.skillForgeAcademy.domain.exception.DomainException;
 import com.skillForgeAcademy.domain.model.RolModel;
 import com.skillForgeAcademy.domain.model.TokenModel;
@@ -18,14 +20,14 @@ import java.util.UUID;
 public class UserUseCase implements IUserServicePort {
 
     private IUserPersistencePort userPersistencePort;
-    private ITokenPersistencePort tokenPersistencePort;
+    private ITokenServicePort tokenServicePort;
     private IPasswordEncoderPort passwordEncoder;
 
     public UserUseCase(IUserPersistencePort userPersistencePort,
-                       ITokenPersistencePort tokenPersistencePort,
+                       ITokenServicePort tokenServicePort,
                        IPasswordEncoderPort passwordEncoderPort) {
         this.userPersistencePort = userPersistencePort;
-        this.tokenPersistencePort = tokenPersistencePort;
+        this.tokenServicePort = tokenServicePort;
         this.passwordEncoder = passwordEncoderPort;
     }
 
@@ -58,7 +60,7 @@ public class UserUseCase implements IUserServicePort {
                 this.userPersistencePort.findByEmail(userModel.getEmail()));
 
         // save token
-        this.tokenPersistencePort.create(token);
+        this.tokenServicePort.create(token);
 
         // sending email
         String activeURL = "http://localhost:8080/api/register/active?token=" + token.getToken();
@@ -67,9 +69,17 @@ public class UserUseCase implements IUserServicePort {
     }
 
     @Override
+    public void activeAccount(String token) {
+        TokenModel tokenFound = this.tokenServicePort.find(token);
+        // set a confirmedAt value
+        this.tokenServicePort.confirmToken(token);
+        // change isEnable status to true
+        this.userPersistencePort.updateIsEnable(tokenFound.getUser().getId());
+    }
+
+    @Override
     public UserModel create(UserModel user) {
         final String encodedPassword = this.passwordEncoder.encode(user.getPassword());
-
         // set password to the user
         user.setPassword(encodedPassword);
         return this.userPersistencePort.create(user);

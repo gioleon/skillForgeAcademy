@@ -11,4 +11,6 @@ public interface IUserServicePort extends GenericService<UserModel, Long> {
 
     void register(UserModel userModel);
 
+    void activeAccount(String token);
+
 }

@@ -6,15 +6,17 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
-@Builder
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class UserEntity {
@@ -29,15 +31,4 @@ public class UserEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<RolEntity> roles;
 
-    public UserModel toUser() {
-        return UserModel.builder()
-                .id(this.id)
-                .name(this.name)
-                .lastName(this.lastName)
-                .email(this.email)
-                .password(this.password)
-                .isEnable(this.isEnable)
-                .roles(this.roles.stream().map(rolEntity -> rolEntity.toRol()).collect(Collectors.toList()))
-                .build();
-    }
 }

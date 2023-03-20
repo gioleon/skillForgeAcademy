@@ -5,8 +5,10 @@ import com.skillForgeAcademy.domain.model.TokenModel;
 import com.skillForgeAcademy.infrastructure.output.jpa.entity.TokenEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 
 
 @Mapper(componentModel = "spring",
