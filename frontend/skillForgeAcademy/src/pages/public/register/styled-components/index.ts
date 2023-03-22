@@ -1,2 +1,2 @@
-export * from './LayoutRegister.style.component';
+export * from './RegisterLayout.style.component';
 export * from './index';
