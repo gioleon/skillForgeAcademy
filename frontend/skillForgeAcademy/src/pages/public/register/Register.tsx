@@ -108,9 +108,8 @@ function Register() {
             handleSubmit(e);
           }}
         >
-          <h1>Registrate a nuestra página</h1>
+          <h1>Regístrate y comienza a aprender.</h1>
           <div>
-            <label htmlFor="name">Nombre</label>
             <input
               type="text"
               name="name"
@@ -125,7 +124,6 @@ function Register() {
           </div>
 
           <div>
-            <label htmlFor="lastName">Apellido</label>
             <input
               type="text"
               name="lastName"
@@ -140,8 +138,6 @@ function Register() {
           </div>
 
           <div>
-            <label htmlFor="email">Email</label>
-
             <input
               type="text"
               name="email"
@@ -154,10 +150,9 @@ function Register() {
             ) : null}
           </div>
           <div>
-            <label htmlFor="password">Contraseña</label>
             <input
               type="password"
-              placeholder="Password"
+              placeholder="Contraseña"
               name="password"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -167,10 +162,9 @@ function Register() {
             ) : null}
           </div>
           <div>
-            <label htmlFor="confirmPassword">Confirmar Contraseña</label>
             <input
               type="password"
-              placeholder="Password"
+              placeholder="Confirmar contraseña"
               name="confirmPassword"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -179,7 +173,7 @@ function Register() {
               <Error error={true} message={formik.errors.confirmPassword} />
             ) : null}
           </div>
-          <button type="submit">Registrarse</button>
+          <button type="submit">Regístrate</button>
           {inputErrors ? <p>Diligencie todos lo campos correctamente</p> : null}
           {userExists ? <p>Ya existe una cuenta con el correo</p> : null}
         </form>

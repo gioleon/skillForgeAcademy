@@ -93,24 +93,22 @@ function Login() {
         <div>
           <img
             src="/src/img/pexels-祝-鹤槐-716281.jpg"
-            alt="Education"
+            alt="Banner-Login-Educacion"
           />
         </div>
         <FormLayout>
-          <h1>Bienvenido de vuelta</h1>
+          <h1>Inicia sesión en tu cuenta de SkillForge</h1>
           <form action="" onSubmit={(e) => handleSubmit(e)}>
             <div>
-              <label htmlFor="email">Email</label>
               <input
                 type="text"
                 name="email"
-                placeholder="username@yourcompany.com"
+                placeholder="Email"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
             </div>
             <div>
-              <label htmlFor="password">Password</label>
               <input
                 type="password"
                 name="password"
