@@ -15,7 +15,10 @@ function LogoNavbar() {
         }}
       >
         <StyledLink to={PublicRoutes.HOME}>
-          <Button style={{ color: "white" }} size="small">
+          <Button
+            style={{ color: "white", fontSize: "Bold", fontFamily: "Poppins" }}
+            size="small"
+          >
             Skill Forge Academy
           </Button>
         </StyledLink>

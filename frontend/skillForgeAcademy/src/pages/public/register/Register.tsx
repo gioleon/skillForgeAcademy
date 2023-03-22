@@ -5,6 +5,7 @@ import { PublicRoutes, UserRegister } from "../../../model";
 import * as Yup from "yup";
 import { register } from "../../../service";
 import { Error } from "../../../components";
+import { LayoutRegister } from "./styled-components";
 
 function Register() {
   const [inputErrors, setInputErrors] = useState(false);
@@ -60,7 +61,6 @@ function Register() {
     validationSchema: registerSchema,
   });
 
-
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
@@ -100,87 +100,90 @@ function Register() {
 
   return (
     <>
-      <form
-        action=""
-        method="POST"
-        onSubmit={(e) => {
-          handleSubmit(e);
-        }}
-      >
-        <div>
-          <label htmlFor="name">Nombre</label>
-          <input
-            type="text"
-            name="name"
-            id="name"
-            placeholder="Nombres"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.errors.name ? (
-            <Error error={true} message={formik.errors.name} />
-          ) : null}
-        </div>
+      <LayoutRegister>
+        <form
+          action=""
+          method="POST"
+          onSubmit={(e) => {
+            handleSubmit(e);
+          }}
+        >
+          <h1>Registrate a nuestra página</h1>
+          <div>
+            <label htmlFor="name">Nombre</label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              placeholder="Nombres"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.errors.name ? (
+              <Error error={true} message={formik.errors.name} />
+            ) : null}
+          </div>
 
-        <div>
-          <label htmlFor="lastName">Apellido</label>
-          <input
-            type="text"
-            name="lastName"
-            id="lastName"
-            placeholder="Apellidos"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.errors.lastName && formik.touched.lastName ? (
-            <Error error={true} message={formik.errors.lastName} />
-          ) : null}
-        </div>
+          <div>
+            <label htmlFor="lastName">Apellido</label>
+            <input
+              type="text"
+              name="lastName"
+              id="lastName"
+              placeholder="Apellidos"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.errors.lastName && formik.touched.lastName ? (
+              <Error error={true} message={formik.errors.lastName} />
+            ) : null}
+          </div>
 
-        <div>
-          <label htmlFor="email">Email</label>
+          <div>
+            <label htmlFor="email">Email</label>
 
-          <input
-            type="text"
-            name="email"
-            placeholder="Ingrese su email"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.errors.email && formik.touched.email ? (
-            <Error error={true} message={formik.errors.email} />
-          ) : null}
-        </div>
-        <div>
-          <label htmlFor="password">Contraseña</label>
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.errors.password && formik.touched.password ? (
-            <Error error={true} message={formik.errors.password} />
-          ) : null}
-        </div>
-        <div>
-          <label htmlFor="confirmPassword">Confirmar Contraseña</label>
-          <input
-            type="password"
-            placeholder="Password"
-            name="confirmPassword"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.errors.confirmPassword && formik.touched.confirmPassword ? (
-            <Error error={true} message={formik.errors.confirmPassword} />
-          ) : null}
-        </div>
-        <button type="submit">Register</button>
-        {inputErrors ? <p>Diligencie todos lo campos correctamente</p> : null}
-        {userExists ? <p>Ya existe una cuenta con el correo</p> : null}
-      </form>
+            <input
+              type="text"
+              name="email"
+              placeholder="Ingrese su email"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.errors.email && formik.touched.email ? (
+              <Error error={true} message={formik.errors.email} />
+            ) : null}
+          </div>
+          <div>
+            <label htmlFor="password">Contraseña</label>
+            <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.errors.password && formik.touched.password ? (
+              <Error error={true} message={formik.errors.password} />
+            ) : null}
+          </div>
+          <div>
+            <label htmlFor="confirmPassword">Confirmar Contraseña</label>
+            <input
+              type="password"
+              placeholder="Password"
+              name="confirmPassword"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.errors.confirmPassword && formik.touched.confirmPassword ? (
+              <Error error={true} message={formik.errors.confirmPassword} />
+            ) : null}
+          </div>
+          <button type="submit">Registrarse</button>
+          {inputErrors ? <p>Diligencie todos lo campos correctamente</p> : null}
+          {userExists ? <p>Ya existe una cuenta con el correo</p> : null}
+        </form>
+      </LayoutRegister>
     </>
   );
 }
