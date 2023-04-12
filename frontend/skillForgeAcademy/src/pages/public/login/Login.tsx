@@ -10,8 +10,7 @@ import { PrivateRoutes, UserLogin } from "../../../model";
 import { decodeJwt } from "../../../utilities/jwt.utility";
 import { useFormik, yupToFormErrors } from "formik";
 import * as Yup from "yup";
-import { LoginLayout } from "./styled-components";
-
+import { LoginLayout, FormLayout } from "./styled-components";
 
 function Login() {
   // As we have some inputs, we'll use useState.
@@ -92,36 +91,40 @@ function Login() {
     <>
       <LoginLayout>
         <div>
-          <h1>Hello</h1>
+          <img
+            src="/src/img/pexels-祝-鹤槐-716281.jpg"
+            alt="Banner-Login-Educacion"
+          />
         </div>
-        <div>
-          <div>
-            <form action="" onSubmit={(e) => handleSubmit(e)}>
-              <div>
-                <label htmlFor="email">Email</label>
-                <input
-                  type="text"
-                  name="email"
-                  placeholder="username@yourcompany.com"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-              </div>
-              <div>
-                <label htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="********"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-              </div>
-              <button>Login</button>
-            </form>
-            <Error error={error} message={errorMessage} />
-          </div>
-        </div>
+        <FormLayout>
+          <h1>Inicia sesión en tu cuenta de SkillForge</h1>
+          <form action="" onSubmit={(e) => handleSubmit(e)}>
+            <div>
+              <input
+                type="text"
+                name="email"
+                placeholder="Email"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+            </div>
+            <div>
+              <input
+                type="password"
+                name="password"
+                placeholder="********"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+            </div>
+            <button>Iniciar sesion</button>
+            <div>
+              <h2>¿Todavia no tienes una cuenta?</h2>
+              <a href="">Crea una</a>
+            </div>
+          </form>
+          <Error error={error} message={errorMessage} />
+        </FormLayout>
       </LoginLayout>
     </>
   );

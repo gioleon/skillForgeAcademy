@@ -8,7 +8,7 @@ export const StyledButton = styled.button<{
 }>`
   width: 80px;
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 0.8rem;
   display: flex;
   align-items: center;
   justify-content: center;
