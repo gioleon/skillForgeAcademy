@@ -42,10 +42,10 @@ public class UserPostgresAdapter implements UserPersistencePort {
     @Override
     public Iterable<User> findAll() {
 
-        List<User> listUser = (List<User>)
+        List<User> listUser =
                 ((List<UserEntity>) this.repository.findAll())
                         .stream()
-                        .map(userEntity -> userEntity.toUser())
+                        .map(UserEntity::toUser)
                         .collect(Collectors.toList());
 
         return listUser;
