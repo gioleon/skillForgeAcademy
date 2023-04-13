@@ -8,7 +8,11 @@ import java.util.List;
 
 public class CommentUseCase implements ICommentServicePort {
     private ICommentPersistencePort commentPersistencePort;
-    public CommentUseCase(ICommentPersistencePort commentPersistencePort){this.commentPersistencePort= commentPersistencePort}
+
+    public CommentUseCase(ICommentPersistencePort commentPersistencePort) {
+        this.commentPersistencePort = commentPersistencePort;
+    }
+
     @Override
     public CommentModel create(CommentModel commentModel) {
         return commentPersistencePort.create(commentModel);
