@@ -4,7 +4,6 @@ import com.skillForgeAcademy.domain.model.RolModel;
 import com.skillForgeAcademy.infrastructure.output.jpa.entity.RolEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

@@ -1,6 +1,5 @@
 package com.skillForgeAcademy.infrastructure.output.jpa.adapter;
 
-import com.skillForgeAcademy.domain.exception.DomainException;
 import com.skillForgeAcademy.domain.model.TokenModel;
 import com.skillForgeAcademy.domain.spi.persistence.ITokenPersistencePort;
 import com.skillForgeAcademy.infrastructure.exception.NoDataFoundException;
@@ -51,7 +50,7 @@ public class TokenJpaAdapter implements ITokenPersistencePort {
     }
 
     @Override
-    public List findAll() {
+    public List<TokenModel> findAll() {
         List<TokenEntity> tokenEntities = (List<TokenEntity>) repository.findAll();
         if (tokenEntities.isEmpty()){
             throw new NoDataFoundException();

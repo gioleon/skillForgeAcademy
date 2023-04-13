@@ -25,7 +25,7 @@ public class RolUseCase implements IRolServicePort {
     }
 
     @Override
-    public List findAll() {
+    public List<RolModel> findAll() {
         return this.rolPersistencePort.findAll();
     }
 

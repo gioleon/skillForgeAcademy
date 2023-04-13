@@ -4,11 +4,9 @@ import com.skillForgeAcademy.domain.exception.DomainException;
 import com.skillForgeAcademy.domain.model.TokenModel;
 import com.skillForgeAcademy.domain.api.ITokenServicePort;
 import com.skillForgeAcademy.domain.spi.persistence.ITokenPersistencePort;
-import com.skillForgeAcademy.infrastructure.output.jpa.entity.TokenEntity;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 public class TokenUseCase implements ITokenServicePort {
 
@@ -47,7 +45,7 @@ public class TokenUseCase implements ITokenServicePort {
     }
 
     @Override
-    public List findAll() {
+    public List<TokenModel> findAll() {
         return this.tokenPersistencePort.findAll();
     }
 

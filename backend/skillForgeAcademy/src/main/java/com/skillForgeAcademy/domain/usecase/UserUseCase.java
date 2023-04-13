@@ -1,6 +1,5 @@
 package com.skillForgeAcademy.domain.usecase;
 
-import com.skillForgeAcademy.application.dto.response.TokenResponseDto;
 import com.skillForgeAcademy.domain.api.ITokenServicePort;
 import com.skillForgeAcademy.domain.exception.DomainException;
 import com.skillForgeAcademy.domain.model.RolModel;
@@ -8,10 +7,7 @@ import com.skillForgeAcademy.domain.model.TokenModel;
 import com.skillForgeAcademy.domain.model.UserModel;
 import com.skillForgeAcademy.domain.api.IUserServicePort;
 import com.skillForgeAcademy.domain.spi.passwordencoder.IPasswordEncoderPort;
-import com.skillForgeAcademy.domain.spi.persistence.ITokenPersistencePort;
 import com.skillForgeAcademy.domain.spi.persistence.IUserPersistencePort;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -91,7 +87,7 @@ public class UserUseCase implements IUserServicePort {
     }
 
     @Override
-    public List findAll() {
+    public List<UserModel> findAll() {
         return this.userPersistencePort.findAll();
     }
 
