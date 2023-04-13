@@ -41,7 +41,7 @@ public class UserJpaAdapter implements IUserPersistencePort {
     }
 
     @Override
-    public List findAll() {
+    public List<UserModel> findAll() {
         List<UserEntity> userEntities = (List<UserEntity>) repository.findAll();
         if (userEntities.isEmpty()){
             throw new NoDataFoundException();

@@ -7,7 +7,7 @@ public interface GenericService<T, S> {
     T create (T t);
     T find (S id);
 
-    List findAll();
+    List<T> findAll();
 
     T delete(S id);
 }

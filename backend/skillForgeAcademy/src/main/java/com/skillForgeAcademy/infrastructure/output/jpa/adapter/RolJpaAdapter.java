@@ -35,7 +35,7 @@ public class RolJpaAdapter implements IRolPersistencePort {
     }
 
     @Override
-    public List findAll() {
+    public List<RolModel> findAll() {
         List<RolEntity> rolEntities = (List<RolEntity>) repository.findAll();
         if (rolEntities.isEmpty()) {
             throw new NoDataFoundException();
