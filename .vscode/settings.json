@@ -1,5 +1,6 @@
 {
     "exportall.config.folderListener": [
         "/frontend/noname/src/Prueba"
-    ]
+    ],
+    "java.compile.nullAnalysis.mode": "automatic"
 }
