@@ -7,8 +7,8 @@ export const EmptyUser: User = {
   name: "",
   lastName: "",
   email: "",
-  password: "",
   roles: [],
+  exp: 0,
 };
 
 export const UserKey: string = "user";
