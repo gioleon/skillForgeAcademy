@@ -10,7 +10,7 @@ import { PrivateRoutes, UserLogin } from "../../../model";
 import { decodeJwt } from "../../../utilities/jwt.utility";
 import { useFormik, yupToFormErrors } from "formik";
 import * as Yup from "yup";
-import { LoginLayout, FormLayout } from "./styled-components";
+import { LoginLayout } from "./styled-components";
 
 function Login() {
   // As we have some inputs, we'll use useState.
@@ -90,41 +90,47 @@ function Login() {
   return (
     <>
       <LoginLayout>
-        <div>
-          <img
-            src="/src/img/pexels-祝-鹤槐-716281.jpg"
-            alt="Banner-Login-Educacion"
-          />
+        <div className="left-form">
+          <img src="/src/img/login-svg.svg" alt="" />
         </div>
-        <FormLayout>
-          <h1>Inicia sesión en tu cuenta de SkillForge</h1>
-          <form action="" onSubmit={(e) => handleSubmit(e)}>
-            <div>
-              <input
-                type="text"
-                name="email"
-                placeholder="Email"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
+        <div className="right-form">
+          <div className="login-header">
+            <h1>Bienvenido a SkillForge Academy</h1>
+            <p>Ingresa tus datos para poder ingresar</p>
+          </div>
+          <form
+            action=""
+            onSubmit={(e) => handleSubmit(e)}
+            className="login-form"
+          >
+            <div className="login-form-content">
+              <div className="form-item">
+                <input
+                  type="text"
+                  name="email"
+                  placeholder="Correo"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
+              <div className="form-item">
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="********"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
+              <button className="btn-login">Iniciar sesion</button>
             </div>
-            <div>
-              <input
-                type="password"
-                name="password"
-                placeholder="********"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-            </div>
-            <button>Iniciar sesion</button>
-            <div>
-              <h2>¿Todavia no tienes una cuenta?</h2>
-              <a href="">Crea una</a>
+            <div className="login-form-footer">
+              <h2>¿No tienes una cuenta?</h2>
+              <a href="">Registrate aqui</a>
             </div>
           </form>
           <Error error={error} message={errorMessage} />
-        </FormLayout>
+        </div>
       </LoginLayout>
     </>
   );
