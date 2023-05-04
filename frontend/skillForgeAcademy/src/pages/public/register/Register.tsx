@@ -101,15 +101,15 @@ function Register() {
   return (
     <>
       <LayoutRegister>
-        <form
-          action=""
-          method="POST"
-          onSubmit={(e) => {
-            handleSubmit(e);
-          }}
-        >
-          <h1>Regístrate y comienza a aprender.</h1>
-          <div>
+        <div className="left-form">
+          <form
+            action=""
+            method="POST"
+            onSubmit={(e) => {
+              handleSubmit(e);
+            }}
+          >
+            <h1 className="title-register">Regístrate</h1>
             <input
               type="text"
               name="name"
@@ -121,9 +121,7 @@ function Register() {
             {formik.errors.name ? (
               <Error error={true} message={formik.errors.name} />
             ) : null}
-          </div>
 
-          <div>
             <input
               type="text"
               name="lastName"
@@ -135,9 +133,6 @@ function Register() {
             {formik.errors.lastName && formik.touched.lastName ? (
               <Error error={true} message={formik.errors.lastName} />
             ) : null}
-          </div>
-
-          <div>
             <input
               type="text"
               name="email"
@@ -148,8 +143,6 @@ function Register() {
             {formik.errors.email && formik.touched.email ? (
               <Error error={true} message={formik.errors.email} />
             ) : null}
-          </div>
-          <div>
             <input
               type="password"
               placeholder="Contraseña"
@@ -160,8 +153,6 @@ function Register() {
             {formik.errors.password && formik.touched.password ? (
               <Error error={true} message={formik.errors.password} />
             ) : null}
-          </div>
-          <div>
             <input
               type="password"
               placeholder="Confirmar contraseña"
@@ -172,11 +163,14 @@ function Register() {
             {formik.errors.confirmPassword && formik.touched.confirmPassword ? (
               <Error error={true} message={formik.errors.confirmPassword} />
             ) : null}
-          </div>
-          <button type="submit">Regístrate</button>
-          {inputErrors ? <p>Diligencie todos lo campos correctamente</p> : null}
-          {userExists ? <p>Ya existe una cuenta con el correo</p> : null}
-        </form>
+            <button type="submit">Regístrate</button>
+            {inputErrors ? (
+              <p>Diligencie todos lo campos correctamente</p>
+            ) : null}
+            {userExists ? <p>Ya existe una cuenta con el correo</p> : null}
+          </form>
+        </div>
+        <div className="right-form"></div>
       </LayoutRegister>
     </>
   );

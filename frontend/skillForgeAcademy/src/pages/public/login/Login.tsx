@@ -90,43 +90,30 @@ function Login() {
   return (
     <>
       <LoginLayout>
-        <div className="left-form">
-          <img src="/src/img/login-svg.svg" alt="" />
-        </div>
+        <div className="left-form"></div>
         <div className="right-form">
-          <div className="login-header">
-            <h1>Bienvenido a SkillForge Academy</h1>
-            <p>Ingresa tus datos para poder ingresar</p>
-          </div>
-          <form
-            action=""
-            onSubmit={(e) => handleSubmit(e)}
-            className="login-form"
-          >
-            <div className="login-form-content">
-              <div className="form-item">
-                <input
-                  type="text"
-                  name="email"
-                  placeholder="Correo"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-              </div>
-              <div className="form-item">
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="********"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-              </div>
-              <button className="btn-login">Iniciar sesion</button>
-            </div>
+          <form action="" onSubmit={(e) => handleSubmit(e)}>
+            <h1 className="title-login">Bienvenido de vuelta</h1>
+            <input
+              type="text"
+              name="email"
+              placeholder="Ingresa tu email"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Ingresa tu contraseña"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            <button>Iniciar sesion</button>
             <div className="login-form-footer">
-              <h2>¿No tienes una cuenta?</h2>
-              <a href="">Registrate aqui</a>
+              <h2 className="title-register">¿No tienes una cuenta?</h2>
+              <a href="" className="link-register">
+                Registrate aqui
+              </a>
             </div>
           </form>
           <Error error={error} message={errorMessage} />
