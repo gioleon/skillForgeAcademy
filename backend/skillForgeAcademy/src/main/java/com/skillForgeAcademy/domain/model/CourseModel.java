@@ -11,7 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 public class CourseModel {
     private long id;
-    private List<CommentModel> comments;
     private List<RateModel> rate;
     private List<CategoryModel> category;
     private UserModel owner;
