@@ -1,9 +1,12 @@
 package com.skillForgeAcademy.infrastructure.output.jpa.entity;
 
-import com.skillForgeAcademy.domain.model.SectionModel;
-
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,9 +19,23 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "tutorship")
+@IdClass(TutorshipId.class)
 public class TutorshipEntity {
-    @Id
-    private long id;
-    private SectionModel section;
-    private String name;
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long id;
+
+  @Id
+  @ManyToOne
+  private SectionEntity section;
+
+  @Id
+  @ManyToOne
+  private CourseEntity courseEntity;
+
+  @OneToOne
+  private VideoEntity video;
+
+  private String name;
 }

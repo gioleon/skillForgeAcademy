@@ -5,6 +5,8 @@ import com.skillForgeAcademy.domain.spi.persistence.ICommentPersistencePort;
 
 import java.util.List;
 
+
+
 public class CommentJpaAdapter implements ICommentPersistencePort {
     @Override
     public CommentModel create(CommentModel commentModel) {

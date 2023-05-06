@@ -23,6 +23,9 @@ const Verification = lazy(
 );
 
 function App() {
+  const actualUrl: string = window.location.href;
+  console.log(actualUrl);
+
   return (
     <div className="App">
       <Suspense
@@ -34,10 +37,13 @@ function App() {
       >
         <Provider store={store}>
           <BrowserRouter>
-            <Navbar />
+            {actualUrl.includes(PublicRoutes.REGISTER) ||
+            actualUrl.includes(PublicRoutes.LOGIN) ? undefined : (
+              <Navbar />
+            )}
             <RoutesWithNotFound>
               {/* public routes */}
-              <Route path={PublicRoutes.LOGIN} element={<Login />}/>
+              <Route path={PublicRoutes.LOGIN} element={<Login />} />
               <Route element={<PublicGuard />}>
                 <Route
                   path="/"

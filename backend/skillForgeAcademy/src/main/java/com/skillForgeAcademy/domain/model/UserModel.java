@@ -1,15 +1,13 @@
 package com.skillForgeAcademy.domain.model;
 
-import com.skillForgeAcademy.infrastructure.output.jpa.entity.UserEntity;
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
+
 
 @Getter
 @Setter

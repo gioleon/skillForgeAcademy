@@ -11,6 +11,8 @@ import { decodeJwt } from "../../../utilities/jwt.utility";
 import { useFormik, yupToFormErrors } from "formik";
 import * as Yup from "yup";
 import { LoginLayout } from "./styled-components";
+import { PublicRoutes } from '../../../model/routes';
+import { StyledLink } from "../../../styled-components";
 
 function Login() {
   // As we have some inputs, we'll use useState.
@@ -111,9 +113,9 @@ function Login() {
             <button>Iniciar sesion</button>
             <div className="login-form-footer">
               <h2 className="title-register">¿No tienes una cuenta?</h2>
-              <a href="" className="link-register">
+              <StyledLink to = {"/" +PublicRoutes.REGISTER} replace className = "link-register">
                 Registrate aqui
-              </a>
+              </StyledLink>
             </div>
           </form>
           <Error error={error} message={errorMessage} />

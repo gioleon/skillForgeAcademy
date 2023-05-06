@@ -16,7 +16,7 @@ public class CourseModel {
     private UserModel owner;
     private UserModel student;
     private String name;
-    private List<DescriptionModel> description;
+    private String description;
 
 
 }

@@ -1,21 +1,20 @@
 package com.skillForgeAcademy.infrastructure.output.jpa.entity;
 
+import java.io.Serializable;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "roles")
-public class RolEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String name;
+@AllArgsConstructor
+@EqualsAndHashCode
+public class SectionId implements Serializable{
+    private long id;
+    private CourseEntity course;
 }

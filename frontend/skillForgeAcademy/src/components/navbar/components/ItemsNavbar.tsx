@@ -9,7 +9,7 @@ function ItemsNavbar() {
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
-        <StyledLink to={PublicRoutes.REGISTER}>
+        <StyledLink to={`/${PublicRoutes.REGISTER}`}>
           <StyledButton hoverBackground="white" color="#1976d2">
             Register
           </StyledButton>
@@ -17,9 +17,9 @@ function ItemsNavbar() {
 
         <StyledButton hoverBackground="white" color="#1976d2">
           Categorias
-        </StyledButton>
+        </StyledButton> 
 
-        <StyledLink to={PublicRoutes.LOGIN}>
+        <StyledLink to={`/${PublicRoutes.LOGIN}`}>
           <StyledButton hoverBackground="white" color="#1976d2">
             Login
           </StyledButton>
