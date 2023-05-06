@@ -24,7 +24,7 @@ public class TutorshipEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+  private Long id;
 
   @Id
   @ManyToOne
@@ -32,7 +32,7 @@ public class TutorshipEntity {
 
   @Id
   @ManyToOne
-  private CourseEntity courseEntity;
+  private CourseEntity course;
 
   @OneToOne
   private VideoEntity video;

@@ -2,10 +2,6 @@ package com.skillForgeAcademy.infrastructure.output.jpa.entity;
 
 import java.util.List;
 
-import com.skillForgeAcademy.domain.model.CategoryModel;
-import com.skillForgeAcademy.domain.model.RateModel;
-import com.skillForgeAcademy.domain.model.UserModel;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;

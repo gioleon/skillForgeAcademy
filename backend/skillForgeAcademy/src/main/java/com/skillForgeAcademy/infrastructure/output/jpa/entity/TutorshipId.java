@@ -16,6 +16,6 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class TutorshipId implements Serializable {
     private Long id;
-    private SectionEntity sectionEntity;
-    private CourseEntity courseEntity;
+    private SectionEntity section;
+    private CourseEntity course;
 }

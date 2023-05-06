@@ -1,6 +1,5 @@
 package com.skillForgeAcademy.infrastructure.output.jpa.entity;
 
-import com.skillForgeAcademy.domain.model.CourseModel;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
