@@ -1,6 +1,6 @@
 package com.skillForgeAcademy.infrastructure.output.jpa.entity;
 
-import com.skillForgeAcademy.domain.model.CategoryModel;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
