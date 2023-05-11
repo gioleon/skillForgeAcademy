@@ -19,7 +19,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "tutorship")
-@IdClass(TutorshipId.class)
+@IdClass(TutorshipEntityId.class)
 public class TutorshipEntity {
 
   @Id

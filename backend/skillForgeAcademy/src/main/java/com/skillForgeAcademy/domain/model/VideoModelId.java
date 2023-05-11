@@ -7,10 +7,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class RolModel {
+@AllArgsConstructor
+public class VideoModelId {
 
-  private int id;
-  private String name;
+  private long id;
+  private TutorshipModel tutorship;
 }

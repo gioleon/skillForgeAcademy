@@ -1,16 +1,12 @@
 package com.skillForgeAcademy.infrastructure.component;
 
-import com.skillForgeAcademy.domain.model.RolModel;
 import com.skillForgeAcademy.domain.api.IRolServicePort;
 import com.skillForgeAcademy.infrastructure.exception.NoDataFoundException;
 import com.skillForgeAcademy.infrastructure.output.jpa.entity.RolEntity;
 import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IRolEntityMapper;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor

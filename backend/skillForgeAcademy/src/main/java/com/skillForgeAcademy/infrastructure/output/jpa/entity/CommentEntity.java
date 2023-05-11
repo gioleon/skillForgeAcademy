@@ -18,7 +18,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "comments")
-@IdClass(CommentId.class)
+@IdClass(CommentEntityId.class)
 public class CommentEntity {
 
   @Id

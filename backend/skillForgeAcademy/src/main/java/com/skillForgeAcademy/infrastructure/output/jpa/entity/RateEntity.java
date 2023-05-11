@@ -17,7 +17,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "rates")
-@IdClass(RateId.class)
+@IdClass(RateEntityId.class)
 public class RateEntity {
 
     @Id

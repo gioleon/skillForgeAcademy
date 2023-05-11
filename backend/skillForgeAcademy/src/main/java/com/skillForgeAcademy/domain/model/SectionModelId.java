@@ -7,10 +7,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class RolModel {
-
-  private int id;
-  private String name;
+@AllArgsConstructor
+public class SectionModelId {
+    private long id;
+    private CourseModel course;
 }

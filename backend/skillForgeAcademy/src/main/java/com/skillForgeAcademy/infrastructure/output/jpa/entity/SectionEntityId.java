@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class SectionId implements Serializable{
+public class SectionEntityId implements Serializable{
     private long id;
     private CourseEntity course;
 }

@@ -34,5 +34,4 @@ public class UserEntity {
     private boolean isEnable;
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<RolEntity> roles;
-
 }

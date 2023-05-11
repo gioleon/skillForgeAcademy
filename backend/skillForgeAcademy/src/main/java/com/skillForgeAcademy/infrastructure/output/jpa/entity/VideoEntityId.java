@@ -11,11 +11,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
-public class TutorshipId implements Serializable {
-    private Long id;
-    private SectionEntity section;
-    private CourseEntity course;
+public class VideoEntityId implements Serializable {
+    private long id;
+    private TutorshipEntity tutorship;
 }
