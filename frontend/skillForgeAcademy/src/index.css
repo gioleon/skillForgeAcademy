@@ -4,3 +4,23 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
+
+/* Home */
+.containerCourses {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  place-items: center;
+  margin: 5px;
+  gap: 10px;
+}
+
+.containerCourses-title {
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .containerCourses {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+}

@@ -1,4 +1,4 @@
-import { StyledButton } from "../navbar";
+import "./Course.css"
 export function Course({ titleCourse, autor, imgCourse, categorie }) {
   return (
     <article className="cr-courseCard">
@@ -8,7 +8,9 @@ export function Course({ titleCourse, autor, imgCourse, categorie }) {
       <h2 className="cr-courseCard-title">{titleCourse}</h2>
       <div className="cr-courseCard-content">
         <p className="cr-courseCard-autor">{autor}</p>
-        <a href="">{categorie}</a>
+        <a href="" className="cr-courseCard-cat">
+          {categorie}
+        </a>
       </div>
       <button href="" className="cr-courseCard-btn-view">
         Ver curso
