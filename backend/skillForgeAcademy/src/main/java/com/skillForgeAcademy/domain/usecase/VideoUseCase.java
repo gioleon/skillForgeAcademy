@@ -2,34 +2,35 @@ package com.skillForgeAcademy.domain.usecase;
 
 import com.skillForgeAcademy.domain.api.IVideoServicePort;
 import com.skillForgeAcademy.domain.model.VideoModel;
+import com.skillForgeAcademy.domain.model.VideoModelId;
 import com.skillForgeAcademy.domain.spi.persistence.IVideoPersistencePort;
-
 import java.util.List;
 
 public class VideoUseCase implements IVideoServicePort {
-    private IVideoPersistencePort videoPersistencePort;
 
-    public VideoUseCase(IVideoPersistencePort videoPersistencePort) {
-        this.videoPersistencePort = videoPersistencePort;
-    }
+  private IVideoPersistencePort videoPersistencePort;
 
-    @Override
-    public VideoModel create(VideoModel videoModel) {
-        return videoPersistencePort.create(videoModel);
-    }
+  public VideoUseCase(IVideoPersistencePort videoPersistencePort) {
+    this.videoPersistencePort = videoPersistencePort;
+  }
 
-    @Override
-    public VideoModel find(Long id) {
-        return videoPersistencePort.find(id);
-    }
+  @Override
+  public VideoModel create(VideoModel videoModel) {
+    return videoPersistencePort.create(videoModel);
+  }
 
-    @Override
-    public List<VideoModel> findAll() {
-        return videoPersistencePort.findAll();
-    }
+  @Override
+  public VideoModel find(VideoModelId id) {
+    return videoPersistencePort.find(id);
+  }
 
-    @Override
-    public VideoModel delete(Long id) {
-        return videoPersistencePort.delete(id);
-    }
+  @Override
+  public List<VideoModel> findAll() {
+    return videoPersistencePort.findAll();
+  }
+
+  @Override
+  public VideoModel delete(VideoModelId id) {
+    return videoPersistencePort.delete(id);
+  }
 }

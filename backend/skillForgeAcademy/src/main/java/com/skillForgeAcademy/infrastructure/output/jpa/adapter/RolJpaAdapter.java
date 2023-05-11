@@ -29,7 +29,7 @@ public class RolJpaAdapter implements IRolPersistencePort {
     public RolModel find(Integer id) {
         Optional<RolEntity> rol = this.repository.findById(id);
         if (rol.isEmpty()){
-            throw new NoDataFoundException();
+            throw new NoDataFoundException("NO DATA FOUND");
         }
         return rolEntityMapper.toModel(rol.get());
     }
@@ -38,7 +38,7 @@ public class RolJpaAdapter implements IRolPersistencePort {
     public List<RolModel> findAll() {
         List<RolEntity> rolEntities = (List<RolEntity>) repository.findAll();
         if (rolEntities.isEmpty()) {
-            throw new NoDataFoundException();
+            throw new NoDataFoundException("NO DATA FOUND");
         }
         return rolEntityMapper.toModelList(rolEntities);
     }
@@ -47,7 +47,7 @@ public class RolJpaAdapter implements IRolPersistencePort {
     public RolModel delete(Integer id) {
         Optional<RolEntity> rol = repository.findById(id);
         if (rol.isEmpty()){
-            throw new NoDataFoundException();
+            throw new NoDataFoundException("NO DATA FOUND");
         }
         this.repository.deleteById(id);
         return rolEntityMapper.toModel(rol.get());

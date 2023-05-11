@@ -42,14 +42,19 @@ import com.skillForgeAcademy.infrastructure.output.jpa.adapter.TutorshipJpaAdapt
 import com.skillForgeAcademy.infrastructure.output.jpa.adapter.UserJpaAdapter;
 import com.skillForgeAcademy.infrastructure.output.jpa.adapter.VideoJpaAdapter;
 import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ICategoryEntityMapper;
+import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ICommentEntityIdMapper;
 import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ICommentEntityMapper;
 import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ICourseEntityMapper;
+import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IRateEntityIdMapper;
 import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IRateEntityMapper;
 import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IRolEntityMapper;
+import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ISectionEntityIdMapper;
 import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ISectionEntityMapper;
 import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ITokenEntityMapper;
+import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ITutorshipEntityIdMapper;
 import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ITutorshipEntityMapper;
 import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IUserEntityMapper;
+import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IVideoEntityIdMapper;
 import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IVideoEntityMapper;
 import com.skillForgeAcademy.infrastructure.output.jpa.repository.ICategoryRepository;
 import com.skillForgeAcademy.infrastructure.output.jpa.repository.ICommentRepository;
@@ -70,135 +75,157 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class BeanConfiguration {
 
-    private final IUserRepository userRepository;
-    private final IUserEntityMapper userEntityMapper;
-    private final IRolRepository rolRepository;
-    private final IRolEntityMapper rolEntityMapper;
-    private final ITokenRepository tokenRepository;
-    private final ITokenEntityMapper tokenEntityMapper;
-    private final ICategoryRepository categoryRepository;
-    private final ICategoryEntityMapper categoryEntityMapper;
-    private final ICommentRepository commentRepository;
-    private final ICommentEntityMapper commentEntityMapper;
-    private final IRateRepository rateRepository;
-    private final IRateEntityMapper rateEntityMapper;
-    private final IVideoRepository videoRepository;
-    private final IVideoEntityMapper videoEntityMapper;
-    private final ITutorshipRepository tutorshipRepository;
-    private final ITutorshipEntityMapper tutorshipEntityMapper;
-    private final ISectionRepository sectionRepository;
-    private final ISectionEntityMapper sectionEntityMapper;
-    private final ICourseRepository courseRepository;
-    private final ICourseEntityMapper courseEntityMapper;
-    
+  private final IUserRepository userRepository;
+  private final IUserEntityMapper userEntityMapper;
+  private final IRolRepository rolRepository;
+  private final IRolEntityMapper rolEntityMapper;
+  private final ITokenRepository tokenRepository;
+  private final ITokenEntityMapper tokenEntityMapper;
+  private final ICategoryRepository categoryRepository;
+  private final ICategoryEntityMapper categoryEntityMapper;
+  private final ICommentRepository commentRepository;
+  private final ICommentEntityMapper commentEntityMapper;
+  private final ICommentEntityIdMapper commentEntityIdMapper;
+  private final IRateRepository rateRepository;
+  private final IRateEntityMapper rateEntityMapper;
+  private final IRateEntityIdMapper rateEntityIdMapper;
+  private final IVideoRepository videoRepository;
+  private final IVideoEntityMapper videoEntityMapper;
+  private final IVideoEntityIdMapper videoEntityIdMapper;
+  private final ITutorshipRepository tutorshipRepository;
+  private final ITutorshipEntityMapper tutorshipEntityMapper;
+  private final ITutorshipEntityIdMapper tutorshipEntityIdMapper;
+  private final ISectionRepository sectionRepository;
+  private final ISectionEntityMapper sectionEntityMapper;
+  private final ISectionEntityIdMapper sectionEntityIdMapper;
+  private final ICourseRepository courseRepository;
+  private final ICourseEntityMapper courseEntityMapper;
 
-    @Bean
-    public IPasswordEncoderPort passwordEncoderPort(){
-        return new PasswordEncoderAdapter();
-    }
+  @Bean
+  public IPasswordEncoderPort passwordEncoderPort() {
+    return new PasswordEncoderAdapter();
+  }
 
-    @Bean
-    public IUserPersistencePort userPersistence(){
+  @Bean
+  public IUserPersistencePort userPersistence() {
+    return new UserJpaAdapter(userRepository, userEntityMapper);
+  }
 
-        return new UserJpaAdapter(userRepository, userEntityMapper);
-    }
+  @Bean
+  public IUserServicePort userService() {
+    return new UserUseCase(
+      userPersistence(),
+      tokenService(),
+      passwordEncoderPort()
+    );
+  }
 
-    @Bean
-    public IUserServicePort userService(){
-        return new UserUseCase(userPersistence(), tokenService(), passwordEncoderPort());
-    }
+  @Bean
+  public IRolPersistencePort rolPersistence() {
+    return new RolJpaAdapter(rolRepository, rolEntityMapper);
+  }
 
-    @Bean
-    public IRolPersistencePort rolPersistence(){
-        return new RolJpaAdapter(rolRepository, rolEntityMapper);
-    }
+  @Bean
+  public IRolServicePort rolService() {
+    return new RolUseCase(rolPersistence());
+  }
 
-    @Bean
-    public IRolServicePort rolService(){
-        return new RolUseCase(rolPersistence());
-    }
+  @Bean
+  public ITokenPersistencePort tokenPersistence() {
+    return new TokenJpaAdapter(tokenRepository, tokenEntityMapper);
+  }
 
-    @Bean
-    public ITokenPersistencePort tokenPersistence() {
-        return new TokenJpaAdapter(tokenRepository, tokenEntityMapper);
-    }
+  @Bean
+  public ITokenServicePort tokenService() {
+    return new TokenUseCase(tokenPersistence());
+  }
 
-    @Bean
-    public ITokenServicePort tokenService() {
-        return new TokenUseCase(tokenPersistence());
-    }
+  @Bean
+  public IRatePersistencePort ratePersistencePort() {
+    return new RateJpaAdapter(
+      rateRepository,
+      rateEntityMapper,
+      rateEntityIdMapper
+    );
+  }
 
-    @Bean
-    public IRatePersistencePort ratePersistencePort() {
-        return new RateJpaAdapter(rateRepository, rateEntityMapper);
-    }
+  @Bean
+  public IRateServicePort rateServicePort() {
+    return new RateUseCase(ratePersistencePort());
+  }
 
-    @Bean
-    public IRateServicePort rateServicePort() {
-        return new RateUseCase(ratePersistencePort());
-    }
+  @Bean
+  public ICommentPersistencePort commentPersistencePort() {
+    return new CommentJpaAdapter(
+      commentRepository,
+      commentEntityMapper,
+      commentEntityIdMapper
+    );
+  }
 
-    @Bean
-    public ICommentPersistencePort commentPersistencePort() {
-        return new CommentJpaAdapter(commentRepository, commentEntityMapper);
-    }
+  @Bean
+  public ICommentServicePort commentServicePort() {
+    return new CommentUseCase(commentPersistencePort());
+  }
 
-    @Bean
-    public ICommentServicePort commentServicePort() {
-        return new CommentUseCase(commentPersistencePort());
-    }
+  @Bean
+  public ICategoryPersistencePort categoryPersistencePort() {
+    return new CategoryJpaAdapter(categoryRepository, categoryEntityMapper);
+  }
 
-    @Bean
-    public ICategoryPersistencePort categoryPersistencePort() {
-      return new CategoryJpaAdapter(categoryRepository, categoryEntityMapper);
-    }
-    
-    @Bean
-    public ICategoryServicePort categoryServicePort() {
-        return new CategoryUseCase(categoryPersistencePort());
-    }
+  @Bean
+  public ICategoryServicePort categoryServicePort() {
+    return new CategoryUseCase(categoryPersistencePort());
+  }
 
-    @Bean
-    public IVideoPersistencePort videoPersistencePort() {
-        return new VideoJpaAdapter(videoRepository, videoEntityMapper);
-    }
+  @Bean
+  public IVideoPersistencePort videoPersistencePort() {
+    return new VideoJpaAdapter(
+      videoRepository,
+      videoEntityMapper,
+      videoEntityIdMapper
+    );
+  }
 
-    @Bean
-    public IVideoServicePort videoServicePort() {
-        return new VideoUseCase(videoPersistencePort());
-    }
+  @Bean
+  public IVideoServicePort videoServicePort() {
+    return new VideoUseCase(videoPersistencePort());
+  }
 
-    @Bean
-    public ITutorshipPersistencePort tutorshipPersistencePort() {
-        return new TutorshipJpaAdapter(tutorshipRepository, tutorshipEntityMapper);
-    }
+  @Bean
+  public ITutorshipPersistencePort tutorshipPersistencePort() {
+    return new TutorshipJpaAdapter(
+      tutorshipRepository,
+      tutorshipEntityMapper,
+      tutorshipEntityIdMapper
+    );
+  }
 
-    @Bean
-    public ITutorshipServicePort tutorshipServicePort() {
-        return new TutorshipUseCase(tutorshipPersistencePort());
-    }
+  @Bean
+  public ITutorshipServicePort tutorshipServicePort() {
+    return new TutorshipUseCase(tutorshipPersistencePort());
+  }
 
-    @Bean
-    public ISectionPersistencePort sectionPersistencePort() {
-        return new SectionJpaAdapter(sectionRepository, sectionEntityMapper);
-    }
+  @Bean
+  public ISectionPersistencePort sectionPersistencePort() {
+    return new SectionJpaAdapter(
+      sectionRepository,
+      sectionEntityMapper,
+      sectionEntityIdMapper
+    );
+  }
 
-    @Bean
-    public ISectionServicePort sectionServicePort() {
-        return new SectionUseCase(sectionPersistencePort());
-    }
+  @Bean
+  public ISectionServicePort sectionServicePort() {
+    return new SectionUseCase(sectionPersistencePort());
+  }
 
+  @Bean
+  public ICoursePersistencePort coursePersistencePort() {
+    return new CourseJpaAdapter(courseRepository, courseEntityMapper);
+  }
 
-    @Bean
-    public ICoursePersistencePort coursePersistencePort() {
-        return new CourseJpaAdapter(courseRepository, courseEntityMapper);
-    }
-
-    public ICourseServicePort courseServicePort() {
-      return new CourseUseCase(coursePersistencePort());
-    
-    }    
-
-    
-
+  public ICourseServicePort courseServicePort() {
+    return new CourseUseCase(coursePersistencePort());
+  }
 }

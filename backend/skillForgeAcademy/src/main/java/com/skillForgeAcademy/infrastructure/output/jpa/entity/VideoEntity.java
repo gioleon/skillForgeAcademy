@@ -20,7 +20,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "videos")
-@IdClass(VideoId.class)
+@IdClass(VideoEntityId.class)
 public class VideoEntity {
 
     @Id

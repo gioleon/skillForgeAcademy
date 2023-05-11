@@ -7,14 +7,12 @@ import com.skillForgeAcademy.infrastructure.output.jpa.entity.UserEntity;
 import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IUserEntityMapper;
 import com.skillForgeAcademy.infrastructure.output.jpa.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 
 import java.util.List;
 import java.util.Optional;
 
 
-@Slf4j
 @RequiredArgsConstructor
 public class UserJpaAdapter implements IUserPersistencePort {
     /*
@@ -35,7 +33,7 @@ public class UserJpaAdapter implements IUserPersistencePort {
     public UserModel find(Long aLong) {
         Optional<UserEntity> userEntity = this.repository.findById(aLong);
         if (userEntity.isEmpty()) {
-            throw new NoDataFoundException();
+            throw new NoDataFoundException("NO DATA FOUND");
         }
         return userEntityMapper.toModel(userEntity.get());
     }
@@ -44,7 +42,7 @@ public class UserJpaAdapter implements IUserPersistencePort {
     public List<UserModel> findAll() {
         List<UserEntity> userEntities = (List<UserEntity>) repository.findAll();
         if (userEntities.isEmpty()){
-            throw new NoDataFoundException();
+            throw new NoDataFoundException("NO DATA FOUND");
         }
         return userEntityMapper.toModelList(userEntities);
     }
@@ -53,7 +51,7 @@ public class UserJpaAdapter implements IUserPersistencePort {
     public UserModel delete(Long id) {
         Optional<UserEntity> user = repository.findById(id);
         if (user.isEmpty()) {
-            throw new NoDataFoundException();
+            throw new NoDataFoundException("NO DATA FOUND");
         }
         this.repository.deleteById(id);
 
@@ -64,7 +62,7 @@ public class UserJpaAdapter implements IUserPersistencePort {
     public UserModel findByEmail(String email) {
         Optional<UserEntity> user = this.repository.findByEmail(email);
         if (user.isEmpty()){
-            throw new NoDataFoundException();
+            throw new NoDataFoundException("NO DATA FOUND");
         }
         return userEntityMapper.toModel(user.get());
     }

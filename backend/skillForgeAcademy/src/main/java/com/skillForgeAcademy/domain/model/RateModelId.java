@@ -9,8 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RolModel {
+public class RateModelId {
 
-  private int id;
-  private String name;
+  private CourseModel course;
+  private UserModel user;
 }

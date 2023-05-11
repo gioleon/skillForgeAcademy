@@ -12,9 +12,9 @@ import org.mapstruct.ReportingPolicy;
   unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public interface ICategoryEntityMapper {
-  CategoryModel toModel(CategoryModel categoryModel);
-  CategoryEntity toEntity(CategoryEntity catetEntity);
+  CategoryModel toModel(CategoryEntity categoryEntity);
+  CategoryEntity toEntity(CategoryModel categoryModel);
   List<CategoryModel> toCategoryModelList(
-    List<CategoryModel> categoryModelList
+    List<CategoryEntity> categoryEntityList
   );
 }

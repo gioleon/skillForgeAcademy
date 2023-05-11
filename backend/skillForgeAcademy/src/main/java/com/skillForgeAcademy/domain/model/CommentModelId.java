@@ -5,12 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
-@AllArgsConstructor
+@Getter
 @NoArgsConstructor
-public class RolModel {
-
-  private int id;
-  private String name;
+@AllArgsConstructor
+public class CommentModelId {
+  private CourseModel course;
+  private UserModel user;
 }

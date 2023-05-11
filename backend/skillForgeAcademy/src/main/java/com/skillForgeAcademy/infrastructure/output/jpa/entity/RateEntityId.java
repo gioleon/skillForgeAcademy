@@ -13,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class RateId implements Serializable{
+public class RateEntityId implements Serializable{
     private CourseEntity course;
     private UserEntity user;
 }

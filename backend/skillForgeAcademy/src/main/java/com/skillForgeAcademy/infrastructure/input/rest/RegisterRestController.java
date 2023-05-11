@@ -1,32 +1,26 @@
 package com.skillForgeAcademy.infrastructure.input.rest;
 
 import com.skillForgeAcademy.application.dto.request.UserRequestDto;
-import com.skillForgeAcademy.application.dto.response.TokenResponseDto;
-import com.skillForgeAcademy.application.handler.ITokenHandler;
 import com.skillForgeAcademy.application.handler.IUserHandler;
-import com.skillForgeAcademy.domain.model.TokenModel;
+
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Slf4j
+
+
 @RestController
 @RequestMapping("/api/register")
 @RequiredArgsConstructor
 public class RegisterRestController {
 
     private final IUserHandler userHandler;
-
-    private final ITokenHandler tokenHandler;
-
-    private final BCryptPasswordEncoder passwordEncoder;
-
-    private final StreamBridge sender;
 
     @PostMapping
     public ResponseEntity<HttpStatus> register(@RequestBody UserRequestDto user) {
