@@ -51,6 +51,9 @@ public class UserUseCase implements IUserServicePort {
     // if user not exists, setting user and create verification token
     userModel.setRoles(Arrays.asList(new RolModel(1, "ROLE_USER")));
 
+    // Encode password
+    userModel.setPassword(passwordEncoder.encode(userModel.getPassword()));
+
     // save user
     this.userPersistencePort.create(userModel);
 

@@ -62,7 +62,7 @@ public class UserJpaAdapter implements IUserPersistencePort {
     public UserModel findByEmail(String email) {
         Optional<UserEntity> user = this.repository.findByEmail(email);
         if (user.isEmpty()){
-            throw new NoDataFoundException("NO DATA FOUND");
+            return null;
         }
         return userEntityMapper.toModel(user.get());
     }
