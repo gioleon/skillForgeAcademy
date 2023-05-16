@@ -1,20 +1,17 @@
-import "./Course.css"
+import "./Course.css";
 export function Course({ titleCourse, autor, imgCourse, categorie }) {
   return (
-    <article className="cr-courseCard">
-      <header className="cr-courseCard-header">
-        <img src={imgCourse} alt="" className="cr-courseCard-image" />
-      </header>
-      <h2 className="cr-courseCard-title">{titleCourse}</h2>
-      <div className="cr-courseCard-content">
-        <p className="cr-courseCard-autor">{autor}</p>
-        <a href="" className="cr-courseCard-cat">
-          {categorie}
-        </a>
+    <div className="card w-96 bg-base-100 shadow-xl">
+      <figure>
+        <img src={imgCourse} alt="Portada course" />
+      </figure>
+      <div className="card-body">
+        <h2 className="card-title">{titleCourse}</h2>
+        <p>{categorie}</p>
+        <div className="card-actions justify-end">
+          <button className="btn btn-primary">Ver curso</button>
+        </div>
       </div>
-      <button href="" className="cr-courseCard-btn-view">
-        Ver curso
-      </button>
-    </article>
+    </div>
   );
 }
