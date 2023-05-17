@@ -25,10 +25,8 @@ public class CourseEntity {
     @OneToMany
     private List<CategoryEntity> category;
     private String description;
-    
+
     @ManyToOne
     private UserEntity owner;
     private String name;
-    
-
 }

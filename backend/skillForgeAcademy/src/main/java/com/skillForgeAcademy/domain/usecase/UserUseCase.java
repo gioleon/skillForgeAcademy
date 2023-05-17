@@ -6,10 +6,13 @@ import com.skillForgeAcademy.domain.exception.DomainException;
 import com.skillForgeAcademy.domain.model.RolModel;
 import com.skillForgeAcademy.domain.model.TokenModel;
 import com.skillForgeAcademy.domain.model.UserModel;
+import com.skillForgeAcademy.domain.spi.broker.IEmailSenderPort;
 import com.skillForgeAcademy.domain.spi.passwordencoder.IPasswordEncoderPort;
 import com.skillForgeAcademy.domain.spi.persistence.IUserPersistencePort;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class UserUseCase implements IUserServicePort {
@@ -18,14 +21,18 @@ public class UserUseCase implements IUserServicePort {
   private ITokenServicePort tokenServicePort;
   private IPasswordEncoderPort passwordEncoder;
 
+  private IEmailSenderPort emailSenderPort;
+
   public UserUseCase(
-    IUserPersistencePort userPersistencePort,
-    ITokenServicePort tokenServicePort,
-    IPasswordEncoderPort passwordEncoderPort
-  ) {
+      IUserPersistencePort userPersistencePort,
+      ITokenServicePort tokenServicePort,
+      IPasswordEncoderPort passwordEncoderPort,
+      IEmailSenderPort emailSenderPort) {
+
     this.userPersistencePort = userPersistencePort;
     this.tokenServicePort = tokenServicePort;
     this.passwordEncoder = passwordEncoderPort;
+    this.emailSenderPort = emailSenderPort;
   }
 
   @Override
@@ -40,12 +47,10 @@ public class UserUseCase implements IUserServicePort {
 
   @Override
   public void register(UserModel userModel) {
-    UserModel userFound =
-      this.userPersistencePort.findByEmail(userModel.getEmail());
+    UserModel userFound = this.userPersistencePort.findByEmail(userModel.getEmail());
     if (userFound != null) {
       throw new DomainException(
-        "THERE'S ALREADY AN USER WITH THE GIVEN EMAIL: " + userModel.getEmail()
-      );
+          "THERE'S ALREADY AN USER WITH THE GIVEN EMAIL: " + userModel.getEmail());
     }
 
     // if user not exists, setting user and create verification token
@@ -57,18 +62,25 @@ public class UserUseCase implements IUserServicePort {
     // save user
     this.userPersistencePort.create(userModel);
 
-    TokenModel token = new TokenModel(
-      UUID.randomUUID().toString(),
-      this.userPersistencePort.findByEmail(userModel.getEmail())
-    );
+    TokenModel token =
+        new TokenModel(
+            UUID.randomUUID().toString(),
+            this.userPersistencePort.findByEmail(userModel.getEmail()));
 
     // save token
     this.tokenServicePort.create(token);
 
     // sending email
-    String activeURL =
-      "http://localhost:8080/api/register/active?token=" + token.getToken();
-    // sender.send("register.token", activeURL);
+    String activeURL = "http://localhost:8080/api/register/active?token=" + token.getToken();
+
+    Map<String, String> data = new HashMap<>();
+    data.put("activationLink", activeURL);
+    data.put("recipientName", userModel.getName());
+    data.put("expirationHours", "24");
+    data.put("recipientEmail", userModel.getEmail());
+
+    // Sending activation email.
+    emailSenderPort.send("register.data", data);
   }
 
   @Override
@@ -82,8 +94,7 @@ public class UserUseCase implements IUserServicePort {
 
   @Override
   public UserModel create(UserModel user) {
-    final String encodedPassword =
-      this.passwordEncoder.encode(user.getPassword());
+    final String encodedPassword = this.passwordEncoder.encode(user.getPassword());
     // set password to the user
     user.setPassword(encodedPassword);
     return this.userPersistencePort.create(user);

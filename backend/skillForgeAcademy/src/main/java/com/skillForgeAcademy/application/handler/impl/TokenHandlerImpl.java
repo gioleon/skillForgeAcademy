@@ -2,7 +2,7 @@ package com.skillForgeAcademy.application.handler.impl;
 
 import com.skillForgeAcademy.application.dto.response.TokenResponseDto;
 import com.skillForgeAcademy.application.handler.ITokenHandler;
-import com.skillForgeAcademy.application.mapper.ITokenResponseMapper;
+import com.skillForgeAcademy.application.mapper.response.ITokenResponseMapper;
 import com.skillForgeAcademy.domain.api.ITokenServicePort;
 import com.skillForgeAcademy.domain.model.TokenModel;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.skillForgeAcademy.application.mapper;
+package com.skillForgeAcademy.application.mapper.request;
 
 import com.skillForgeAcademy.application.dto.request.UserRequestDto;
 import com.skillForgeAcademy.domain.model.UserModel;

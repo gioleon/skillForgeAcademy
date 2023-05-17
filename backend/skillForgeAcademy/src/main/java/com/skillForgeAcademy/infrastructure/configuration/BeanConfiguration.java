@@ -10,6 +10,7 @@ import com.skillForgeAcademy.domain.api.ITokenServicePort;
 import com.skillForgeAcademy.domain.api.ITutorshipServicePort;
 import com.skillForgeAcademy.domain.api.IUserServicePort;
 import com.skillForgeAcademy.domain.api.IVideoServicePort;
+import com.skillForgeAcademy.domain.spi.broker.IEmailSenderPort;
 import com.skillForgeAcademy.domain.spi.passwordencoder.IPasswordEncoderPort;
 import com.skillForgeAcademy.domain.spi.persistence.ICategoryPersistencePort;
 import com.skillForgeAcademy.domain.spi.persistence.ICommentPersistencePort;
@@ -31,6 +32,7 @@ import com.skillForgeAcademy.domain.usecase.TokenUseCase;
 import com.skillForgeAcademy.domain.usecase.TutorshipUseCase;
 import com.skillForgeAcademy.domain.usecase.UserUseCase;
 import com.skillForgeAcademy.domain.usecase.VideoUseCase;
+import com.skillForgeAcademy.infrastructure.output.broker.adapter.EmailSenderAdapter;
 import com.skillForgeAcademy.infrastructure.output.jpa.adapter.CategoryJpaAdapter;
 import com.skillForgeAcademy.infrastructure.output.jpa.adapter.CommentJpaAdapter;
 import com.skillForgeAcademy.infrastructure.output.jpa.adapter.CourseJpaAdapter;
@@ -112,12 +114,14 @@ public class BeanConfiguration {
   }
 
   @Bean
+  public IEmailSenderPort emailSenderPort() {
+    return new EmailSenderAdapter();
+  }
+
+  @Bean
   public IUserServicePort userService() {
     return new UserUseCase(
-      userPersistence(),
-      tokenService(),
-      passwordEncoderPort()
-    );
+        userPersistence(), tokenService(), passwordEncoderPort(), emailSenderPort());
   }
 
   @Bean
@@ -142,11 +146,7 @@ public class BeanConfiguration {
 
   @Bean
   public IRatePersistencePort ratePersistencePort() {
-    return new RateJpaAdapter(
-      rateRepository,
-      rateEntityMapper,
-      rateEntityIdMapper
-    );
+    return new RateJpaAdapter(rateRepository, rateEntityMapper, rateEntityIdMapper);
   }
 
   @Bean
@@ -156,11 +156,7 @@ public class BeanConfiguration {
 
   @Bean
   public ICommentPersistencePort commentPersistencePort() {
-    return new CommentJpaAdapter(
-      commentRepository,
-      commentEntityMapper,
-      commentEntityIdMapper
-    );
+    return new CommentJpaAdapter(commentRepository, commentEntityMapper, commentEntityIdMapper);
   }
 
   @Bean
@@ -180,11 +176,7 @@ public class BeanConfiguration {
 
   @Bean
   public IVideoPersistencePort videoPersistencePort() {
-    return new VideoJpaAdapter(
-      videoRepository,
-      videoEntityMapper,
-      videoEntityIdMapper
-    );
+    return new VideoJpaAdapter(videoRepository, videoEntityMapper, videoEntityIdMapper);
   }
 
   @Bean
@@ -195,10 +187,7 @@ public class BeanConfiguration {
   @Bean
   public ITutorshipPersistencePort tutorshipPersistencePort() {
     return new TutorshipJpaAdapter(
-      tutorshipRepository,
-      tutorshipEntityMapper,
-      tutorshipEntityIdMapper
-    );
+        tutorshipRepository, tutorshipEntityMapper, tutorshipEntityIdMapper);
   }
 
   @Bean
@@ -208,11 +197,7 @@ public class BeanConfiguration {
 
   @Bean
   public ISectionPersistencePort sectionPersistencePort() {
-    return new SectionJpaAdapter(
-      sectionRepository,
-      sectionEntityMapper,
-      sectionEntityIdMapper
-    );
+    return new SectionJpaAdapter(sectionRepository, sectionEntityMapper, sectionEntityIdMapper);
   }
 
   @Bean

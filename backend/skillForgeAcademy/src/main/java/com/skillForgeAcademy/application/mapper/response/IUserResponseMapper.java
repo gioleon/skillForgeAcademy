@@ -1,4 +1,4 @@
-package com.skillForgeAcademy.application.mapper;
+package com.skillForgeAcademy.application.mapper.response;
 
 import com.skillForgeAcademy.application.dto.response.UserResponseDto;
 import com.skillForgeAcademy.domain.model.UserModel;

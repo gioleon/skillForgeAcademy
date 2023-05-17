@@ -1,4 +1,4 @@
-package com.skillForgeAcademy.application.mapper;
+package com.skillForgeAcademy.application.mapper.response;
 
 import com.skillForgeAcademy.application.dto.response.RolResponseDto;
 import com.skillForgeAcademy.domain.model.RolModel;
@@ -6,11 +6,14 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 
+import java.util.List;
+
 @Mapper(componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
-public interface IRolRequestMapper {
+public interface IRolResponseMapper {
 
-    RolModel toModel(RolResponseDto rolResponseDto);
+    RolResponseDto toResponse(RolModel rolModel);
+    List<RolResponseDto> toResponseList(List<RolModel> rolModels);
 
 }
