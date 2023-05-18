@@ -1,5 +1,4 @@
-package com.skillForgeAcademy.application.mapper;
-
+package com.skillForgeAcademy.application.mapper.response;
 
 import com.skillForgeAcademy.application.dto.response.TokenResponseDto;
 import com.skillForgeAcademy.domain.model.TokenModel;

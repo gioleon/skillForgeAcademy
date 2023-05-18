@@ -1,4 +1,4 @@
-package com.skillForgeAcademy.domain.model;
+package com.skillForgeAcademy.application.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,11 +7,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class RateModel {
-  private CourseModel course;
-  private UserModel user;
-
+@AllArgsConstructor
+public class RateRequestDto {
+  private CourseRequestDto course;
+  private UserRequestDto user;
   private float rate;
 }
