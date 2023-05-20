@@ -17,12 +17,12 @@ public class TokenModel {
   private LocalDateTime createdAt;
   private LocalDateTime expiredAt;
   private LocalDateTime confirmedAt;
-  private UserModel user;
+  private long userId;
 
-  public TokenModel(String token, UserModel user) {
+  public TokenModel(String token, Long userId) {
     this.token = token;
     this.createdAt = LocalDateTime.now();
     this.expiredAt = LocalDateTime.now().plusHours(24);
-    this.user = user;
+    this.userId = userId;
   }
 }

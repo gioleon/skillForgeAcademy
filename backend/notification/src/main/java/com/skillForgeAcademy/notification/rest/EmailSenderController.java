@@ -1,5 +1,6 @@
 package com.skillForgeAcademy.notification.rest;
 
+import com.skillForgeAcademy.notification.model.UserResponseBroker;
 import com.skillForgeAcademy.notification.service.impl.EmailService;
 import jakarta.mail.MessagingException;
 import java.util.function.Consumer;
@@ -14,7 +15,7 @@ public class EmailSenderController {
   private final EmailService emailSender;
 
   @Bean
-  Consumer<String> receiveEmail() {
+  Consumer<UserResponseBroker> receiveEmail() {
     return data -> {
       try {
         emailSender.sendActivationEmail(data);

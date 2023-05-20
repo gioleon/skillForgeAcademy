@@ -31,7 +31,6 @@ public class TokenEntity {
     private LocalDateTime expiredAt;
     private LocalDateTime confirmedAt;
 
-    @OneToOne
-    private UserEntity userEntity;
+    private long userId;
 
 }

@@ -2,19 +2,27 @@ package com.skillForgeAcademy.domain.usecase;
 
 import com.skillForgeAcademy.domain.api.ICourseServicePort;
 import com.skillForgeAcademy.domain.model.CourseModel;
+import com.skillForgeAcademy.domain.model.UserModel;
 import com.skillForgeAcademy.domain.spi.persistence.ICoursePersistencePort;
+import com.skillForgeAcademy.domain.spi.persistence.IUserPersistencePort;import org.apache.catalina.User;
 import java.util.List;
 
 public class CourseUseCase implements ICourseServicePort {
 
   private ICoursePersistencePort coursePersistencePort;
+  private IUserPersistencePort userPersistencePort;
 
-  public CourseUseCase(ICoursePersistencePort coursePersistencePort) {
+  public CourseUseCase(
+      ICoursePersistencePort coursePersistencePort, IUserPersistencePort userPersistencePort) {
     this.coursePersistencePort = coursePersistencePort;
+    this.userPersistencePort = userPersistencePort;
   }
 
   @Override
   public CourseModel create(CourseModel courseModel) {
+    List<UserModel> users = userPersistencePort.findAll();
+    UserModel userModel = userPersistencePort.find(courseModel.getOwner().getId());
+    courseModel.setOwner(userModel);
     return coursePersistencePort.create(courseModel);
   }
 

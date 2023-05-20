@@ -1,12 +1,11 @@
 package com.skillForgeAcademy.notification.service;
 
+import com.skillForgeAcademy.notification.model.UserResponseBroker;
 import jakarta.mail.MessagingException;
-import java.util.Properties;
 
 public interface IActivateEmail {
-  Properties configPropertiesActivationEmail();
 
-  void sendActivationEmail(Object data) throws MessagingException;
+  void sendActivationEmail(UserResponseBroker userResponseBroker) throws MessagingException;
 
   String getActivationEmailTemplate(
       String recipientName, String activationLink, String expirationHours);
