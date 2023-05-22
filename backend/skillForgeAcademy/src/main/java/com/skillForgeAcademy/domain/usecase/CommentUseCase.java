@@ -5,6 +5,7 @@ import com.skillForgeAcademy.domain.model.CommentModel;
 import com.skillForgeAcademy.domain.model.CommentModelId;
 import com.skillForgeAcademy.domain.spi.persistence.ICommentPersistencePort;
 import java.util.List;
+import java.util.UUID;
 
 public class CommentUseCase implements ICommentServicePort {
 
@@ -16,6 +17,7 @@ public class CommentUseCase implements ICommentServicePort {
 
   @Override
   public CommentModel create(CommentModel commentModel) {
+    commentModel.setId(UUID.randomUUID().toString());
     return commentPersistencePort.create(commentModel);
   }
 

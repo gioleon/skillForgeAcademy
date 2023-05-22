@@ -1,17 +1,14 @@
 package com.skillForgeAcademy.application.dto.request;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
-public class CommentRequestIdDto {
-
+@AllArgsConstructor
+public class SectionRequestDto {
   private String id;
   private CourseRequestDto course;
-  private UserRequestDto user;
+  private String name;
 }
