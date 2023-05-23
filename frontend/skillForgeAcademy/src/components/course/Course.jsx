@@ -1,4 +1,3 @@
-import "./Course.css";
 export function Course({ titleCourse, autor, imgCourse, categorie }) {
   return (
     <div className="card w-96 bg-base-100 shadow-xl">

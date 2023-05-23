@@ -10,6 +10,8 @@ import { Home } from "./pages/public";
 import { CircularProgress } from "@mui/material";
 import { Navbar } from "./components";
 import { PublicGuard } from "./guard/public.guard";
+import { Course, courses } from "./components/course";
+import ViewCourse from "./pages/public/view-course/ViewCourse";
 
 // lazy imports
 const Private = lazy(() => import("./pages/private/Private"));
@@ -25,7 +27,14 @@ const Verification = lazy(
 function App() {
   const actualUrl: string = window.location.href;
   console.log(actualUrl);
-
+  //Rutas de cursos
+  const courseRoutes = courses.map((course) => (
+    <Route
+      key={course.titleCourse}
+      path={course.titleCourse}
+      element={<ViewCourse course={course} />}
+    />
+  ));
   return (
     <div className="App">
       <Suspense
@@ -43,6 +52,7 @@ function App() {
             )}
             <RoutesWithNotFound>
               {/* public routes */}
+              {courseRoutes}
               <Route path={PublicRoutes.LOGIN} element={<Login />} />
               <Route element={<PublicGuard />}>
                 <Route
