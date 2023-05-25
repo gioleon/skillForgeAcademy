@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 export function Course({ titleCourse, autor, imgCourse, categorie }) {
   return (
     <div className="card w-96 bg-base-100 shadow-xl">
@@ -8,7 +9,12 @@ export function Course({ titleCourse, autor, imgCourse, categorie }) {
         <h2 className="card-title">{titleCourse}</h2>
         <p>{categorie}</p>
         <div className="card-actions justify-end">
-          <button className="btn btn-primary">Ver curso</button>
+          <Link
+            to={`/${titleCourse}`}
+            className="btn bg-gray-800 text-white normal-case border-none hover:btn-info "
+          >
+            Ver curso
+          </Link>
         </div>
       </div>
     </div>
