@@ -31,13 +31,13 @@ public class CommentHandlerImpl implements ICommentHandler {
   @Override
   public CommentResponseDto find(CommentRequestIdDto commentRequestIdDto) {
     CommentModelId commentModelId = commentRequestIdMapper.toModel(commentRequestIdDto);
-    return commentResponseMapper.toReponse(commentServicePort.find(commentModelId));
+    return commentResponseMapper.toResponse(commentServicePort.find(commentModelId));
   }
 
   @Override
   public CommentResponseDto delete(CommentRequestIdDto commentRequestIdDto) {
     CommentModelId commentModelId = commentRequestIdMapper.toModel(commentRequestIdDto);
-    return commentResponseMapper.toReponse(commentServicePort.delete(commentModelId));
+    return commentResponseMapper.toResponse(commentServicePort.delete(commentModelId));
   }
 
   @Override

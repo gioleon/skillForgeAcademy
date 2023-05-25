@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentModel {
+    private String id;
     private CourseModel course;
     private UserModel user;
     private String content;

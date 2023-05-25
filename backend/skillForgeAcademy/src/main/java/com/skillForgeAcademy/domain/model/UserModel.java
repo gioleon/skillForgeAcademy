@@ -14,7 +14,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserModel {
-    private long id;
+    private Long id;
     private String name;
     private String lastName;
     private String email;

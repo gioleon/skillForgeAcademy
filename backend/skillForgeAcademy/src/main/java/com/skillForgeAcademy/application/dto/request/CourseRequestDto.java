@@ -11,6 +11,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CourseRequestDto {
+
+  private long id;
   private List<CategoryRequestDto> category;
   private String name;
   private UserRequestDto owner;

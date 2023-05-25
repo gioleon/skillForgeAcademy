@@ -1,16 +1,28 @@
 package com.skillForgeAcademy.notification.service.impl;
 
+import com.skillForgeAcademy.notification.model.UserResponseBroker;
 import com.skillForgeAcademy.notification.service.IActivateEmail;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
-import jakarta.mail.Transport;
-import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
-import java.util.HashMap;
 import java.util.Properties;
+import org.springframework.core.env.Environment;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
 
+@Service
 public class EmailService implements IActivateEmail {
+
+  private Environment env;
+
+  private JavaMailSender mailSender;
+
+  public EmailService(Environment env, JavaMailSender javaMailSender) {
+    this.env = env;
+    this.mailSender = javaMailSender;
+  }
 
   public Message buildMessage(Properties properties) {
     Session session = Session.getDefaultInstance(properties);
@@ -18,51 +30,36 @@ public class EmailService implements IActivateEmail {
   }
 
   @Override
-  public Properties configPropertiesActivationEmail() {
-    Properties properties = new Properties();
-    properties.put("mail.smtp.host", "smtp.gmail.com");
-    properties.put("mail.smtp.port", "587");
-    properties.put("mail.smtp.auth", "true");
-    properties.put("mail.smtp.starttls.enable", "true");
+  public void sendActivationEmail(UserResponseBroker userResponseBroker) throws MessagingException {
 
-    return properties;
-  }
-
-  @Override
-  public void sendActivationEmail(Object data) throws MessagingException {
-
-    HashMap<String, String> userInfo = (HashMap<String, String>) data;
-
-    Properties properties = configPropertiesActivationEmail();
-    Message message = buildMessage(properties);
+    SimpleMailMessage message = new SimpleMailMessage();
 
     message.setSubject("Activate your Skill Forge Academy account");
-    message.setFrom(new InternetAddress("my email"));
+    message.setFrom(env.getProperty("spring.mail.username"));
     message.setText(
         getActivationEmailTemplate(
-            userInfo.get("recipientName"),
-            userInfo.get("activationLink"),
-            userInfo.get("expirationHours")));
-    message.setRecipient(
-        Message.RecipientType.TO, new InternetAddress(userInfo.get("recipientEmail")));
-    Transport.send(message);
+            userResponseBroker.getRecipientName(),
+            userResponseBroker.getActivationLink(),
+            userResponseBroker.getExpirationHours()));
+
+    message.setTo(userResponseBroker.getRecipientEmail());
+
+    mailSender.send(message);
   }
 
   @Override
   public String getActivationEmailTemplate(
       String recipientName, String activationLink, String expirationHours) {
     return """
-                Subject: Account Activation
-
-                Dear {recipientName},
+                Dear %s,
 
                 Thank you for registering for our service!
 
                 To activate your account, please click on the following link:
 
-                {activationLink}
+                %s
 
-                This link will expire in {expirationHours} hours.
+                This link will expire in %s hours.
 
                 If you have any questions, please do not hesitate to contact us.
 

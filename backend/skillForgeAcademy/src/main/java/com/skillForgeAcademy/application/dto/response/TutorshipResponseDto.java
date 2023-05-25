@@ -9,7 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentResponseIdDto {
+public class TutorshipResponseDto {
+  private String id;
+  private SectionResponseDto section;
   private CourseResponseDto course;
-  private UserResponseDto user;
+  private String name;
 }

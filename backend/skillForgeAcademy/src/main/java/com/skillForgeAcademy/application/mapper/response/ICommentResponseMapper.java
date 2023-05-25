@@ -11,7 +11,7 @@ import org.mapstruct.ReportingPolicy;
     unmappedSourcePolicy = ReportingPolicy.IGNORE,
     unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ICommentResponseMapper {
-  CommentResponseDto toReponse(CommentModel commentModel);
+  CommentResponseDto toResponse(CommentModel commentModel);
 
   List<CommentResponseDto> toResponseList(List<CommentModel> commentModelList);
 }

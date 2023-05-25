@@ -10,5 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoryRequestDto {
+
+    private Long id;
     private String name;
 }

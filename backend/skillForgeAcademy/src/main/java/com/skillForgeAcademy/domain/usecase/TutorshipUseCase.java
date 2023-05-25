@@ -5,6 +5,7 @@ import com.skillForgeAcademy.domain.model.TutorshipModel;
 import com.skillForgeAcademy.domain.model.TutorshipModelId;
 import com.skillForgeAcademy.domain.spi.persistence.ITutorshipPersistencePort;
 import java.util.List;
+import java.util.UUID;
 
 public class TutorshipUseCase implements ITutorshipServicePort {
 
@@ -16,6 +17,7 @@ public class TutorshipUseCase implements ITutorshipServicePort {
 
   @Override
   public TutorshipModel create(TutorshipModel tutorshipModel) {
+    tutorshipModel.setId(UUID.randomUUID().toString());
     return tutorshipPersistencePort.create(tutorshipModel);
   }
 

@@ -11,6 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class VideoModelId {
 
-  private long id;
+  private String id;
   private TutorshipModel tutorship;
 }

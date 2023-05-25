@@ -1,10 +1,6 @@
 package com.skillForgeAcademy.infrastructure.output.jpa.entity;
 
-
-
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.OneToOne;
@@ -23,12 +19,8 @@ import lombok.Setter;
 @IdClass(VideoEntityId.class)
 public class VideoEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+  @Id private String id;
 
-    @Id
-    @OneToOne
-    private TutorshipEntity tutorship;
-    private String urlVideo;
+  @Id @OneToOne private TutorshipEntity tutorship;
+  private String urlVideo;
 }

@@ -1,9 +1,6 @@
 package com.skillForgeAcademy.infrastructure.output.jpa.entity;
 
-
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.ManyToOne;
@@ -21,13 +18,8 @@ import lombok.Setter;
 @Table(name = "sections")
 @IdClass(SectionEntityId.class)
 public class SectionEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id private String id;
 
-    @Id
-    @ManyToOne
-    private CourseEntity course;
-    private String name;
-
+  @Id @ManyToOne private CourseEntity course;
+  private String name;
 }

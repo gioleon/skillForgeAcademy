@@ -15,5 +15,7 @@ public interface IUserHandler {
     void register(UserRequestDto userRequestDto);
     void updateIsEnable(Long id);
 
+    void activateAccount(String token);
+
 
 }

@@ -210,7 +210,8 @@ public class BeanConfiguration {
     return new CourseJpaAdapter(courseRepository, courseEntityMapper);
   }
 
+  @Bean
   public ICourseServicePort courseServicePort() {
-    return new CourseUseCase(coursePersistencePort());
+    return new CourseUseCase(coursePersistencePort(), userPersistence());
   }
 }
