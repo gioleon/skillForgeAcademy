@@ -1,4 +1,4 @@
-package com.skillForgeAcademy.domain.model;
+package com.skillForgeAcademy.application.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,9 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TutorshipModel {
+public class TutorshipRequestIdDto {
   private String id;
-  private SectionModel section;
-  private CourseModel course;
-  private String name;
+  private SectionRequestDto section;
+  private CourseRequestDto course;
 }

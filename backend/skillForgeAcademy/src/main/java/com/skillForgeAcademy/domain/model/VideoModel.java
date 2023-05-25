@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VideoModel {
-  private long id;
+  private String id;
   private TutorshipModel tutorship;
   private String urlVideo;
 }
