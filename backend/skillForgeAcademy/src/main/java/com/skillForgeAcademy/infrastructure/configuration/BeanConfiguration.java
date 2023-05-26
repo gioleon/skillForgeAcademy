@@ -207,7 +207,7 @@ public class BeanConfiguration {
 
   @Bean
   public ICoursePersistencePort coursePersistencePort() {
-    return new CourseJpaAdapter(courseRepository, courseEntityMapper);
+    return new CourseJpaAdapter(courseRepository, courseEntityMapper, userEntityMapper);
   }
 
   @Bean

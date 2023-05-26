@@ -38,4 +38,9 @@ public class CourseHandlerImpl implements ICourseHandler {
   public List<CourseResponseDto> getAllCourses() {
     return courseResponseMapper.toResponseList(courseServicePort.findAll());
   }
+
+  @Override
+  public List<CourseResponseDto> findByOwner(Long idOwner) {
+    return courseResponseMapper.toResponseList(courseServicePort.findByOwner(idOwner));
+  }
 }

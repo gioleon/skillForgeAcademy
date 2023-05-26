@@ -40,4 +40,9 @@ public class CourseRestController {
   public ResponseEntity<CourseResponseDto> delete(@PathVariable Long id) {
     return ResponseEntity.ok(courseHandler.delete(id));
   }
+
+  @GetMapping("/owner/{idOwner}")
+  public ResponseEntity<List<CourseResponseDto>> findByOwner(@PathVariable Long idOwner) {
+    return ResponseEntity.ok(courseHandler.findByOwner(idOwner));
+  }
 }

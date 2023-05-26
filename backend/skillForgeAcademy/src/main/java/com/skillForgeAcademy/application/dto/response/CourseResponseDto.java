@@ -16,4 +16,5 @@ public class CourseResponseDto {
   private String name;
   private UserResponseDto owner;
   private String description;
+  private String urlImage;
 }

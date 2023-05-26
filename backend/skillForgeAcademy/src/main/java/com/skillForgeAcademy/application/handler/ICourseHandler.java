@@ -5,8 +5,13 @@ import com.skillForgeAcademy.application.dto.response.CourseResponseDto;
 import java.util.List;
 
 public interface ICourseHandler {
-    void create(CourseRequestDto courseRequestDto);
-    CourseResponseDto find(Long id);
-    CourseResponseDto delete(Long id);
-    List<CourseResponseDto> getAllCourses();
+  void create(CourseRequestDto courseRequestDto);
+
+  CourseResponseDto find(Long id);
+
+  CourseResponseDto delete(Long id);
+
+  List<CourseResponseDto> getAllCourses();
+
+  List<CourseResponseDto> findByOwner(Long id);
 }
