@@ -15,6 +15,7 @@ public class CourseModel {
     private String name;
     private UserModel owner;
     private String description;
+    private String urlImage;
 
 
 }

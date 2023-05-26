@@ -17,4 +17,5 @@ public class CourseRequestDto {
   private String name;
   private UserRequestDto owner;
   private String description;
+  private String urlImage;
 }

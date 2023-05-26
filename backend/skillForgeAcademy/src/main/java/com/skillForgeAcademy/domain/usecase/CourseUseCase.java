@@ -4,7 +4,7 @@ import com.skillForgeAcademy.domain.api.ICourseServicePort;
 import com.skillForgeAcademy.domain.model.CourseModel;
 import com.skillForgeAcademy.domain.model.UserModel;
 import com.skillForgeAcademy.domain.spi.persistence.ICoursePersistencePort;
-import com.skillForgeAcademy.domain.spi.persistence.IUserPersistencePort;import org.apache.catalina.User;
+import com.skillForgeAcademy.domain.spi.persistence.IUserPersistencePort;
 import java.util.List;
 
 public class CourseUseCase implements ICourseServicePort {
@@ -39,5 +39,12 @@ public class CourseUseCase implements ICourseServicePort {
   @Override
   public CourseModel delete(Long id) {
     return coursePersistencePort.delete(id);
+  }
+
+  @Override
+  public List<CourseModel> findByOwner(Long idOwner) {
+    UserModel owner = new UserModel();
+    owner.setId(idOwner);
+    return coursePersistencePort.findByOwner(owner);
   }
 }
