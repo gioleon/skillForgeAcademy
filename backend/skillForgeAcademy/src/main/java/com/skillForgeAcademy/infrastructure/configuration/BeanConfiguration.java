@@ -3,6 +3,7 @@ package com.skillForgeAcademy.infrastructure.configuration;
 import com.skillForgeAcademy.domain.api.ICategoryServicePort;
 import com.skillForgeAcademy.domain.api.ICommentServicePort;
 import com.skillForgeAcademy.domain.api.ICourseServicePort;
+import com.skillForgeAcademy.domain.api.IInscriptionServicePort;
 import com.skillForgeAcademy.domain.api.IRateServicePort;
 import com.skillForgeAcademy.domain.api.IRolServicePort;
 import com.skillForgeAcademy.domain.api.ISectionServicePort;
@@ -15,6 +16,7 @@ import com.skillForgeAcademy.domain.spi.passwordencoder.IPasswordEncoderPort;
 import com.skillForgeAcademy.domain.spi.persistence.ICategoryPersistencePort;
 import com.skillForgeAcademy.domain.spi.persistence.ICommentPersistencePort;
 import com.skillForgeAcademy.domain.spi.persistence.ICoursePersistencePort;
+import com.skillForgeAcademy.domain.spi.persistence.IInscriptionPersistencePort;
 import com.skillForgeAcademy.domain.spi.persistence.IRatePersistencePort;
 import com.skillForgeAcademy.domain.spi.persistence.IRolPersistencePort;
 import com.skillForgeAcademy.domain.spi.persistence.ISectionPersistencePort;
@@ -25,6 +27,7 @@ import com.skillForgeAcademy.domain.spi.persistence.IVideoPersistencePort;
 import com.skillForgeAcademy.domain.usecase.CategoryUseCase;
 import com.skillForgeAcademy.domain.usecase.CommentUseCase;
 import com.skillForgeAcademy.domain.usecase.CourseUseCase;
+import com.skillForgeAcademy.domain.usecase.InscriptionUseCase;
 import com.skillForgeAcademy.domain.usecase.RateUseCase;
 import com.skillForgeAcademy.domain.usecase.RolUseCase;
 import com.skillForgeAcademy.domain.usecase.SectionUseCase;
@@ -36,6 +39,7 @@ import com.skillForgeAcademy.infrastructure.output.broker.adapter.EmailSenderAda
 import com.skillForgeAcademy.infrastructure.output.jpa.adapter.CategoryJpaAdapter;
 import com.skillForgeAcademy.infrastructure.output.jpa.adapter.CommentJpaAdapter;
 import com.skillForgeAcademy.infrastructure.output.jpa.adapter.CourseJpaAdapter;
+import com.skillForgeAcademy.infrastructure.output.jpa.adapter.InscriptionJpaAdapter;
 import com.skillForgeAcademy.infrastructure.output.jpa.adapter.RateJpaAdapter;
 import com.skillForgeAcademy.infrastructure.output.jpa.adapter.RolJpaAdapter;
 import com.skillForgeAcademy.infrastructure.output.jpa.adapter.SectionJpaAdapter;
@@ -47,6 +51,8 @@ import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ICategoryEntityMap
 import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ICommentEntityIdMapper;
 import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ICommentEntityMapper;
 import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ICourseEntityMapper;
+import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IInscriptionEntityIdMapper;
+import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IInscriptionEntityMapper;
 import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IRateEntityIdMapper;
 import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IRateEntityMapper;
 import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IRolEntityMapper;
@@ -61,6 +67,7 @@ import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IVideoEntityMapper
 import com.skillForgeAcademy.infrastructure.output.jpa.repository.ICategoryRepository;
 import com.skillForgeAcademy.infrastructure.output.jpa.repository.ICommentRepository;
 import com.skillForgeAcademy.infrastructure.output.jpa.repository.ICourseRepository;
+import com.skillForgeAcademy.infrastructure.output.jpa.repository.IInscriptionRepository;
 import com.skillForgeAcademy.infrastructure.output.jpa.repository.IRateRepository;
 import com.skillForgeAcademy.infrastructure.output.jpa.repository.IRolRepository;
 import com.skillForgeAcademy.infrastructure.output.jpa.repository.ISectionRepository;
@@ -102,6 +109,9 @@ public class BeanConfiguration {
   private final ISectionEntityIdMapper sectionEntityIdMapper;
   private final ICourseRepository courseRepository;
   private final ICourseEntityMapper courseEntityMapper;
+  private final IInscriptionRepository inscriptionRepository;
+  private final IInscriptionEntityMapper inscriptionEntityMapper;
+  private final IInscriptionEntityIdMapper inscriptionEntityIdMapper;
 
   @Bean
   public IPasswordEncoderPort passwordEncoderPort() {
@@ -213,5 +223,19 @@ public class BeanConfiguration {
   @Bean
   public ICourseServicePort courseServicePort() {
     return new CourseUseCase(coursePersistencePort(), userPersistence());
+  }
+
+  @Bean
+  public IInscriptionPersistencePort inscriptionPersistencePort() {
+    return new InscriptionJpaAdapter(
+        inscriptionRepository,
+        inscriptionEntityIdMapper,
+        inscriptionEntityMapper,
+        userEntityMapper);
+  }
+
+  @Bean
+  public IInscriptionServicePort inscriptionServicePort() {
+    return new InscriptionUseCase(inscriptionPersistencePort());
   }
 }
