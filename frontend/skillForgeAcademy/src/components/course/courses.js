@@ -7,7 +7,7 @@ const courses = [
     imgCourse:
       "https://images.pexels.com/photos/5212320/pexels-photo-5212320.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     categorie: "Matematicas",
-    active: false,
+    active: true,
   },
   {
     titleCourse: "Algoritmo y programacion",
