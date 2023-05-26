@@ -13,6 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserRequestDto {
 
+    private Long id;
     @JsonProperty("name")
     private String name;
     @JsonProperty("lastName")

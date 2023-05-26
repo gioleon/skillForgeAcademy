@@ -34,8 +34,8 @@ public class TokenJpaAdapter implements ITokenPersistencePort {
 
     @Override
     public TokenModel create(TokenModel token) {
-        TokenEntity tokenEntity = repository.save(tokenEntityMapper.toEntity(token));
-        return tokenEntityMapper.toModel(tokenEntity);
+        TokenEntity tokenEntity = tokenEntityMapper.toEntity(token);
+        return tokenEntityMapper.toModel(repository.save(tokenEntity));
     }
 
     @Override

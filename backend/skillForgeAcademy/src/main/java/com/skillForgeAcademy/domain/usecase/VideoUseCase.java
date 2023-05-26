@@ -5,6 +5,7 @@ import com.skillForgeAcademy.domain.model.VideoModel;
 import com.skillForgeAcademy.domain.model.VideoModelId;
 import com.skillForgeAcademy.domain.spi.persistence.IVideoPersistencePort;
 import java.util.List;
+import java.util.UUID;
 
 public class VideoUseCase implements IVideoServicePort {
 
@@ -16,6 +17,7 @@ public class VideoUseCase implements IVideoServicePort {
 
   @Override
   public VideoModel create(VideoModel videoModel) {
+    videoModel.setId(UUID.randomUUID().toString());
     return videoPersistencePort.create(videoModel);
   }
 

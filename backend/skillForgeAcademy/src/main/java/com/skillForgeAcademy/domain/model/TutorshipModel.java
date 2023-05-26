@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TutorshipModel {
-  private Long id;
+  private String id;
   private SectionModel section;
   private CourseModel course;
   private String name;

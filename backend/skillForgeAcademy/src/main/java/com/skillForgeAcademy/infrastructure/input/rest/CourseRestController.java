@@ -36,7 +36,7 @@ public class CourseRestController {
     return ResponseEntity.ok(courseHandler.find(id));
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("/delete/{id}")
   public ResponseEntity<CourseResponseDto> delete(@PathVariable Long id) {
     return ResponseEntity.ok(courseHandler.delete(id));
   }

@@ -6,13 +6,12 @@ import com.skillForgeAcademy.domain.exception.DomainException;
 import com.skillForgeAcademy.domain.model.RolModel;
 import com.skillForgeAcademy.domain.model.TokenModel;
 import com.skillForgeAcademy.domain.model.UserModel;
+import com.skillForgeAcademy.domain.model.UserResponseBroker;
 import com.skillForgeAcademy.domain.spi.broker.IEmailSenderPort;
 import com.skillForgeAcademy.domain.spi.passwordencoder.IPasswordEncoderPort;
 import com.skillForgeAcademy.domain.spi.persistence.IUserPersistencePort;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class UserUseCase implements IUserServicePort {
@@ -60,12 +59,9 @@ public class UserUseCase implements IUserServicePort {
     userModel.setPassword(passwordEncoder.encode(userModel.getPassword()));
 
     // save user
-    this.userPersistencePort.create(userModel);
-
-    TokenModel token =
-        new TokenModel(
-            UUID.randomUUID().toString(),
-            this.userPersistencePort.findByEmail(userModel.getEmail()));
+    UserModel user = this.userPersistencePort.create(userModel);
+    String code = UUID.randomUUID().toString();
+    TokenModel token = new TokenModel(code, user.getId());
 
     // save token
     this.tokenServicePort.create(token);
@@ -73,14 +69,15 @@ public class UserUseCase implements IUserServicePort {
     // sending email
     String activeURL = "http://localhost:8080/api/register/active?token=" + token.getToken();
 
-    Map<String, String> data = new HashMap<>();
-    data.put("activationLink", activeURL);
-    data.put("recipientName", userModel.getName());
-    data.put("expirationHours", "24");
-    data.put("recipientEmail", userModel.getEmail());
+    // Prepare data to send
+    UserResponseBroker userResponseBroker = new UserResponseBroker();
+    userResponseBroker.setActivationLink(activeURL);
+    userResponseBroker.setRecipientEmail(userModel.getEmail());
+    userResponseBroker.setRecipientName(userModel.getName());
+    userResponseBroker.setExpirationHours("24");
 
     // Sending activation email.
-    emailSenderPort.send("register.data", data);
+    emailSenderPort.send("register.data", userResponseBroker);
   }
 
   @Override
@@ -89,7 +86,7 @@ public class UserUseCase implements IUserServicePort {
     // set a confirmedAt value
     this.tokenServicePort.confirmToken(token);
     // change isEnable status to true
-    this.userPersistencePort.updateIsEnable(tokenFound.getUser().getId());
+    this.userPersistencePort.updateIsEnable(tokenFound.getUserId());
   }
 
   @Override
