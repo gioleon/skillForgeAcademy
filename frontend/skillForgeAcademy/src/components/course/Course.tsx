@@ -1,5 +1,18 @@
 import { Link } from "react-router-dom";
-export function Course({ titleCourse, autor, imgCourse, categorie }) {
+
+interface CourseProps {
+  titleCourse: string;
+  autor: string;
+  imgCourse: string;
+  categorie: string;
+}
+
+export function Course({
+  titleCourse,
+  autor,
+  imgCourse,
+  categorie,
+}: CourseProps) {
   return (
     <div className="card w-96 bg-base-100 shadow-xl">
       <figure>
@@ -11,7 +24,7 @@ export function Course({ titleCourse, autor, imgCourse, categorie }) {
         <div className="card-actions justify-end">
           <Link
             to={`/${titleCourse}`}
-            className="btn bg-gray-800 text-white normal-case border-none hover:btn-info "
+            className="btn bg-gray-800 text-white normal-case border-none hover:btn-info"
           >
             Ver curso
           </Link>
