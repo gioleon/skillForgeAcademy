@@ -1,4 +1,13 @@
-const courses = [
+interface Course {
+  titleCourse: string;
+  description: string;
+  autor: string;
+  imgCourse: string;
+  categorie: string;
+  active: boolean;
+}
+
+const courses: Course[] = [
   {
     titleCourse: "Ecuaciones diferenciales",
     description:

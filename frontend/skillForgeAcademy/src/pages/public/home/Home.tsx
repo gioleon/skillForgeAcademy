@@ -1,7 +1,9 @@
 import { Course } from "../../../components/course/Course";
 import { HeroLogin } from "../../../components/hero";
 import { courses } from "../../../components/course";
-function Home() {
+import { AddSection, MyCourses } from "../../private";
+
+function Home(): JSX.Element {
   const courseList = courses.map((c) => {
     return (
       <Course
@@ -12,6 +14,7 @@ function Home() {
       />
     );
   });
+
   return (
     <div>
       <HeroLogin />
@@ -24,4 +27,5 @@ function Home() {
     </div>
   );
 }
+
 export default Home;
