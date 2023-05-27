@@ -109,9 +109,6 @@ export const LoginLayout = styled.section<{}>`
     font-size: 0.7rem;
   }
 
-  p:after{
-    content: "🚨"
-  }
 
   @media (max-width: 768px) {
     .left-form{

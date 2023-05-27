@@ -1,11 +1,6 @@
 import { Link } from "react-router-dom";
+import { CourseProps } from "../../model";
 
-interface CourseProps {
-  titleCourse: string;
-  autor: string;
-  imgCourse: string;
-  categorie: string;
-}
 
 export function Course({
   titleCourse,
