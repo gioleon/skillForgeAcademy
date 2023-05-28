@@ -10,7 +10,7 @@ import { Home } from "./pages/public";
 import { CircularProgress } from "@mui/material";
 import { Navbar } from "./components";
 import { PublicGuard } from "./guard/public.guard";
-import { Course, courses } from "./components/course";
+import { CourseCard, courses } from "./components/course-card";
 import ViewCourse from "./pages/public/view-course/ViewCourse";
 
 // lazy imports
@@ -35,6 +35,7 @@ function App() {
       element={<ViewCourse course={course} />}
     />
   ));
+
   return (
     <div className="App">
       <Suspense
@@ -76,7 +77,7 @@ function App() {
               {/* private routes */}
               <Route element={<AuthGuard privateValidation={true} />}>
                 <Route
-                  path={`/${PrivateRoutes.PRIVATE}/*`}
+                  path={`/${PrivateRoutes.PRIVATE}/${PrivateRoutes.PROFILE}/:email?`}
                   element={<Private />}
                 >
                   {" "}

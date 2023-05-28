@@ -11,7 +11,7 @@ import { decodeJwt } from "../../../utilities/jwt.utility";
 import { useFormik, yupToFormErrors } from "formik";
 import * as Yup from "yup";
 import { LoginLayout } from "./styled-components";
-import { PublicRoutes } from '../../../model/routes';
+import { PublicRoutes } from "../../../model/routes";
 import { StyledLink } from "../../../styled-components";
 
 function Login() {
@@ -77,9 +77,12 @@ function Login() {
       // asssing the user to the global redux state and save it to local storage.
       dispacth(setUser({ ...user }));
       // Redirect to a private page.
-      navigate(`/${PrivateRoutes.PRIVATE}/${PrivateRoutes.PROFILE}`, {
-        replace: true,
-      });
+      navigate(
+        `/${PrivateRoutes.PRIVATE}/${PrivateRoutes.PROFILE}/${user.email}`,
+        {
+          replace: true,
+        }
+      );
     } else if (statusCode === 401) {
       setError(true);
       setErrorMessage("Correo o contraseña incorrectos.");
@@ -113,7 +116,11 @@ function Login() {
             <button>Iniciar sesion</button>
             <div className="login-form-footer">
               <h2 className="title-register">¿No tienes una cuenta?</h2>
-              <StyledLink to = {"/" +PublicRoutes.REGISTER} replace className = "link-register">
+              <StyledLink
+                to={"/" + PublicRoutes.REGISTER}
+                replace
+                className="link-register"
+              >
                 Registrate aqui
               </StyledLink>
             </div>

@@ -1,16 +1,29 @@
-import { Course } from "../../../components/course/Course";
+import { CourseCard } from "../../../components/course-card/CourseCard";
 import { HeroLogin } from "../../../components/hero";
-import { courses } from "../../../components/course";
-import { AddSection, MyCourses } from "../../private";
+import { Course } from "../../../model";
+import { getAllCourse } from "../../../service/course.service";
+import { useState, useEffect } from "react";
 
-function Home(): JSX.Element {
-  const courseList = courses.map((c) => {
+function Home() {
+  const [courses, setCourses] = useState([]);
+
+  const handleGetCourses = async () => {
+    const curso = await getAllCourse();
+    setCourses(curso);
+  };
+
+  useEffect(() => {
+    handleGetCourses();
+  });
+  const courseList = courses.map((c: Course) => {
     return (
-      <Course
-        titleCourse={c.titleCourse}
-        autor={c.autor}
-        imgCourse={c.imgCourse}
-        categorie={c.categorie}
+      <CourseCard
+        id={c.id}
+        category={c.category}
+        name={c.name}
+        owner={c.owner}
+        description={c.description}
+        urlImage={c.urlImage}
       />
     );
   });
@@ -22,7 +35,7 @@ function Home(): JSX.Element {
         Cursos disponibles
       </h2>
       <div className="p-20 flex flex-wrap justify-center gap-20">
-        {courseList}
+        {courseList.length <= 0 ? <p>No hay cursos disponibles</p> : courseList}
       </div>
     </div>
   );

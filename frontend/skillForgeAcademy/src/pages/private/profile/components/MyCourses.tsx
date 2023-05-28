@@ -1,14 +1,33 @@
-import { Course, courses } from "../../../../components/course";
-import { CourseProps } from "../../../../model";
+import { CourseCard } from "../../../../components/course-card";
+import { Course } from "../../../../model";
+import { getCourseByIdOwner } from "../../../../service/course.service";
+import { useEffect, useState } from "react";
 
-function MyCourses(): JSX.Element {
-  const courseList: JSX.Element[] = courses.map((c: CourseProps) => {
+interface Props {
+  userId: number;
+}
+
+function MyCourses({ userId }: Props) {
+  const [courses, setCourses] = useState([]);
+
+  const handleGetCourses = async () => {
+    const curso = await getCourseByIdOwner(userId);
+    setCourses(curso);
+  };
+
+  useEffect(() => {
+    handleGetCourses();
+  });
+
+  const courseList = courses.map((c: Course) => {
     return (
-      <Course
-        titleCourse={c.titleCourse}
-        autor={c.autor}
-        imgCourse={c.imgCourse}
-        categorie={c.categorie}
+      <CourseCard
+        id={c.id}
+        category={c.category}
+        name={c.name}
+        owner={c.owner}
+        description={c.description}
+        urlImage={c.urlImage}
       />
     );
   });
