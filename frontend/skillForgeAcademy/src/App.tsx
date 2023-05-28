@@ -12,6 +12,7 @@ import { Navbar } from "./components";
 import { PublicGuard } from "./guard/public.guard";
 import { CourseCard, courses } from "./components/course-card";
 import ViewCourse from "./pages/public/view-course/ViewCourse";
+import { Categories } from "./pages/public/categories";
 
 // lazy imports
 const Private = lazy(() => import("./pages/private/Private"));
@@ -55,6 +56,7 @@ function App() {
               {/* public routes */}
               {courseRoutes}
               <Route path={PublicRoutes.LOGIN} element={<Login />} />
+              <Route path={PublicRoutes.CATEGORIES} element={<Categories />} />
               <Route element={<PublicGuard />}>
                 <Route
                   path="/"
