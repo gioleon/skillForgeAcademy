@@ -1,6 +1,6 @@
 import { AccountCircle } from "@mui/icons-material";
 import { Box, IconButton, ThemeProvider } from "@mui/material";
-import { PublicRoutes } from "../../../model";
+import { PrivateRoutes, PublicRoutes } from "../../../model";
 import { StyledLink } from "../../../styled-components";
 import { StyledButton } from "../styled-components";
 import { theme } from "./customTheme";
@@ -14,19 +14,21 @@ function ItemsNavbar() {
             Register
           </StyledButton>
         </StyledLink>
-
-        <StyledButton hoverBackground="white" color="#1976d2">
-          Categorias
-        </StyledButton> 
-
+        <StyledLink to={`/${PublicRoutes.CATEGORIES}`}>
+          <StyledButton hoverBackground="white" color="#1976d2">
+            Categorias
+          </StyledButton>
+        </StyledLink>
         <StyledLink to={`/${PublicRoutes.LOGIN}`}>
           <StyledButton hoverBackground="white" color="#1976d2">
             Login
           </StyledButton>
         </StyledLink>
-        <IconButton>
-          <AccountCircle style={{ color: "white" }} />
-        </IconButton>
+        <StyledLink to={`/${PrivateRoutes.PROFILE}`}>
+          <IconButton>
+            <AccountCircle style={{ color: "white" }} />
+          </IconButton>
+        </StyledLink>
       </Box>
     </ThemeProvider>
   );

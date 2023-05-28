@@ -1,6 +1,10 @@
-export interface CourseProps {
-  titleCourse: string;
-  autor: string;
-  imgCourse: string;
-  categorie: string;
+import { CategoryOA } from "../category";
+import { UserOA } from "../user";
+export interface Course {
+  id: number;
+  category: CategoryOA[];
+  name: string;
+  owner: UserOA;
+  description: string;
+  urlImage: string;
 }

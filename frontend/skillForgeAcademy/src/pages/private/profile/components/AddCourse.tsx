@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { courses } from "../../../../components/course";
 
-function CreateCourse() {
+function AddCourse() {
   return (
     <>
       <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-lg">
@@ -71,4 +70,4 @@ function CreateCourse() {
     </>
   );
 }
-export default CreateCourse;
+export default AddCourse;

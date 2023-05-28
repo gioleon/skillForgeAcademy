@@ -10,8 +10,9 @@ import { Home } from "./pages/public";
 import { CircularProgress } from "@mui/material";
 import { Navbar } from "./components";
 import { PublicGuard } from "./guard/public.guard";
-import { Course, courses } from "./components/course";
+import { CourseCard, courses } from "./components/course-card";
 import ViewCourse from "./pages/public/view-course/ViewCourse";
+import { Categories } from "./pages/public/categories";
 
 // lazy imports
 const Private = lazy(() => import("./pages/private/Private"));
@@ -35,6 +36,7 @@ function App() {
       element={<ViewCourse course={course} />}
     />
   ));
+
   return (
     <div className="App">
       <Suspense
@@ -54,6 +56,7 @@ function App() {
               {/* public routes */}
               {courseRoutes}
               <Route path={PublicRoutes.LOGIN} element={<Login />} />
+              <Route path={PublicRoutes.CATEGORIES} element={<Categories />} />
               <Route element={<PublicGuard />}>
                 <Route
                   path="/"
@@ -76,7 +79,7 @@ function App() {
               {/* private routes */}
               <Route element={<AuthGuard privateValidation={true} />}>
                 <Route
-                  path={`/${PrivateRoutes.PRIVATE}/*`}
+                  path={`/${PrivateRoutes.PRIVATE}/${PrivateRoutes.PROFILE}/:email?`}
                   element={<Private />}
                 >
                   {" "}

@@ -1,4 +1,4 @@
-const ViewCourse = ({ course }) => {
+const ViewCourse = ({ course}) => {
   const { titleCourse, autor, imgCourse, categorie, description, active } =
     course;
 

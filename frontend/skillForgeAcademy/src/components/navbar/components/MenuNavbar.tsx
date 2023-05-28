@@ -21,6 +21,7 @@ function MenuNavbar() {
     [PublicRoutes.HOME, "Home"],
     [PublicRoutes.LOGIN, "Login"],
     [PublicRoutes.REGISTER, "Register"],
+    [PublicRoutes.CATEGORIES, "Categories"],
   ];
 
   const handleOpenMenu = () => {
