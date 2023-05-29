@@ -54,14 +54,14 @@ function Verification() {
           message ===
             " El enlace de activacion no es valido, ya expiro o su cuenta ya ha sido activada." ? (
             <Link
-              to={PublicRoutes.HOME}
+              to={`/${PublicRoutes.HOME}`}
               className="btn bg-blue-500 normal-case border-none hover:bg-gray-800 hover:text-white"
             >
               Regresar al inicio
             </Link>
           ) : (
             <Link
-              to={PublicRoutes.LOGIN}
+              to={`/${PublicRoutes.LOGIN}`}
               className="btn bg-blue-500 normal-case border-none hover:bg-gray-800 hover:text-white"
             >
               Inicia sesión
