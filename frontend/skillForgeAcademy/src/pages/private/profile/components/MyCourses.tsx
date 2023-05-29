@@ -10,14 +10,14 @@ interface Props {
 function MyCourses({ userId }: Props) {
   const [courses, setCourses] = useState([]);
 
-  const handleGetCourses = async () => {
-    const curso = await getCourseByIdOwner(userId);
-    setCourses(curso);
+  const getCourses = async () => {
+    const allCourses = await getCourseByIdOwner(userId);
+    setCourses(allCourses);
   };
 
   useEffect(() => {
-    handleGetCourses();
-  });
+    getCourses();
+  },[]);
 
   const courseList = courses.map((c: Course) => {
     return (

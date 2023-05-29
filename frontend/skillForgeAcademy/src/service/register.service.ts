@@ -8,7 +8,6 @@ export const register = (user: UserRegister) => {
       return response.status;
     })
     .catch((response) => {
-      console.log(response);
       return HttpStatusCode.Conflict;
     });
 };

@@ -10,4 +10,8 @@ export enum PublicRoutes {
 export enum PrivateRoutes {
   PRIVATE = "private",
   PROFILE = "profile",
+  ADDCOURSE = "create/course",
+  SECTION = "section",
+  COURSE = "course",
+  TUTORSHIP = "tutorship",
 }
