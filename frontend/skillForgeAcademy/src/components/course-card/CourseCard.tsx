@@ -1,13 +1,15 @@
 import { Link } from "react-router-dom";
 import { Course } from "../../model";
+import { PrivateRoutes } from "../../model";
 
-
-export function CourseCard({id,
+export function CourseCard({
+  id,
   category,
   name,
   owner,
   description,
-  urlImage}: Course) {
+  urlImage,
+}: Course) {
   return (
     <div className="card w-96 bg-base-100 shadow-xl">
       <figure>
@@ -18,7 +20,7 @@ export function CourseCard({id,
         <p>{category[1].name}</p>
         <div className="card-actions justify-end">
           <Link
-            to={`/${name}`}
+            to={`/${PrivateRoutes.PRIVATE}/:idUser/${PrivateRoutes.COURSE}/:idCourse`}
             className="btn bg-gray-800 text-white normal-case border-none hover:btn-info"
           >
             Ver curso

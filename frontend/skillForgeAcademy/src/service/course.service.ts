@@ -33,3 +33,14 @@ export const getCourseByIdOwner = (id: number) => {
       return error.response.status;
     });
 };
+
+export const getCourseById = (id: number) => {
+  return axios
+    .get(`${import.meta.env.VITE_APP_API_BASE_URL}/course/${id}`)
+    .then((response: AxiosResponse<Course[]>) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response.status;
+    });
+};

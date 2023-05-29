@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { Tutorship } from "../model";
+import { TutorshipId } from "../model/tutorship/tutorshipId";
 
 export const createTutorShip = (tutorship: Tutorship) => {
   return axios
@@ -12,9 +13,35 @@ export const createTutorShip = (tutorship: Tutorship) => {
     });
 };
 
-export const getAllTutor = () => {
+export const getAllTutorship = () => {
   return axios
     .get(`${import.meta.env.VITE_APP_API_BASE_URL}/tutorship/all`)
+    .then((response: AxiosResponse<Tutorship[]>) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response.status;
+    });
+};
+
+export const getTutorshipById = (id: TutorshipId) => {
+  return axios
+    .get(
+      `${import.meta.env.VITE_APP_API_BASE_URL}/tutorship/${id.course.id}/${
+        id.section.id
+      }/${id.id}`
+    )
+    .then((response: AxiosResponse<Tutorship>) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response.status;
+    });
+};
+
+export const getAllTutorShipsByCourseId = (id: number) => {
+  return axios
+    .get(`${import.meta.env.VITE_APP_API_BASE_URL}/tutorship/course${id}`)
     .then((response: AxiosResponse<Tutorship[]>) => {
       return response.data;
     })

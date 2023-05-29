@@ -1,7 +1,7 @@
 import { courseOA } from "../course";
 
 export interface Section {
-  id: string;
+  id?: number;
   course: courseOA;
   name: string;
 }

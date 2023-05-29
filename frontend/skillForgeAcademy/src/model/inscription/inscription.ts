@@ -1,7 +1,7 @@
-import { Course } from "../course";
-import { User } from "../user";
+import { courseOA } from "../course";
+import { UserOA } from "../user";
 
 export interface Inscription {
-  course: Course;
-  student: User;
+  course: courseOA;
+  student: UserOA;
 }

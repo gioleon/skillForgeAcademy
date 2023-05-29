@@ -11,8 +11,11 @@ import { CircularProgress } from "@mui/material";
 import { Navbar } from "./components";
 import { PublicGuard } from "./guard/public.guard";
 import { CourseCard, courses } from "./components/course-card";
-import ViewCourse from "./pages/public/view-course/ViewCourse";
+import ViewCourse from "./pages/private/view-course/ViewCourse";
 import { Categories } from "./pages/public/categories";
+import { AddCourse, AddSection, Profile } from "./pages/private";
+import AddTutorship from "./pages/private/profile/components/AddTutorship";
+import ViewClass from "./pages/private/view-tutorship/ViewClass";
 
 // lazy imports
 const Private = lazy(() => import("./pages/private/Private"));
@@ -27,15 +30,14 @@ const Verification = lazy(
 
 function App() {
   const actualUrl: string = window.location.href;
-  console.log(actualUrl);
-  //Rutas de cursos
-  const courseRoutes = courses.map((course) => (
-    <Route
-      key={course.titleCourse}
-      path={course.titleCourse}
-      element={<ViewCourse course={course} />}
-    />
-  ));
+  // //Rutas de cursos
+  // const courseRoutes = courses.map((course) => (
+  //   <Route
+  //     key={course.titleCourse}
+  //     path={course.titleCourse}
+  //     element={<ViewCourse course={course} />}
+  //   />
+  // ));
 
   return (
     <div className="App">
@@ -54,9 +56,9 @@ function App() {
             )}
             <RoutesWithNotFound>
               {/* public routes */}
-              {courseRoutes}
               <Route path={PublicRoutes.LOGIN} element={<Login />} />
               <Route path={PublicRoutes.CATEGORIES} element={<Categories />} />
+
               <Route element={<PublicGuard />}>
                 <Route
                   path="/"
@@ -75,15 +77,50 @@ function App() {
                   path={`${PublicRoutes.REGISTER}/${PublicRoutes.VERIFICATION}/:token?`}
                   element={<Verification />}
                 ></Route>
+                <Route
+                  path={`/${PrivateRoutes.PRIVATE}/:idUser/${PrivateRoutes.COURSE}/:idCourse/${PrivateRoutes.SECTION}`}
+                  element={<AddSection />}
+                />
+                <Route
+                  path={`/${PrivateRoutes.PRIVATE}/:idUser/${PrivateRoutes.COURSE}/:idCourse/${PrivateRoutes.SECTION}/:idSection/${PrivateRoutes.TUTORSHIP}`}
+                  element={<AddTutorship />}
+                />
+                <Route
+                  path={`/${PrivateRoutes.PRIVATE}/${PrivateRoutes.ADDCOURSE}`}
+                  element={<AddCourse />}
+                />
+                <Route
+                  path={`/${PrivateRoutes.PRIVATE}/:idUser/${PrivateRoutes.COURSE}/:idCourse`}
+                  element={<ViewCourse />}
+                />
+                <Route
+                  path={`/${PrivateRoutes.PRIVATE}/:idUser/${PrivateRoutes.COURSE}/:idCourse/${PrivateRoutes.SECTION}/:idSection/${PrivateRoutes.TUTORSHIP}/:idTutorship`}
+                  element={<ViewClass />}
+                />
               </Route>
+              <Route
+                path={`/${PrivateRoutes.PRIVATE}/${PrivateRoutes.PROFILE}/:email`}
+                element={<Profile />}
+              ></Route>
               {/* private routes */}
               <Route element={<AuthGuard privateValidation={true} />}>
+                {/* <Route
+                  path={`/${PrivateRoutes.PRIVATE}/${PrivateRoutes.ADDCOURSE}`}
+                  element={<AddCourse />}
+                /> */}
+                {/* <Route
+                  path={`/${PrivateRoutes.PRIVATE}/${PrivateRoutes.COURSE}/:idCourse/${PrivateRoutes.ADDSECTION}`}
+                  element={<AddSection />}
+                /> */}
                 <Route
-                  path={`/${PrivateRoutes.PRIVATE}/${PrivateRoutes.PROFILE}/:email?`}
+                  path={`/${PrivateRoutes.PRIVATE}/${PrivateRoutes.COURSE}/:idCourse`}
+                  element={<ViewCourse />}
+                />
+                {/* <Route
+                  path={`/${PrivateRoutes.PRIVATE}/${PrivateRoutes.PROFILE}/:email`}
                   element={<Private />}
                 >
-                  {" "}
-                </Route>
+                </Route> */}
               </Route>
             </RoutesWithNotFound>
           </BrowserRouter>

@@ -1,65 +1,44 @@
-import React, { useState, useEffect } from "react";
-import { createCourse, getAllCategory } from "../../../../service";
-import { Category, Course, PrivateRoutes } from "../../../../model";
+import React, { useState } from "react";
+import { createTutorShip } from "../../../../service";
+import { PrivateRoutes, Tutorship } from "../../../../model";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { AppStore } from "../../../../redux/store";
+import { useNavigate, useParams } from "react-router-dom";
 import { Error } from "../../../../components";
 
-function AddCourse() {
+function AddTutorship() {
   const [inputErrors, setInputErrors] = useState(false);
-  const [categories, setCategories] = useState<Category[]>([
-    { id: 0, name: "" },
-  ]);
+
+  // get parameters from url
+  const { idCourse, idSection } = useParams();
 
   // getting an instance of useNavigate
   const navigate = useNavigate();
 
-  // obtener el usuario global
-  const user = useSelector((store: AppStore) => store.user);
-
-  const getCategories = async () => {
-    const allCategory = await getAllCategory();
-    setCategories(allCategory);
-  };
-
-  useEffect(() => {
-    getCategories();
-  }, []);
-
   // validation for form
-  const courseSchema = Yup.object().shape({
+  const tutorshipSchema = Yup.object().shape({
     name: Yup.string()
       .min(2, "Nombre muy corto")
       .max(50, "Nombre muy largo")
       .required("Nombre es requerido"),
-    description: Yup.string()
-      .min(2, "Descripción muy corta")
-      .max(500, "Descripción muy largo")
-      .required("Descripción es requerida"),
-    urlImage: Yup.string()
+    urlVideo: Yup.string()
       .matches(
         /^https?:\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*$/,
         "Proporcione una url válida"
       )
-      .required("Url imagen es requerida"),
+      .required("Url video es requerido"),
   });
 
   // form attributes
   const formik = useFormik({
     initialValues: {
       name: "",
-      description: "",
-      category: "",
-      owner: {},
-      urlImage: "",
+      urlVideo: "",
     },
 
     onSubmit: (values) => {},
 
-    validationSchema: courseSchema,
+    validationSchema: tutorshipSchema,
   });
 
   const handleSubmit = async (e: any) => {
@@ -79,22 +58,24 @@ function AddCourse() {
     // If all fields are validated then let's proceed to try to save user in the database.
 
     // course
-    const course: Course = {
+    const tutorship: Tutorship = {
       name: formik.values.name,
-      description: formik.values.description,
-      urlImage: formik.values.urlImage,
-      owner: { id: user.id },
-      category: [{ id: Number.parseInt(formik.values.category) }],
+      section: {
+        id: idSection ? Number.parseInt(idSection) : 0,
+        course: { id: idCourse ? Number.parseInt(idCourse) : 0 },
+      },
+      course: { id: idCourse ? Number.parseInt(idCourse) : 0 },
+      urlVideo: formik.values.urlVideo,
     };
 
     // give the user to the method.
-    const response = await createCourse(course);
+    const response = await createTutorShip(tutorship);
 
     if (response === 403) {
     } else if (response === 201) {
       // if everything is excelent, go the the register/sucessful page.
       navigate(
-        `/${PrivateRoutes.PRIVATE}/${PrivateRoutes.PROFILE}/${user.email}`,
+        `/${PrivateRoutes.PRIVATE}/:idUser/${PrivateRoutes.COURSE}/${idCourse}}`,
         {
           replace: true,
         }
@@ -110,11 +91,11 @@ function AddCourse() {
           handleSubmit(e);
         }}
       >
-        <h2 className=" text-4xl font-bold text-center p-10">Crear curso</h2>
+        <h2 className=" text-4xl font-bold text-center p-10">Crear Tutoría</h2>
         <div className="mb-6">
           <div className="form-control w-full max-w-xs">
             <label className="label">
-              <span className="label-text">Titulo del curso</span>
+              <span className="label-text">Nombre de la tutoría</span>
             </label>
             <input
               id="name"
@@ -122,7 +103,7 @@ function AddCourse() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               type="text"
-              placeholder="Ejemplo: Backend con java"
+              placeholder="Ejemplo: Conexión a base de datos"
               className="input input-bordered w-full max-w-xs"
             />
             {formik.errors.name ? (
@@ -134,61 +115,23 @@ function AddCourse() {
         <div className="mb-6">
           <div className="form-control w-full max-w-xs">
             <label className="label">
-              <span className="label-text">Categoría del curso</span>
-            </label>
-            <select
-              name="category"
-              id="category"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className="select select-bordered"
-            >
-              <option value={0}>Elige una categoría</option>
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-        <div className="mb-6">
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Descripción del curso</span>
-            </label>
-            <textarea
-              id="description"
-              name="description"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className="textarea textarea-bordered h-24 textarea-md"
-              placeholder=""
-            ></textarea>
-            {formik.errors.description ? (
-              <Error error={true} message={formik.errors.description} />
-            ) : null}
-          </div>
-        </div>
-        <div className="mb-6">
-          <div className="form-control w-full max-w-xs">
-            <label className="label">
-              <span className="label-text">Titulo del curso</span>
+              <span className="label-text">Url video de la tutoría</span>
             </label>
             <input
-              id="urlImage"
-              name="urlImage"
+              id="urlVideo"
+              name="urlVideo"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               type="text"
-              placeholder="https://image.com"
+              placeholder="https://video.com"
               className="input input-bordered w-full max-w-xs"
             />
-            {formik.errors.urlImage ? (
-              <Error error={true} message={formik.errors.urlImage} />
+            {formik.errors.urlVideo ? (
+              <Error error={true} message={formik.errors.urlVideo} />
             ) : null}
           </div>
         </div>
+
         {/* <div className="mb-6">
           <div className="form-control w-full max-w-xs">
             <label className="label">
@@ -212,4 +155,4 @@ function AddCourse() {
     </>
   );
 }
-export default AddCourse;
+export default AddTutorship;
