@@ -5,4 +5,6 @@ import com.skillForgeAcademy.domain.model.SectionModelId;
 import com.skillForgeAcademy.domain.utility.GenericService;
 
 public interface ISectionPersistencePort
-  extends GenericService<SectionModel, SectionModelId> {}
+  extends GenericService<SectionModel, SectionModelId> {
+    Long findLastId();
+}

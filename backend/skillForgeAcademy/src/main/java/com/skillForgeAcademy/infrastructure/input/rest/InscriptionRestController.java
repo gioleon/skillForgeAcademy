@@ -31,4 +31,10 @@ public class InscriptionRestController {
   public ResponseEntity<List<InscriptionResponseDto>> findByStudent(@PathVariable Long idUser) {
     return ResponseEntity.ok(inscriptionHandler.findByStudent(idUser));
   }
+
+  @GetMapping("/student/{idUser}/course/{idCourse}")
+  public ResponseEntity<Long> studentIsEnroll(
+      @PathVariable Long idUser, @PathVariable Long idCourse) {
+    return ResponseEntity.ok(inscriptionHandler.studentIsEnroll(idUser, idCourse));
+  }
 }

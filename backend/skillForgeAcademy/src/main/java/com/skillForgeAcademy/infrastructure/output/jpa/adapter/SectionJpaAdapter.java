@@ -22,25 +22,20 @@ public class SectionJpaAdapter implements ISectionPersistencePort {
 
   @Override
   public SectionModel create(SectionModel sectionModel) {
-    SectionEntity sectionEntity = sectionRepository.save(
-      sectionEntityMapper.toEntity(sectionModel)
-    );
+    SectionEntity sectionEntity =
+        sectionRepository.save(sectionEntityMapper.toEntity(sectionModel));
     return sectionEntityMapper.toModel(sectionEntity);
   }
 
   @Override
   public List<SectionModel> findAll() {
-    return sectionEntityMapper.toModelList(
-      (List<SectionEntity>) sectionRepository.findAll()
-    );
+    return sectionEntityMapper.toModelList((List<SectionEntity>) sectionRepository.findAll());
   }
 
   @Override
   public SectionModel find(SectionModelId id) {
     SectionEntityId sectionEntityId = sectionEntityIdMapper.toEntityId(id);
-    Optional<SectionEntity> sectionEntity = sectionRepository.findById(
-      sectionEntityId
-    );
+    Optional<SectionEntity> sectionEntity = sectionRepository.findById(sectionEntityId);
 
     if (sectionEntity.isEmpty()) {
       throw new NoDataFoundException("NO DATA FOUND");
@@ -51,14 +46,17 @@ public class SectionJpaAdapter implements ISectionPersistencePort {
   @Override
   public SectionModel delete(SectionModelId id) {
     SectionEntityId sectionEntityId = sectionEntityIdMapper.toEntityId(id);
-    Optional<SectionEntity> sectionEntity = sectionRepository.findById(
-      sectionEntityId
-    );
+    Optional<SectionEntity> sectionEntity = sectionRepository.findById(sectionEntityId);
 
     if (sectionEntity.isEmpty()) {
       throw new NoDataFoundException("NO DATA FOUND");
     }
     sectionRepository.deleteById(sectionEntityId);
     return sectionEntityMapper.toModel(sectionEntity.get());
+  }
+
+  @Override
+  public Long findLastId() {
+    return sectionRepository.findLastId();
   }
 }

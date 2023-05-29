@@ -11,7 +11,7 @@ import com.skillForgeAcademy.domain.api.ISectionServicePort;
 import com.skillForgeAcademy.domain.model.SectionModel;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.http.ResponseEntity;import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -24,9 +24,9 @@ public class SectionHandlerImpl implements ISectionHandler {
   private final ISectionRequestIdMapper sectionRequestIdMapper;
 
   @Override
-  public void create(SectionRequestDto sectionRequestDto) {
+  public SectionResponseDto create(SectionRequestDto sectionRequestDto) {
     SectionModel sectionModel = sectionRequestMapper.toModel(sectionRequestDto);
-    sectionServicePort.create(sectionModel);
+    return sectionResponseMapper.toResponse(sectionServicePort.create(sectionModel));
   }
 
   @Override

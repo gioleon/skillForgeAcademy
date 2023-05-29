@@ -197,7 +197,7 @@ public class BeanConfiguration {
   @Bean
   public ITutorshipPersistencePort tutorshipPersistencePort() {
     return new TutorshipJpaAdapter(
-        tutorshipRepository, tutorshipEntityMapper, tutorshipEntityIdMapper);
+        tutorshipRepository, tutorshipEntityMapper, tutorshipEntityIdMapper, courseEntityMapper);
   }
 
   @Bean

@@ -17,7 +17,10 @@ public class SectionUseCase implements ISectionServicePort {
 
   @Override
   public SectionModel create(SectionModel sectionModel) {
-    sectionModel.setId(UUID.randomUUID().toString());
+
+    Long id = sectionPersistencePort.findLastId();
+    sectionModel.setId((id != null) ? id + 1 : 1);
+
     return sectionPersistencePort.create(sectionModel);
   }
 

@@ -14,5 +14,4 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class VideoEntityId implements Serializable {
   private String id;
-  private TutorshipEntity tutorship;
 }

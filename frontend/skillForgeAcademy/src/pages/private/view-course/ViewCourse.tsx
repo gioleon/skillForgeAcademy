@@ -113,7 +113,7 @@ const ViewCourse = () => {
                 </h2>
                 <p className="text-lg">{course.description}</p>
               </section>
-              {!enrolled || numberIdCourse !== course.owner.id ? (
+              {!enrolled && numberIdCourse !== course.owner.id ? (
                 <div className="py-5 flex gap-2">
                   <Link
                     to={`/${PrivateRoutes.PRIVATE}/${numberIdUser}/${PrivateRoutes.COURSE}/${numberIdCourse}}`}
@@ -123,7 +123,7 @@ const ViewCourse = () => {
                   </Link>
                 </div>
               ) : null}
-              {!enrolled || numberIdCourse !== course.owner.id ? (
+              {numberIdCourse === course.owner.id ? (
                 <div className="py-5 flex gap-2">
                   <Link
                     to={`/${PrivateRoutes.PRIVATE}/${numberIdUser}/${PrivateRoutes.COURSE}/${numberIdCourse}/${PrivateRoutes.SECTION}`}

@@ -43,4 +43,9 @@ public class TutorshipHandlerImpl implements ITutorshipHandler {
   public List<TutorshipResponseDto> findAll() {
     return tutorshipResponseMapper.toResponseList(tutorshipServicePort.findAll());
   }
+
+  @Override
+  public List<TutorshipResponseDto> findByCourse(Long id) {
+    return tutorshipResponseMapper.toResponseList(tutorshipServicePort.findByCourse(id));
+  }
 }

@@ -13,4 +13,6 @@ public interface ITutorshipHandler {
   TutorshipResponseDto delete(TutorshipRequestIdDto tutorshipRequestIdDto);
 
   List<TutorshipResponseDto> findAll();
+
+  List<TutorshipResponseDto> findByCourse(Long id);
 }

@@ -2,11 +2,12 @@ import { Link, useParams } from "react-router-dom";
 import { getTutorshipById } from "../../../service";
 import { TutorshipId } from "../../../model/tutorship/tutorshipId";
 import { PrivateRoutes, Tutorship } from "../../../model";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function ViewClass() {
   const { idCourse, idSection, idTutorship } = useParams();
-  let tutorship: Tutorship = {
+
+  const [tutorship, setTutorship] = useState<Tutorship>({
     id: 0,
     section: { id: 0, name: "" },
     course: {
@@ -17,10 +18,10 @@ function ViewClass() {
       category: [{ id: 0, name: "" }],
       urlImage: "",
     },
-    name: "CRUD con React JS, Spring Boot y MongoDB",
+    name: "",
     urlVideo:
-      "https://assets.mixkit.co/videos/preview/mixkit-going-down-a-curved-highway-through-a-mountain-range-41576-large.mp4",
-  };
+      "",
+  });
 
   const id: TutorshipId = {
     id: idTutorship ? Number.parseInt(idTutorship) : 0,
@@ -30,7 +31,7 @@ function ViewClass() {
 
   const getTutorship = async () => {
     let foundTutorship = await getTutorshipById(id);
-    tutorship = foundTutorship;
+    setTutorship(foundTutorship);
   };
 
   useEffect(() => {

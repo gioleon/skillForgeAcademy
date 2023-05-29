@@ -9,7 +9,6 @@ import { getCourseByIdOwner } from "../../../service";
 import { getUserInscriptions } from "../../../service/enroll.service";
 
 function Profile() {
-  const { email } = useParams();
   const user = useSelector((store: AppStore) => store.user);
 
   let createdCourses: Course[] = [];
