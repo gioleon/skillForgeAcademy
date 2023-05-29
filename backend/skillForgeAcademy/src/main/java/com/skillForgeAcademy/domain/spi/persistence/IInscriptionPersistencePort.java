@@ -10,4 +10,5 @@ public interface IInscriptionPersistencePort
     extends GenericService<InscriptionModel, InscriptionModelId> {
 
   List<InscriptionModel> findByStudent(UserModel user);
+  Long studentIsEnroll(Long idStudent, Long idCourse);
 }

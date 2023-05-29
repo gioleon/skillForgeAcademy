@@ -18,6 +18,7 @@ function Home() {
   const courseList = courses.map((c: Course) => {
     return (
       <CourseCard
+        key={c.id}
         id={c.id}
         category={c.category}
         name={c.name}

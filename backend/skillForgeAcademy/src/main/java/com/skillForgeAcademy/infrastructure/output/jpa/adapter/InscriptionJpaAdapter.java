@@ -59,4 +59,9 @@ public class InscriptionJpaAdapter implements IInscriptionPersistencePort {
     return inscriptionEntityMapper.toModelList(
         inscriptionRepository.findByStudent(userEntityMapper.toEntity(user)));
   }
+
+  @Override
+  public Long studentIsEnroll(Long idStudent, Long idCourse) {
+    return inscriptionRepository.studentIsEnroll(idStudent, idCourse);
+  }
 }

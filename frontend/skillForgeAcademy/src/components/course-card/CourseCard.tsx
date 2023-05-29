@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { Course } from "../../model";
 import { PrivateRoutes } from "../../model";
+import { useSelector } from "react-redux";
+import { AppStore } from "../../redux/store";
 
 export function CourseCard({
   id,
@@ -10,6 +12,9 @@ export function CourseCard({
   description,
   urlImage,
 }: Course) {
+
+  const user = useSelector((store: AppStore) => store.user);
+
   return (
     <div className="card w-96 bg-base-100 shadow-xl">
       <figure>
@@ -17,10 +22,10 @@ export function CourseCard({
       </figure>
       <div className="card-body">
         <h2 className="card-title">{name}</h2>
-        <p>{category[1].name}</p>
+        <p>{category[0].name}</p>
         <div className="card-actions justify-end">
           <Link
-            to={`/${PrivateRoutes.PRIVATE}/:idUser/${PrivateRoutes.COURSE}/:idCourse`}
+            to={`/${PrivateRoutes.PRIVATE}/${user.id}/${PrivateRoutes.COURSE}/${id}`}
             className="btn bg-gray-800 text-white normal-case border-none hover:btn-info"
           >
             Ver curso

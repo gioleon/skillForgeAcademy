@@ -29,4 +29,9 @@ public class InscriptionHandlerImpl implements IInscriptionHandler {
   public List<InscriptionResponseDto> findByStudent(Long idUser) {
     return inscriptionResponseMapper.toResponseList(inscriptionServicePort.findByStudent(idUser));
   }
+
+  @Override
+  public Long studentIsEnroll(Long idUser, Long idCourse) {
+    return inscriptionServicePort.studentIsEnroll(idUser, idCourse);
+  }
 }

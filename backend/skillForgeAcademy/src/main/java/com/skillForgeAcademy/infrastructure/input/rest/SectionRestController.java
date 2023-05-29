@@ -1,13 +1,14 @@
 package com.skillForgeAcademy.infrastructure.input.rest;
 
+import com.skillForgeAcademy.application.dto.request.CourseRequestDto;
 import com.skillForgeAcademy.application.dto.request.SectionRequestDto;
 import com.skillForgeAcademy.application.dto.request.SectionRequestIdDto;
 import com.skillForgeAcademy.application.dto.response.CourseResponseDto;
 import com.skillForgeAcademy.application.dto.response.SectionResponseDto;
 import com.skillForgeAcademy.application.handler.ISectionHandler;
-import java.util.List;
+import java.net.URI;
+import java.net.URISyntaxException;import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,9 +25,12 @@ public class SectionRestController {
   private final ISectionHandler sectionHandler;
 
   @PostMapping
-  public ResponseEntity<Void> create(@RequestBody SectionRequestDto sectionRequestDto) {
-    sectionHandler.create(sectionRequestDto);
-    return new ResponseEntity<>(HttpStatus.CREATED);
+  public ResponseEntity<SectionResponseDto> create(
+      @RequestBody SectionRequestDto sectionRequestDto)throws URISyntaxException {
+    SectionResponseDto sectionResponseDto = sectionHandler.create(sectionRequestDto);
+    return ResponseEntity.created(
+            new URI("http://localhost:8080/section/" + sectionResponseDto.getId()))
+        .body(sectionResponseDto);
   }
 
   @GetMapping("/all")
@@ -36,19 +40,20 @@ public class SectionRestController {
 
   @GetMapping("/{idCourse}/{idSection}")
   public ResponseEntity<SectionResponseDto> findById(
-      @PathVariable Long idCourse, @PathVariable String idSection) {
-    CourseResponseDto courseResponseDto = new CourseResponseDto();
+      @PathVariable Long idCourse, @PathVariable Long idSection) {
+    CourseRequestDto courseRequestDto = new CourseRequestDto();
     SectionRequestIdDto sectionRequestIdDto = new SectionRequestIdDto();
 
-    courseResponseDto.setId(idCourse);
+    courseRequestDto.setId(idCourse);
     sectionRequestIdDto.setId(idSection);
+    sectionRequestIdDto.setCourse(courseRequestDto);
 
     return ResponseEntity.ok(sectionHandler.find(sectionRequestIdDto));
   }
 
   @GetMapping("/delete/{idCourse}/{idSection}")
   public ResponseEntity<SectionResponseDto> deleteById(
-      @PathVariable Long idCourse, @PathVariable String idSection) {
+      @PathVariable Long idCourse, @PathVariable Long idSection) {
     CourseResponseDto courseResponseDto = new CourseResponseDto();
     SectionRequestIdDto sectionRequestIdDto = new SectionRequestIdDto();
 

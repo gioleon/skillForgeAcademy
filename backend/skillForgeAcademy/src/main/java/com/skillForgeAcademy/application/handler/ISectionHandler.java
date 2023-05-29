@@ -6,7 +6,7 @@ import com.skillForgeAcademy.application.dto.response.SectionResponseDto;
 import java.util.List;
 
 public interface ISectionHandler {
-  void create(SectionRequestDto sectionRequestDto);
+  SectionResponseDto create(SectionRequestDto sectionRequestDto);
 
   SectionResponseDto find(SectionRequestIdDto sectionRequestIdDto);
 

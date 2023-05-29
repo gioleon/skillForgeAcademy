@@ -35,7 +35,7 @@ public class VideoRestController {
 
   @GetMapping("/{idTutorship}/{idVideo}")
   public ResponseEntity<VideoResponseDto> findById(
-      @PathVariable String idTutorship, @PathVariable String idVideo) {
+      @PathVariable Long idTutorship, @PathVariable String idVideo) {
 
     TutorshipRequestDto tutorshipRequestDto = new TutorshipRequestDto();
     VideoRequestIdDto videoRequestIdDto = new VideoRequestIdDto();
@@ -50,7 +50,7 @@ public class VideoRestController {
 
   @GetMapping("/delete/{idTutorship}/{idVideo}")
   public ResponseEntity<VideoResponseDto> deleteById(
-      @PathVariable String idTutorship, @PathVariable String idVideo) {
+      @PathVariable Long idTutorship, @PathVariable String idVideo) {
 
     TutorshipRequestDto tutorshipRequestDto = new TutorshipRequestDto();
     VideoRequestIdDto videoRequestIdDto = new VideoRequestIdDto();

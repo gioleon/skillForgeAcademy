@@ -4,8 +4,8 @@ import { Section } from "../model";
 export const createSection = (section: Section) => {
   return axios
     .post(`${import.meta.env.VITE_APP_API_BASE_URL}/section`, section)
-    .then((response: AxiosResponse<number>) => {
-      return response.status;
+    .then((response: AxiosResponse<Section>) => {
+      return response;
     })
     .catch((error) => {
       return error.response.status;

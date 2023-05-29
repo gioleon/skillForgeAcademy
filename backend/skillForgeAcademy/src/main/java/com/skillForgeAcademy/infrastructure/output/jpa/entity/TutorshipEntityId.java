@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class TutorshipEntityId implements Serializable {
-  private String id;
+  private Long id;
   private SectionEntity section;
   private CourseEntity course;
 }

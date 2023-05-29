@@ -10,8 +10,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TutorshipModel {
-  private String id;
+  private Long id;
   private SectionModel section;
   private CourseModel course;
   private String name;
+  private String urlVideo;
 }

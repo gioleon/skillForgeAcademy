@@ -10,7 +10,7 @@ function AddTutorship() {
   const [inputErrors, setInputErrors] = useState(false);
 
   // get parameters from url
-  const { idCourse, idSection } = useParams();
+  const { idUser, idCourse, idSection } = useParams();
 
   // getting an instance of useNavigate
   const navigate = useNavigate();
@@ -75,7 +75,7 @@ function AddTutorship() {
     } else if (response === 201) {
       // if everything is excelent, go the the register/sucessful page.
       navigate(
-        `/${PrivateRoutes.PRIVATE}/:idUser/${PrivateRoutes.COURSE}/${idCourse}}`,
+        `/${PrivateRoutes.PRIVATE}/${idUser}/${PrivateRoutes.COURSE}/${idCourse}}`,
         {
           replace: true,
         }

@@ -13,6 +13,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class SectionEntityId implements Serializable {
-  private String id;
+  private Long id;
   private CourseEntity course;
 }

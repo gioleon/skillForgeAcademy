@@ -1,11 +1,14 @@
 package com.skillForgeAcademy.infrastructure.output.jpa.adapter;
 
+import com.skillForgeAcademy.domain.model.CourseModel;
 import com.skillForgeAcademy.domain.model.TutorshipModel;
 import com.skillForgeAcademy.domain.model.TutorshipModelId;
 import com.skillForgeAcademy.domain.spi.persistence.ITutorshipPersistencePort;
 import com.skillForgeAcademy.infrastructure.exception.NoDataFoundException;
+import com.skillForgeAcademy.infrastructure.output.jpa.entity.CourseEntity;
 import com.skillForgeAcademy.infrastructure.output.jpa.entity.TutorshipEntity;
 import com.skillForgeAcademy.infrastructure.output.jpa.entity.TutorshipEntityId;
+import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ICourseEntityMapper;
 import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ITutorshipEntityIdMapper;
 import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ITutorshipEntityMapper;
 import com.skillForgeAcademy.infrastructure.output.jpa.repository.ITutorshipRepository;
@@ -19,31 +22,25 @@ public class TutorshipJpaAdapter implements ITutorshipPersistencePort {
   private final ITutorshipRepository tutorshipRepository;
   private final ITutorshipEntityMapper tutorshipEntityMapper;
   private final ITutorshipEntityIdMapper tutorshipEntityIdMapper;
+  private final ICourseEntityMapper courseEntityMapper;
 
   @Override
   public TutorshipModel create(TutorshipModel tutorshipModel) {
-    TutorshipEntity tutorshipEntity = tutorshipRepository.save(
-      tutorshipEntityMapper.toEntity(tutorshipModel)
-    );
+    TutorshipEntity tutorshipEntity =
+        tutorshipRepository.save(tutorshipEntityMapper.toEntity(tutorshipModel));
 
     return tutorshipEntityMapper.toModel(tutorshipEntity);
   }
 
   @Override
   public List<TutorshipModel> findAll() {
-    return tutorshipEntityMapper.toModelList(
-      (List<TutorshipEntity>) tutorshipRepository.findAll()
-    );
+    return tutorshipEntityMapper.toModelList((List<TutorshipEntity>) tutorshipRepository.findAll());
   }
 
   @Override
   public TutorshipModel find(TutorshipModelId id) {
-    TutorshipEntityId tutorshipEntityId = tutorshipEntityIdMapper.toEntityId(
-      id
-    );
-    Optional<TutorshipEntity> tutorshipEntity = tutorshipRepository.findById(
-      tutorshipEntityId
-    );
+    TutorshipEntityId tutorshipEntityId = tutorshipEntityIdMapper.toEntityId(id);
+    Optional<TutorshipEntity> tutorshipEntity = tutorshipRepository.findById(tutorshipEntityId);
 
     if (tutorshipEntity.isEmpty()) {
       throw new NoDataFoundException("NO DATA FOUND");
@@ -54,12 +51,8 @@ public class TutorshipJpaAdapter implements ITutorshipPersistencePort {
 
   @Override
   public TutorshipModel delete(TutorshipModelId id) {
-    TutorshipEntityId tutorshipEntityId = tutorshipEntityIdMapper.toEntityId(
-      id
-    );
-    Optional<TutorshipEntity> tutorshipEntity = tutorshipRepository.findById(
-      tutorshipEntityId
-    );
+    TutorshipEntityId tutorshipEntityId = tutorshipEntityIdMapper.toEntityId(id);
+    Optional<TutorshipEntity> tutorshipEntity = tutorshipRepository.findById(tutorshipEntityId);
 
     if (tutorshipEntity.isEmpty()) {
       throw new NoDataFoundException("NO DATA FOUND");
@@ -67,5 +60,16 @@ public class TutorshipJpaAdapter implements ITutorshipPersistencePort {
 
     tutorshipRepository.deleteById(tutorshipEntityId);
     return tutorshipEntityMapper.toModel(tutorshipEntity.get());
+  }
+
+  @Override
+  public Long findLastId() {
+    return tutorshipRepository.findLastId();
+  }
+
+  @Override
+  public List<TutorshipModel> findByCourse(CourseModel course) {
+    CourseEntity courseEntity = courseEntityMapper.toEntity(course);
+    return tutorshipEntityMapper.toModelList(tutorshipRepository.findByCourse(courseEntity));
   }
 }

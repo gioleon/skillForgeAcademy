@@ -36,9 +36,7 @@ public class TutorshipRestController {
 
   @GetMapping("/{idCourse}/{idSection}/{idTutorship}")
   public ResponseEntity<TutorshipResponseDto> findById(
-      @PathVariable Long idCourse,
-      @PathVariable String idSection,
-      @PathVariable String idTutorship) {
+      @PathVariable Long idCourse, @PathVariable Long idSection, @PathVariable Long idTutorship) {
 
     CourseRequestDto courseRequest = new CourseRequestDto();
     SectionRequestDto sectionRequestDto = new SectionRequestDto();
@@ -46,6 +44,7 @@ public class TutorshipRestController {
 
     courseRequest.setId(idCourse);
     sectionRequestDto.setId(idSection);
+    sectionRequestDto.setCourse(courseRequest);
 
     tutorshipRequestIdDto.setSection(sectionRequestDto);
     tutorshipRequestIdDto.setCourse(courseRequest);
@@ -56,9 +55,7 @@ public class TutorshipRestController {
 
   @GetMapping("/delete/{idCourse}/{idSection}/{idTutorship}")
   public ResponseEntity<TutorshipResponseDto> deleteById(
-      @PathVariable Long idCourse,
-      @PathVariable String idSection,
-      @PathVariable String idTutorship) {
+      @PathVariable Long idCourse, @PathVariable Long idSection, @PathVariable Long idTutorship) {
 
     CourseRequestDto courseRequest = new CourseRequestDto();
     SectionRequestDto sectionRequestDto = new SectionRequestDto();
@@ -66,11 +63,17 @@ public class TutorshipRestController {
 
     courseRequest.setId(idCourse);
     sectionRequestDto.setId(idSection);
+    sectionRequestDto.setCourse(courseRequest);
 
     tutorshipRequestIdDto.setSection(sectionRequestDto);
     tutorshipRequestIdDto.setCourse(courseRequest);
     tutorshipRequestIdDto.setId(idTutorship);
 
     return ResponseEntity.ok(tutorshipHandler.delete(tutorshipRequestIdDto));
+  }
+
+  @GetMapping("course/{idCourse}")
+  public ResponseEntity<List<TutorshipResponseDto>> findByCourse(@PathVariable Long idCourse) {
+    return ResponseEntity.ok(tutorshipHandler.findByCourse(idCourse));
   }
 }

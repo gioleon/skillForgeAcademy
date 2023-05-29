@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TutorshipModelId {
 
-  private String id;
+  private Long id;
   private SectionModel section;
   private CourseModel course;
 }

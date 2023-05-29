@@ -8,4 +8,5 @@ public interface IInscriptionHandler {
   void create(InscriptionRequestDto inscriptionRequestDto);
 
   List<InscriptionResponseDto> findByStudent(Long idUser);
+  Long studentIsEnroll(Long idUser, Long idCourse);
 }

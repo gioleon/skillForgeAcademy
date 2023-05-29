@@ -41,7 +41,7 @@ export const getTutorshipById = (id: TutorshipId) => {
 
 export const getAllTutorShipsByCourseId = (id: number) => {
   return axios
-    .get(`${import.meta.env.VITE_APP_API_BASE_URL}/tutorship/course${id}`)
+    .get(`${import.meta.env.VITE_APP_API_BASE_URL}/tutorship/course/${id}`)
     .then((response: AxiosResponse<Tutorship[]>) => {
       return response.data;
     })

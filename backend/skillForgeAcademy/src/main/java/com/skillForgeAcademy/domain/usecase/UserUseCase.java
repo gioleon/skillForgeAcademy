@@ -67,7 +67,7 @@ public class UserUseCase implements IUserServicePort {
     this.tokenServicePort.create(token);
 
     // sending email
-    String activeURL = "http://localhost:8080/api/register/active?token=" + token.getToken();
+    String activeURL = "http://localhost:5173/register/verification/" + token.getToken();
 
     // Prepare data to send
     UserResponseBroker userResponseBroker = new UserResponseBroker();

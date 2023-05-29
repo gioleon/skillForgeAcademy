@@ -10,7 +10,10 @@ function AddSection() {
   const [inputErrors, setInputErrors] = useState(false);
   // getting an instance of useNavigate
   const navigate = useNavigate();
-  const { idCourse } = useParams();
+  const { idUser, idCourse } = useParams();
+
+  const numberIdUser = Number.parseInt(idUser!);
+  const numberIdCourse = Number.parseInt(idCourse!);
 
   // validation for form
   const courseSchema = Yup.object().shape({
@@ -50,17 +53,17 @@ function AddSection() {
     // course
     const section: Section = {
       name: formik.values.name,
-      course: { id: idCourse ? Number.parseInt(idCourse) : 0 },
+      course: { id: numberIdCourse },
     };
 
     // give the user to the method.
     const response = await createSection(section);
-
-    if (response === 403) {
-    } else if (response === 201) {
+    
+    if (response.status === 403) {
+    } else if (response.status === 201) {
       // if everything is excelent, go the the register/sucessful page.
       navigate(
-        `/${PrivateRoutes.PRIVATE}/${PrivateRoutes.COURSE}/${idCourse}`,
+        `/${PrivateRoutes.PRIVATE}/${numberIdUser}/${PrivateRoutes.COURSE}/${numberIdCourse}/section/${response.data.id}/tutorship`,
         {
           replace: true,
         }

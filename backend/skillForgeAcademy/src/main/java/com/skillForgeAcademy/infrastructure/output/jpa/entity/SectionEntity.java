@@ -18,7 +18,7 @@ import lombok.Setter;
 @Table(name = "sections")
 @IdClass(SectionEntityId.class)
 public class SectionEntity {
-  @Id private String id;
+  @Id private Long id;
 
   @Id @ManyToOne private CourseEntity course;
   private String name;

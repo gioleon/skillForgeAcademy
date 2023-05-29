@@ -41,4 +41,9 @@ public class InscriptionUseCase implements IInscriptionServicePort {
     userModel.setId(idUser);
     return inscriptionPersistencePort.findByStudent(userModel);
   }
+
+  @Override
+  public Long studentIsEnroll(Long idUser, Long idCourse) {
+    return inscriptionPersistencePort.studentIsEnroll(idUser, idCourse);
+  }
 }
