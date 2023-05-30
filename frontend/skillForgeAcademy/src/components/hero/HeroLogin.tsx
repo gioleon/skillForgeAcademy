@@ -20,7 +20,6 @@ export default function HeroLogin() {
           </p>
           <button
             className="btn btn-info font-bold hover:text-gray-800 hover:bg-white"
-            hr
           >
             Conoce más ✋
           </button>
