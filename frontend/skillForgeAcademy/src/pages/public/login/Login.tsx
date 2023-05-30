@@ -5,14 +5,11 @@ import { useDispatch } from "react-redux";
 import { setUser, clearUser } from "../../../redux/states/user";
 import { clearLocalStorage } from "../../../utilities";
 import { Error } from "../../../components";
-import { useNavigate } from "react-router-dom";
-import { PrivateRoutes, UserLogin } from "../../../model";
+import { Link, useNavigate } from "react-router-dom";
+import { PrivateRoutes, PublicRoutes, UserLogin } from "../../../model";
 import { decodeJwt } from "../../../utilities/jwt.utility";
 import { useFormik, yupToFormErrors } from "formik";
 import * as Yup from "yup";
-import { LoginLayout } from "./styled-components";
-import { PublicRoutes } from "../../../model/routes";
-import { StyledLink } from "../../../styled-components";
 
 function Login() {
   // As we have some inputs, we'll use useState.
@@ -93,42 +90,61 @@ function Login() {
   };
 
   return (
-    <>
-      <LoginLayout>
-        <div className="left-form"></div>
-        <div className="right-form">
-          <form action="" onSubmit={(e) => handleSubmit(e)}>
-            <h1 className="title-login">Bienvenido de vuelta</h1>
+    <section className="grid h-screen place-content-center bg-login bg-no-repeat bg-cover">
+      <form
+        action=""
+        onSubmit={(e) => handleSubmit(e)}
+        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-xl grid place-content-center"
+      >
+        <h1 className="text-4xl font-bold text-center p-10">
+          Bienvenido de vuelta
+        </h1>
+        <div className="mb-6">
+          <div className="form-control w-full max-w-full">
+            <label className="label">
+              <span className="label-text">Ingresa tu email</span>
+            </label>
             <input
               type="text"
               name="email"
-              placeholder="Ingresa tu email"
+              placeholder="@ejemplo.com"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              className="input input-bordered w-full max-w-full"
             />
+          </div>
+        </div>
+        <div className="mb-6">
+          <div className="form-control w-full max-w-full">
+            <label className="label">
+              <span className="label-text">Ingresa tu contraseña</span>
+            </label>
             <input
               type="password"
               name="password"
-              placeholder="Ingresa tu contraseña"
+              placeholder="***********"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              className="input input-bordered w-full max-w-full"
             />
-            <button>Iniciar sesion</button>
-            <div className="login-form-footer">
-              <h2 className="title-register">¿No tienes una cuenta?</h2>
-              <StyledLink
-                to={"/" + PublicRoutes.REGISTER}
-                replace
-                className="link-register"
-              >
-                Registrate aqui
-              </StyledLink>
-            </div>
-          </form>
-          <Error error={error} message={errorMessage} />
+          </div>
         </div>
-      </LoginLayout>
-    </>
+
+        <button className="btn btn-block  bg-gray-800 text-white normal-case border-none hover:bg-blue-500">
+          Iniciar sesion
+        </button>
+        <div className="flex justify-between items-center mt-5">
+          <h2 className="text-1x0">¿No tienes una cuenta?</h2>
+          <Link
+            to={`/${PublicRoutes.REGISTER}`}
+            className="btn bg-blue-500 normal-case border-none hover:bg-gray-800 hover:text-white "
+          >
+            Registrate aquí 📝
+          </Link>
+        </div>
+      </form>
+      <Error error={error} message={errorMessage} />
+    </section>
   );
 }
 

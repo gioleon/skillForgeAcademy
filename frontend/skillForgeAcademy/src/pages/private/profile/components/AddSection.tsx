@@ -58,7 +58,7 @@ function AddSection() {
 
     // give the user to the method.
     const response = await createSection(section);
-    
+
     if (response.status === 403) {
     } else if (response.status === 201) {
       // if everything is excelent, go the the register/sucessful page.
@@ -72,7 +72,7 @@ function AddSection() {
   };
 
   return (
-    <>
+    <section className="grid h-screen place-content-center bg-blue-500">
       <form
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-lg"
         onSubmit={(e) => {
@@ -109,7 +109,7 @@ function AddSection() {
         </button>
         {inputErrors ? <p>Diligencie todos lo campos correctamente</p> : null}
       </form>
-    </>
+    </section>
   );
 }
 export default AddSection;

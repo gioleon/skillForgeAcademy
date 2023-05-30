@@ -77,34 +77,34 @@ function App() {
                   path={`${PublicRoutes.REGISTER}/${PublicRoutes.VERIFICATION}/:token`}
                   element={<Verification />}
                 ></Route>
-                
-              {/* private routes */}
-              <Route element={<AuthGuard privateValidation={true} />}>
-              <Route
-                  path={`/${PrivateRoutes.PRIVATE}/:idUser/${PrivateRoutes.COURSE}/:idCourse/${PrivateRoutes.SECTION}`}
-                  element={<AddSection />}
-                />
+
+                {/* private routes */}
+                <Route element={<AuthGuard privateValidation={true} />}>
+                  <Route
+                    path={`/${PrivateRoutes.PRIVATE}/:idUser/${PrivateRoutes.COURSE}/:idCourse/${PrivateRoutes.SECTION}`}
+                    element={<AddSection />}
+                  />
+                  <Route
+                    path={`/${PrivateRoutes.PRIVATE}/:idUser/${PrivateRoutes.COURSE}/:idCourse/${PrivateRoutes.SECTION}/:idSection/${PrivateRoutes.TUTORSHIP}`}
+                    element={<AddTutorship />}
+                  />
+                  <Route
+                    path={`/${PrivateRoutes.PRIVATE}/:idUser/${PrivateRoutes.ADDCOURSE}`}
+                    element={<AddCourse />}
+                  />
+                  <Route
+                    path={`/${PrivateRoutes.PRIVATE}/:idUser/${PrivateRoutes.COURSE}/:idCourse`}
+                    element={<ViewCourse />}
+                  />
+                  <Route
+                    path={`/${PrivateRoutes.PRIVATE}/:idUser/${PrivateRoutes.COURSE}/:idCourse/${PrivateRoutes.SECTION}/:idSection/${PrivateRoutes.TUTORSHIP}/:idTutorship`}
+                    element={<ViewClass />}
+                  />
+                </Route>
                 <Route
-                  path={`/${PrivateRoutes.PRIVATE}/:idUser/${PrivateRoutes.COURSE}/:idCourse/${PrivateRoutes.SECTION}/:idSection/${PrivateRoutes.TUTORSHIP}`}
-                  element={<AddTutorship />}
-                />
-                <Route
-                  path={`/${PrivateRoutes.PRIVATE}/:idUser/${PrivateRoutes.ADDCOURSE}`}
-                  element={<AddCourse />}
-                />
-                <Route
-                  path={`/${PrivateRoutes.PRIVATE}/:idUser/${PrivateRoutes.COURSE}/:idCourse`}
-                  element={<ViewCourse />}
-                />
-                <Route
-                  path={`/${PrivateRoutes.PRIVATE}/:idUser/${PrivateRoutes.COURSE}/:idCourse/${PrivateRoutes.SECTION}/:idSection/${PrivateRoutes.TUTORSHIP}/:idTutorship`}
-                  element={<ViewClass />}
-                />
-              </Route>
-              <Route
-                path={`/${PrivateRoutes.PRIVATE}/${PrivateRoutes.PROFILE}/:idUser`}
-                element={<Profile />}
-              ></Route>
+                  path={`/${PrivateRoutes.PRIVATE}/${PrivateRoutes.PROFILE}/:idUser`}
+                  element={<Profile />}
+                ></Route>
               </Route>
             </RoutesWithNotFound>
           </BrowserRouter>

@@ -1,4 +1,5 @@
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
+import { PublicRoutes } from "../../../../model";
 
 function SuccessfulRegister() {
   // use useLocation to get the state sent by register page.
@@ -15,6 +16,12 @@ function SuccessfulRegister() {
             <b className="before:content-['📤']">{location.state.email}</b> le
             hemos enviado un enlace para que active su cuenta
           </p>
+          <Link
+            to={`/${PublicRoutes.HOME}`}
+            className="btn bg-blue-500 normal-case border-none hover:bg-gray-800 hover:text-white"
+          >
+            Regresar al inicio
+          </Link>
         </div>
       </div>
     </div>

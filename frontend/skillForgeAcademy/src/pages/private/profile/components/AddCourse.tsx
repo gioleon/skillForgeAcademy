@@ -103,7 +103,7 @@ function AddCourse() {
   };
 
   return (
-    <>
+    <section className="grid h-screen place-content-center bg-blue-500">
       <form
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-lg"
         onSubmit={(e) => {
@@ -209,7 +209,7 @@ function AddCourse() {
         </button>
         {inputErrors ? <p>Diligencie todos lo campos correctamente</p> : null}
       </form>
-    </>
+    </section>
   );
 }
 export default AddCourse;
