@@ -28,11 +28,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          {children}
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 }
@@ -87,38 +83,42 @@ export default function BasicTabs({
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        {createdCourses.length > 0
-          ? createdCourses.map((c: Course, index) => {
-              return (
-                <CourseCard
-                  key = {index}
-                  id={c.id}
-                  category={c.category}
-                  name={c.name}
-                  owner={c.owner}
-                  description={c.description}
-                  urlImage={c.urlImage}
-                />
-              );
-            })
-          : "No hay cursos para mostrar"}
+        <div className="p-20 flex flex-wrap justify-center gap-20">
+          {createdCourses.length > 0
+            ? createdCourses.map((c: Course, index) => {
+                return (
+                  <CourseCard
+                    key={index}
+                    id={c.id}
+                    category={c.category}
+                    name={c.name}
+                    owner={c.owner}
+                    description={c.description}
+                    urlImage={c.urlImage}
+                  />
+                );
+              })
+            : "No hay cursos para mostrar"}
+        </div>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        {enrolledCourses.length > 0
-          ? enrolledCourses.map((c: Course, index) => {
-              return (
-                <CourseCard
-                  key = {index}
-                  id={c.id}
-                  category={c.category}
-                  name={c.name}
-                  owner={c.owner}
-                  description={c.description}
-                  urlImage={c.urlImage}
-                />
-              );
-            })
-          : "No hay cursos para mostrar"}
+        <div className="p-20 flex flex-wrap justify-center gap-20">
+          {enrolledCourses.length > 0
+            ? enrolledCourses.map((c: Course, index) => {
+                return (
+                  <CourseCard
+                    key={index}
+                    id={c.id}
+                    category={c.category}
+                    name={c.name}
+                    owner={c.owner}
+                    description={c.description}
+                    urlImage={c.urlImage}
+                  />
+                );
+              })
+            : "No hay cursos para mostrar"}
+        </div>
       </TabPanel>
     </Box>
   );

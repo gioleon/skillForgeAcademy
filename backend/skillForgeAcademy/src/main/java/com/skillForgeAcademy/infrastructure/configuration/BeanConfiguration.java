@@ -156,7 +156,7 @@ public class BeanConfiguration {
 
   @Bean
   public IRatePersistencePort ratePersistencePort() {
-    return new RateJpaAdapter(rateRepository, rateEntityMapper, rateEntityIdMapper);
+    return new RateJpaAdapter(rateRepository, rateEntityMapper, rateEntityIdMapper, courseEntityMapper);
   }
 
   @Bean
@@ -231,7 +231,7 @@ public class BeanConfiguration {
         inscriptionRepository,
         inscriptionEntityIdMapper,
         inscriptionEntityMapper,
-        userEntityMapper);
+        userEntityMapper, courseEntityMapper);
   }
 
   @Bean

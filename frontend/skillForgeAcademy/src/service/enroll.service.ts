@@ -37,3 +37,15 @@ export const studentIsEnroll = (idStudent: number, idCourse: number) => {
       return error.response.status;
     });
 };
+
+
+export const getCourseEnrollments = (id: number) => {
+  return axios
+    .get(`${import.meta.env.VITE_APP_API_BASE_URL}/inscription/course/${id}`)
+    .then((response: AxiosResponse<Inscription[]>) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return error.response.status;
+    });
+};

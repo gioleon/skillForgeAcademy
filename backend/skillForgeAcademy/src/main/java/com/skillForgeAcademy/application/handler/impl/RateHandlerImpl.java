@@ -46,4 +46,9 @@ public class RateHandlerImpl implements IRateHandler {
   public List<RateResponseDto> findAll() {
     return rateResponseMapper.toResponseList(rateServicePort.findAll());
   }
+
+  @Override
+  public List<RateResponseDto> findByCourse(Long id) {
+    return rateResponseMapper.toResponseList(rateServicePort.findByCourse(id));
+  }
 }

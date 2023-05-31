@@ -1,5 +1,6 @@
 package com.skillForgeAcademy.infrastructure.output.jpa.repository;
 
+import com.skillForgeAcademy.infrastructure.output.jpa.entity.CourseEntity;
 import com.skillForgeAcademy.infrastructure.output.jpa.entity.InscriptionEntity;
 import com.skillForgeAcademy.infrastructure.output.jpa.entity.InscriptionEntityId;
 import com.skillForgeAcademy.infrastructure.output.jpa.entity.UserEntity;
@@ -12,6 +13,8 @@ public interface IInscriptionRepository
     extends CrudRepository<InscriptionEntity, InscriptionEntityId> {
 
   List<InscriptionEntity> findByStudent(UserEntity user);
+
+  List<InscriptionEntity> findByCourse(CourseEntity course);
 
   @Query(
       value =

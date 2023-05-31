@@ -10,4 +10,5 @@ public interface IRateHandler {
     RateResponseDto find(RateRequestIdDto rateRequestIdDto);
     RateResponseDto delete(RateRequestIdDto rateResponseIdDto);
     List<RateResponseDto> findAll();
+    List<RateResponseDto> findByCourse(Long id);
 }

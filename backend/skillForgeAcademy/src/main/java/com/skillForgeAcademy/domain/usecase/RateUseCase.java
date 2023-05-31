@@ -1,7 +1,7 @@
 package com.skillForgeAcademy.domain.usecase;
 
 import com.skillForgeAcademy.domain.api.IRateServicePort;
-import com.skillForgeAcademy.domain.model.RateModel;
+import com.skillForgeAcademy.domain.model.CourseModel;import com.skillForgeAcademy.domain.model.RateModel;
 import com.skillForgeAcademy.domain.model.RateModelId;
 import com.skillForgeAcademy.domain.spi.persistence.IRatePersistencePort;
 import java.util.List;
@@ -32,5 +32,12 @@ public class RateUseCase implements IRateServicePort {
   @Override
   public RateModel delete(RateModelId id) {
     return ratePersistencePort.delete(id);
+  }
+
+  @Override
+  public List<RateModel> findByCourse(Long id) {
+    CourseModel courseModel = new CourseModel();
+    courseModel.setId(id);
+    return ratePersistencePort.findByCourse(courseModel);
   }
 }
