@@ -22,7 +22,7 @@ export function CourseCard({
       </figure>
       <div className="card-body">
         <h2 className="card-title">{name}</h2>
-        <p>{category[0].name}</p>
+        <p>{category ? category[0].name : "Sin categoria"}</p>
         <div className="card-actions justify-end">
           <Link
             to={`/${PrivateRoutes.PRIVATE}/${user.id}/${PrivateRoutes.COURSE}/${id}`}

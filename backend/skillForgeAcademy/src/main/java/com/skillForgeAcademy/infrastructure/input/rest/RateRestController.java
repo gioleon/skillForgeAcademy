@@ -50,4 +50,9 @@ public class RateRestController {
 
     return ResponseEntity.ok(rateHandler.find(rateRequestIdDto));
   }
+
+  @GetMapping("course/{idCourse}")
+  public ResponseEntity<List<RateResponseDto>> findByCourse(@PathVariable Long idCourse) {
+    return ResponseEntity.ok(rateHandler.findByCourse(idCourse));
+  }
 }

@@ -8,6 +8,7 @@ import java.util.List;
 public interface IInscriptionServicePort
     extends GenericService<InscriptionModel, InscriptionModelId> {
   List<InscriptionModel> findByStudent(Long idUser);
+  List<InscriptionModel> findByCourse(Long idCourse);
 
   Long studentIsEnroll(Long idUser, Long idCourse);
 }

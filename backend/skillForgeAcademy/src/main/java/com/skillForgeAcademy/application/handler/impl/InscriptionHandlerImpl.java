@@ -34,4 +34,9 @@ public class InscriptionHandlerImpl implements IInscriptionHandler {
   public Long studentIsEnroll(Long idUser, Long idCourse) {
     return inscriptionServicePort.studentIsEnroll(idUser, idCourse);
   }
+
+  @Override
+  public List<InscriptionResponseDto> findByCourse(Long idCourse) {
+    return inscriptionResponseMapper.toResponseList(inscriptionServicePort.findByCourse(idCourse));
+  }
 }

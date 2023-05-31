@@ -1,11 +1,13 @@
 package com.skillForgeAcademy.infrastructure.output.jpa.adapter;
 
+import com.skillForgeAcademy.domain.model.CourseModel;
 import com.skillForgeAcademy.domain.model.InscriptionModel;
 import com.skillForgeAcademy.domain.model.InscriptionModelId;
 import com.skillForgeAcademy.domain.model.UserModel;
 import com.skillForgeAcademy.domain.spi.persistence.IInscriptionPersistencePort;
 import com.skillForgeAcademy.infrastructure.exception.NoDataFoundException;
 import com.skillForgeAcademy.infrastructure.output.jpa.entity.InscriptionEntity;
+import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ICourseEntityMapper;
 import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IInscriptionEntityIdMapper;
 import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IInscriptionEntityMapper;
 import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IUserEntityMapper;
@@ -20,6 +22,7 @@ public class InscriptionJpaAdapter implements IInscriptionPersistencePort {
   private final IInscriptionEntityIdMapper inscriptionEntityIdMapper;
   private final IInscriptionEntityMapper inscriptionEntityMapper;
   private final IUserEntityMapper userEntityMapper;
+  private final ICourseEntityMapper courseEntityMapper;
 
   @Override
   public InscriptionModel create(InscriptionModel inscriptionModel) {
@@ -58,6 +61,12 @@ public class InscriptionJpaAdapter implements IInscriptionPersistencePort {
   public List<InscriptionModel> findByStudent(UserModel user) {
     return inscriptionEntityMapper.toModelList(
         inscriptionRepository.findByStudent(userEntityMapper.toEntity(user)));
+  }
+
+  @Override
+  public List<InscriptionModel> findByCourse(CourseModel course) {
+    return inscriptionEntityMapper.toModelList(
+        inscriptionRepository.findByCourse(courseEntityMapper.toEntity(course)));
   }
 
   @Override

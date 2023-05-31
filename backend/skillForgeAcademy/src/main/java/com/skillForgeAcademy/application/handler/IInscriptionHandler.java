@@ -9,4 +9,5 @@ public interface IInscriptionHandler {
 
   List<InscriptionResponseDto> findByStudent(Long idUser);
   Long studentIsEnroll(Long idUser, Long idCourse);
+  List<InscriptionResponseDto> findByCourse(Long idCourse);
 }
