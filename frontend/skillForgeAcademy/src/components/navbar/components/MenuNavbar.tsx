@@ -7,22 +7,32 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import { useState } from "react";
-import { PublicRoutes } from "../../../model";
+import { PrivateRoutes, PublicRoutes } from "../../../model";
 import { StyledLink } from "../../../styled-components";
 import MenuIcon from "@mui/icons-material/Menu";
 import { StyledButton } from "../styled-components";
 import { theme } from "./customTheme";
+import { AppStore } from "../../../redux/store";
+import { useSelector } from "react-redux";
 
 function MenuNavbar() {
   // if a user clicks on the button, set the element
   const [open, setOpen] = useState(false);
 
-  const PAGES: string[][] = [
-    [PublicRoutes.HOME, "Home"],
-    [PublicRoutes.LOGIN, "Login"],
-    [PublicRoutes.REGISTER, "Register"],
-    [PublicRoutes.CATEGORIES, "Categories"],
-  ];
+  const user = useSelector((store: AppStore) => store.user);
+
+  const PAGES: string[][] = user.id
+    ? [
+        [PublicRoutes.HOME, "Home"],
+        [PublicRoutes.CATEGORIES, "Categories"],
+        [`${PrivateRoutes.PRIVATE}/${PrivateRoutes.PROFILE}/${user.id}`, "Profile"]
+      ]
+    : [
+        [PublicRoutes.HOME, "Home"],
+        [PublicRoutes.LOGIN, "Login"],
+        [PublicRoutes.REGISTER, "Register"],
+        [PublicRoutes.CATEGORIES, "Categories"],
+      ];
 
   const handleOpenMenu = () => {
     setOpen(true);

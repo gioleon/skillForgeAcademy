@@ -74,6 +74,7 @@ const ViewCourse = () => {
   };
 
   useEffect(() => {
+    localStorage.setItem("idCourse", idCourse);
     getTutorShip();
     getCourse();
     studentIsEnrolled();

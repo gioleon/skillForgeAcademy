@@ -8,7 +8,7 @@ import { Error } from "../../../components";
 import { Link, useNavigate } from "react-router-dom";
 import { PrivateRoutes, PublicRoutes, UserLogin } from "../../../model";
 import { decodeJwt } from "../../../utilities/jwt.utility";
-import { useFormik, yupToFormErrors } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 
 function Login() {
@@ -73,9 +73,10 @@ function Login() {
       const user: User = decodeJwt(localStorage.getItem(authenticationKey)!);
       // asssing the user to the global redux state and save it to local storage.
       dispacth(setUser({ ...user }));
+
       // Redirect to a private page.
       navigate(
-        `/${PrivateRoutes.PRIVATE}/${PrivateRoutes.PROFILE}/${user.email}`,
+        `/${PrivateRoutes.PRIVATE}/${PrivateRoutes.PROFILE}/${user.id}`,
         {
           replace: true,
         }
@@ -133,6 +134,7 @@ function Login() {
         <button className="btn btn-block  bg-gray-800 text-white normal-case border-none hover:bg-blue-500">
           Iniciar sesion
         </button>
+        <Error error={error} message={errorMessage} />
         <div className="flex justify-between items-center mt-5">
           <h2 className="text-1x0">¿No tienes una cuenta?</h2>
           <Link
@@ -143,7 +145,6 @@ function Login() {
           </Link>
         </div>
       </form>
-      <Error error={error} message={errorMessage} />
     </section>
   );
 }

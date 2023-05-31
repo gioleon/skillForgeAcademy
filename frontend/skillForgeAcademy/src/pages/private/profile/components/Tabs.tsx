@@ -30,7 +30,7 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
     </div>
@@ -88,9 +88,10 @@ export default function BasicTabs({
       </Box>
       <TabPanel value={value} index={0}>
         {createdCourses.length > 0
-          ? createdCourses.map((c: Course) => {
+          ? createdCourses.map((c: Course, index) => {
               return (
                 <CourseCard
+                  key = {index}
                   id={c.id}
                   category={c.category}
                   name={c.name}
@@ -104,9 +105,10 @@ export default function BasicTabs({
       </TabPanel>
       <TabPanel value={value} index={1}>
         {enrolledCourses.length > 0
-          ? enrolledCourses.map((c: Course) => {
+          ? enrolledCourses.map((c: Course, index) => {
               return (
                 <CourseCard
+                  key = {index}
                   id={c.id}
                   category={c.category}
                   name={c.name}
