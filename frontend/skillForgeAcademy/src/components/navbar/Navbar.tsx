@@ -5,27 +5,33 @@ import { AccountCircle, Public } from "@mui/icons-material";
 import { Box, Button, Menu, MenuItem, Typography } from "@mui/material";
 import { PublicRoutes } from "../../model/routes";
 import { StyledLink } from "../../styled-components/StyledLink.style.component";
-import { SearchInputWrapper, StyledButton, StyledInputBase } from "./styled-components";
+import {
+  SearchInputWrapper,
+  StyledButton,
+  StyledInputBase,
+} from "./styled-components";
 import { LogoNavbar, MenuNavbar } from "./components";
 import ItemsNavbar from "./components/ItemsNavbar";
-import SearchInputNavbar from './components/SearchInputNavbar';
-import SearchModal from './components/SearchModal';
-
+import SearchInputNavbar from "./components/SearchInputNavbar";
+import SearchModal from "./components/SearchModal";
+import { useState } from "react";
 
 function Navbar() {
-
+  const [hideNavbar, setHideNavbar] = useState(false);
 
   return (
     <AppBar position="static">
-      <Toolbar sx={{justifyContent: {xs: "space-between", sm: "space-between"}}}>
+      <Toolbar
+        sx={{ justifyContent: { xs: "space-between", sm: "space-between" } }}
+      >
         {/* Menu button */}
-        <MenuNavbar/>
+        <MenuNavbar />
         {/* Logo */}
-        <LogoNavbar/>
+        <LogoNavbar />
         {/* Search bar */}
-        <SearchInputNavbar displaySettings={{xs: 'none', md: 'flex'}} />
+        <SearchInputNavbar displaySettings={{ xs: "none", md: "flex" }} />
         {/* Items */}
-        <ItemsNavbar/>
+        <ItemsNavbar />
         {/* Search modal */}
         <SearchModal />
       </Toolbar>
