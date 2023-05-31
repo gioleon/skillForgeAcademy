@@ -18,19 +18,19 @@ function Register() {
     name: Yup.string()
       .min(2, "Nombre muy corto")
       .max(50, "Nombre muy largo")
-      .required("Nombre es requerido ⬆️"),
+      .required("Nombre es requerido"),
     lastName: Yup.string()
       .min(2, "Apellido muy corto")
       .max(50, "Apellido muy largo")
-      .required("Apellido es requerido ⬆️"),
+      .required("Apellido es requerido"),
     email: Yup.string()
       .matches(
         /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
         "Proporcione un email valido ✖️"
       )
-      .required("Email es requerido ⬆️"),
+      .required("Email es requerido"),
     password: Yup.string()
-      .required("Contraseña es requerida ⬆️")
+      .required("Contraseña es requerida")
       // .matches(
       //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
       //   "Contraseña no valida"
@@ -41,7 +41,7 @@ function Register() {
       .min(8, "contraseña debe tener mas de 8 caracteres"),
     confirmPassword: Yup.string().oneOf(
       [Yup.ref("password")],
-      "Las contraseñas no coinciden 🚩"
+      "Las contraseñas no coinciden"
     ),
   });
 

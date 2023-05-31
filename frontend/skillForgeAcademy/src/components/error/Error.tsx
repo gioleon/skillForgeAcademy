@@ -5,6 +5,6 @@ interface Props {
 
 function Error({ message }: Props) {
 
-    return <p>{message}</p>;
+    return <p className="my-2 text-center after:content-['🚨']">{message}</p>;
 }
 export default Error;
