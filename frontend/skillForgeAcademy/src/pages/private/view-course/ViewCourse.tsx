@@ -123,7 +123,7 @@ const ViewCourse = () => {
                   </Link>
                 </div>
               ) : null}
-              {numberIdCourse === course.owner.id ? (
+              {numberIdUser === course.owner.id ? (
                 <div className="py-5 flex gap-2">
                   <Link
                     to={`/${PrivateRoutes.PRIVATE}/${numberIdUser}/${PrivateRoutes.COURSE}/${numberIdCourse}/${PrivateRoutes.SECTION}`}
