@@ -15,6 +15,7 @@ function Home() {
   useEffect(() => {
     handleGetCourses();
   });
+  
   const courseList = courses.map((c: Course) => {
     return (
       <CourseCard

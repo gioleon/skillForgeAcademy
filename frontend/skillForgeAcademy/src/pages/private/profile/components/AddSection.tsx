@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createSection } from "../../../../service";
 import { Section, PrivateRoutes } from "../../../../model";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
 import { Error } from "../../../../components";
+import { useSelector } from "react-redux";
+import { AppStore } from "../../../../redux/store";
+
 
 function AddSection() {
   const [inputErrors, setInputErrors] = useState(false);
@@ -14,6 +17,22 @@ function AddSection() {
 
   const numberIdUser = Number.parseInt(idUser!);
   const numberIdCourse = Number.parseInt(idCourse!);
+
+  const user = useSelector((store: AppStore) => store.user);
+
+  useEffect(() => {
+    if (
+      Number.parseInt(idUser!) !== user.id ||
+      idCourse! !== localStorage.getItem("idCourse")!
+    ) {
+      navigate(
+        `/${PrivateRoutes.PRIVATE}/${PrivateRoutes.PROFILE}/${user.id}`,
+        {
+          replace: true,
+        }
+      );
+    }
+  }, []);
 
   // validation for form
   const courseSchema = Yup.object().shape({

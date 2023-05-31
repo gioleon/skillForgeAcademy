@@ -16,7 +16,7 @@ export function CourseCard({
   const user = useSelector((store: AppStore) => store.user);
 
   return (
-    <div className="card w-96 bg-base-100 shadow-xl">
+    <article className="card w-96 bg-base-100 shadow-xl">
       <figure>
         <img src={urlImage} alt="Portada course" />
       </figure>
@@ -32,6 +32,6 @@ export function CourseCard({
           </Link>
         </div>
       </div>
-    </div>
+    </article>
   );
 }

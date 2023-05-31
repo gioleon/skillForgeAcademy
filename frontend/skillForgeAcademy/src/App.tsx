@@ -1,6 +1,7 @@
+import React from "react";
 import { lazy, Suspense } from "react";
 import { Provider } from "react-redux";
-import { BrowserRouter, Navigate, Route } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, RouteMatch } from "react-router-dom";
 
 import store from "./redux/store";
 import { RoutesWithNotFound } from "./utilities";
@@ -10,7 +11,6 @@ import { Home } from "./pages/public";
 import { CircularProgress } from "@mui/material";
 import { Navbar } from "./components";
 import { PublicGuard } from "./guard/public.guard";
-import { CourseCard, courses } from "./components/course-card";
 import ViewCourse from "./pages/private/view-course/ViewCourse";
 import { Categories } from "./pages/public/categories";
 import { AddCourse, AddSection, Profile } from "./pages/private";
@@ -29,7 +29,7 @@ const Verification = lazy(
 );
 
 function App() {
-  const actualUrl: string = window.location.href;
+  
   // //Rutas de cursos
   // const courseRoutes = courses.map((course) => (
   //   <Route
@@ -50,10 +50,7 @@ function App() {
       >
         <Provider store={store}>
           <BrowserRouter>
-            {actualUrl.includes(PublicRoutes.REGISTER) ||
-            actualUrl.includes(PublicRoutes.LOGIN) ? undefined : (
-              <Navbar />
-            )}
+            {0 ? undefined : <Navbar />}
             <RoutesWithNotFound>
               {/* public routes */}
               <Route path={PublicRoutes.LOGIN} element={<Login />} />
@@ -100,11 +97,11 @@ function App() {
                     path={`/${PrivateRoutes.PRIVATE}/:idUser/${PrivateRoutes.COURSE}/:idCourse/${PrivateRoutes.SECTION}/:idSection/${PrivateRoutes.TUTORSHIP}/:idTutorship`}
                     element={<ViewClass />}
                   />
+                  <Route
+                    path={`/${PrivateRoutes.PRIVATE}/${PrivateRoutes.PROFILE}/:idUser`}
+                    element={<Profile />}
+                  ></Route>
                 </Route>
-                <Route
-                  path={`/${PrivateRoutes.PRIVATE}/${PrivateRoutes.PROFILE}/:idUser`}
-                  element={<Profile />}
-                ></Route>
               </Route>
             </RoutesWithNotFound>
           </BrowserRouter>

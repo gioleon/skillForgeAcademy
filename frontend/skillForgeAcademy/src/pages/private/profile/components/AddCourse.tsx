@@ -3,16 +3,20 @@ import { createCourse, getAllCategory } from "../../../../service";
 import { Category, Course, PrivateRoutes } from "../../../../model";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { AppStore } from "../../../../redux/store";
 import { Error } from "../../../../components";
+
 
 function AddCourse() {
   const [inputErrors, setInputErrors] = useState(false);
   const [categories, setCategories] = useState<Category[]>([
     { id: 0, name: "" },
   ]);
+
+  // Getting params
+  const { idUser } = useParams();
 
   // getting an instance of useNavigate
   const navigate = useNavigate();
@@ -26,6 +30,14 @@ function AddCourse() {
   };
 
   useEffect(() => {
+    if (Number.parseInt(idUser!) !== user.id) {
+      navigate(
+        `/${PrivateRoutes.PRIVATE}/${PrivateRoutes.PROFILE}/${user.id}`,
+        {
+          replace: true,
+        }
+      );
+    }
     getCategories();
   }, []);
 
@@ -94,7 +106,7 @@ function AddCourse() {
     } else if (response === 201) {
       // if everything is excelent, go the the register/sucessful page.
       navigate(
-        `/${PrivateRoutes.PRIVATE}/${PrivateRoutes.PROFILE}/${user.email}`,
+        `/${PrivateRoutes.PRIVATE}/${PrivateRoutes.PROFILE}/${user.id}`,
         {
           replace: true,
         }
