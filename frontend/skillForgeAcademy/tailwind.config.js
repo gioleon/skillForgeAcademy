@@ -5,7 +5,7 @@ export default {
     extend: {
       backgroundImage: {
         login: "url('./src/img/hero-login.jpg')",
-        register: "url('/src/img/hero-register.jpg')",
+        register: "url('./src/img/hero-register.jpg')",
       },
     },
   },
