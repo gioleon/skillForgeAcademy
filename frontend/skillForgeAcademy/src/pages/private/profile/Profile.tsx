@@ -4,29 +4,31 @@ import { AppStore } from "../../../redux/store";
 import BasicTabs from "./components/Tabs";
 import { Avatar, Box } from "@mui/material";
 import { deepOrange } from "@mui/material/colors";
-import { Course, PrivateRoutes } from "../../../model";
+import { Course, Inscription, PrivateRoutes, courseOA } from "../../../model";
 import { getCourseByIdOwner } from "../../../service";
 import { getUserInscriptions } from "../../../service/enroll.service";
 import { useState, useEffect } from "react";
 
 function Profile() {
   const [createdCourses, setCreatedCourses] = useState<Course[]>([]);
-  const [enrolledCourses, setEnrolledCourses] = useState<Course[]>([]);
+  const [enrolledCourses, setEnrolledCourses] = useState<courseOA[]>([]);
   
   const user = useSelector((store: AppStore) => store.user);
 
 
   const handlerGetCourse = async () => {
     const cCourses: Course[] = await getCourseByIdOwner(user.id);
-    const eCourses: Course[] = await getUserInscriptions(user.id);
+    const eCourses: Inscription[] = await getUserInscriptions(user.id);
+
+    const mappedCourses = eCourses.map((eCourse: Inscription) => eCourse.course);
 
     setCreatedCourses(cCourses);
-    setEnrolledCourses(eCourses);
+    setEnrolledCourses(mappedCourses);
   };
 
   useEffect(() => {
     handlerGetCourse();
-  });
+  }, []);
 
   return (
     <>

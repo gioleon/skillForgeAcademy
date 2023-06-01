@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import {
-  getAllTutorShipsByCourseId,
-  getCourseById,
-} from "../../../service";
+import { getAllTutorShipsByCourseId, getCourseById } from "../../../service";
 import {
   Course,
   PrivateRoutes,
@@ -53,7 +50,7 @@ const ViewCourse = () => {
   const getRates = async () => {
     const rates = await getCourseRates(numberIdCourse);
     setRates(rates);
-  }
+  };
 
   const getEnrollments = async () => {
     const foundEnrollments = await getCourseEnrollments(numberIdCourse);
@@ -81,7 +78,7 @@ const ViewCourse = () => {
     getEnrollments();
     studentIsEnrolled();
     getRates();
-  }, []);
+  }, [enrolled]);
 
   const sections: SectionOA[] = [];
   const idSections: number[] = [];
@@ -121,7 +118,7 @@ const ViewCourse = () => {
               {!enrolled && numberIdUser !== course.owner.id ? (
                 <div className="py-5 flex gap-2">
                   <Link
-                    to={`/${PrivateRoutes.PRIVATE}/${numberIdUser}/${PrivateRoutes.COURSE}/${numberIdCourse}}`}
+                    to={`/${PrivateRoutes.PRIVATE}/${numberIdUser}/${PrivateRoutes.COURSE}/${numberIdCourse}`}
                     className="btn bg-blue-500 normal-case border-none hover:bg-gray-800 hover:text-white "
                   >
                     <button onClick={() => handleEnroll()}>Inscribirme</button>
@@ -166,8 +163,8 @@ const ViewCourse = () => {
                 className="collapse collapse-plus border border-base-300 bg-base-100 rounded-box mt-2"
               >
                 <input type="checkbox" />
-                <div className="collapse-title text-xl font-medium">
-                  {s.name}
+                <div className="collapse-title text-xl font-medium flex justify-between">
+                  {s.name} 
                 </div>
                 <div className="collapse-content">
                   {tutorships.map((t: Tutorship, i: number) => {
@@ -181,6 +178,7 @@ const ViewCourse = () => {
                       </Link>
                     ) : null;
                   })}
+                  
                 </div>
               </div>
             );
@@ -273,15 +271,13 @@ const ViewCourse = () => {
           </div>
           <div className="stat-title text-white">Calificación</div>
           <div className="stat-value text-info text-2xl">
-            { rates.length > 0 ?
-              rates.reduce((total: number, actual: Rate) => {
-                return total + actual.rate
-              }, 0) / rates.length : 0}
-
-  
+            {rates.length > 0
+              ? rates.reduce((total: number, actual: Rate) => {
+                  return total + actual.rate;
+                }, 0) / rates.length
+              : 0}
           </div>
         </div>
-        
       </section>
     </main>
   );

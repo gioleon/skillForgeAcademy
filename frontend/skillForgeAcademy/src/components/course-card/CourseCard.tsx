@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Course } from "../../model";
+import { Course, courseOA } from "../../model";
 import { PrivateRoutes } from "../../model";
 import { useSelector } from "react-redux";
 import { AppStore } from "../../redux/store";
@@ -11,7 +11,7 @@ export function CourseCard({
   owner,
   description,
   urlImage,
-}: Course) {
+}: Course | courseOA) {
 
   const user = useSelector((store: AppStore) => store.user);
 
