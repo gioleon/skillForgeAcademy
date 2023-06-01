@@ -5,7 +5,7 @@ import { PrivateRoutes, Tutorship } from "../../../model";
 import { useEffect, useState } from "react";
 
 function ViewClass() {
-  const { idCourse, idSection, idTutorship } = useParams();
+  const { idUser, idCourse, idSection, idTutorship } = useParams();
 
   const [tutorship, setTutorship] = useState<Tutorship>({
     id: 0,
@@ -57,7 +57,7 @@ function ViewClass() {
           </div>
           <div className="text-center">
             <Link
-              to={`/${PrivateRoutes.PRIVATE}/${tutorship.course.owner?.id}/${PrivateRoutes.COURSE}/${tutorship.course.id}`}
+              to={`/${PrivateRoutes.PRIVATE}/${Number.parseInt(idUser!)}/${PrivateRoutes.COURSE}/${tutorship.course.id}`}
               className="btn bg-blue-500 w-40 mt-5  text-white normal-case border-none hover:bg-gray-800 "
             >
               Regresar al curso

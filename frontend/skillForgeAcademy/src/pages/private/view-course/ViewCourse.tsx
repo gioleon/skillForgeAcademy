@@ -6,8 +6,7 @@ import {
   PrivateRoutes,
   Rate,
   Section,
-  SectionOA,
-  Tutorship,
+  SectionOA
 } from "../../../model";
 import {
   enroll,
@@ -18,6 +17,7 @@ import { timeout } from "rxjs";
 import { useSelector } from "react-redux";
 import { AppStore } from "../../../redux/store";
 import { getCourseRates } from "../../../service/rate.service";
+import { Tutorship } from '../../../model/tutorship/tutorship';
 
 const ViewCourse = () => {
   const [enrolled, setEnrolled] = useState();
@@ -96,7 +96,7 @@ const ViewCourse = () => {
       course: { id: numberIdCourse },
       student: { id: numberIdUser },
     });
-    timeout(2000);
+    window.location.reload();
   };
 
   return (
@@ -160,11 +160,19 @@ const ViewCourse = () => {
               <div
                 key={y}
                 tabIndex={y}
-                className="collapse collapse-plus border border-base-300 bg-base-100 rounded-box mt-2"
+                className="collapse collapse-open border border-base-300 bg-base-100 rounded-box mt-2"
               >
-                <input type="checkbox" />
                 <div className="collapse-title text-xl font-medium flex justify-between">
                   {s.name} 
+                  {numberIdUser === course.owner.id ? 
+                    (<Link
+                    to={`/${PrivateRoutes.PRIVATE}/${numberIdUser}/${PrivateRoutes.COURSE}/${numberIdCourse}/${PrivateRoutes.SECTION}/${s.id}/${PrivateRoutes.TUTORSHIP}`}
+                    className="btn w-15 flex justify-between bg-blue-500 normal-case border-none hover:bg-gray-800 hover:text-white "
+                  >
+                    Crear tutoria
+                  </Link> ) : null
+                  }
+                  
                 </div>
                 <div className="collapse-content">
                   {tutorships.map((t: Tutorship, i: number) => {

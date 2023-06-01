@@ -75,7 +75,7 @@ function AddTutorship() {
     } else if (response === 201) {
       // if everything is excelent, go the the register/sucessful page.
       navigate(
-        `/${PrivateRoutes.PRIVATE}/${idUser}/${PrivateRoutes.COURSE}/${idCourse}}`,
+        `/${PrivateRoutes.PRIVATE}/${idUser}/${PrivateRoutes.COURSE}/${idCourse}`,
         {
           replace: true,
         }
@@ -148,7 +148,7 @@ function AddTutorship() {
           type="submit"
           className="btn btn-block  bg-gray-800 text-white normal-case border-none hover:btn-info"
         >
-          Crear curso
+          Crear tutoria
         </button>
         {inputErrors ? <p>Diligencie todos lo campos correctamente</p> : null}
       </form>
