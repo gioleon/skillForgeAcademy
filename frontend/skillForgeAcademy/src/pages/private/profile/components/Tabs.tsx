@@ -3,7 +3,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { Course } from "../../../../model";
+import { Course, courseOA } from "../../../../model";
 import { CourseCard } from "../../../../components";
 
 interface TabPanelProps {
@@ -14,7 +14,7 @@ interface TabPanelProps {
 
 interface coursesInfo {
   createdCourses: Course[];
-  enrolledCourses: Course[];
+  enrolledCourses: courseOA[];
 }
 
 function TabPanel(props: TabPanelProps) {
@@ -103,17 +103,17 @@ export default function BasicTabs({
       </TabPanel>
       <TabPanel value={value} index={1}>
         <div className="p-20 flex flex-wrap justify-center gap-20">
-          {enrolledCourses.length > 0
-            ? enrolledCourses.map((c: Course, index) => {
+        {enrolledCourses.length > 0
+            ? enrolledCourses.map((c: courseOA, index) => {
                 return (
                   <CourseCard
                     key={index}
                     id={c.id}
                     category={c.category}
-                    name={c.name}
-                    owner={c.owner}
-                    description={c.description}
-                    urlImage={c.urlImage}
+                    name={c.name!}
+                    owner={c.owner!}
+                    description={c.description!}
+                    urlImage={c.urlImage!}
                   />
                 );
               })
