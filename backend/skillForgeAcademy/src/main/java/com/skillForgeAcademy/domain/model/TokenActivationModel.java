@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TokenModel {
+public class TokenActivationModel {
 
   private long id;
   private String token;
@@ -19,7 +19,7 @@ public class TokenModel {
   private LocalDateTime confirmedAt;
   private long userId;
 
-  public TokenModel(String token, Long userId) {
+  public TokenActivationModel(String token, Long userId) {
     this.token = token;
     this.createdAt = LocalDateTime.now();
     this.expiredAt = LocalDateTime.now().plusHours(24);

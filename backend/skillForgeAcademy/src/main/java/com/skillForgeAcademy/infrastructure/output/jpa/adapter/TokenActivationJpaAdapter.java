@@ -1,11 +1,11 @@
 package com.skillForgeAcademy.infrastructure.output.jpa.adapter;
 
-import com.skillForgeAcademy.domain.model.TokenModel;
-import com.skillForgeAcademy.domain.spi.persistence.ITokenPersistencePort;
+import com.skillForgeAcademy.domain.model.TokenActivationModel;
+import com.skillForgeAcademy.domain.spi.persistence.ITokenActivationPersistencePort;
 import com.skillForgeAcademy.infrastructure.exception.NoDataFoundException;
-import com.skillForgeAcademy.infrastructure.output.jpa.entity.TokenEntity;
+import com.skillForgeAcademy.infrastructure.output.jpa.entity.TokenActivationEntity;
 import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ITokenEntityMapper;
-import com.skillForgeAcademy.infrastructure.output.jpa.repository.ITokenRepository;
+import com.skillForgeAcademy.infrastructure.output.jpa.repository.ITokenActivationRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class TokenJpaAdapter implements ITokenPersistencePort {
+public class TokenActivationJpaAdapter implements ITokenActivationPersistencePort {
 
-    private final ITokenRepository repository;
+    private final ITokenActivationRepository repository;
     private final ITokenEntityMapper tokenEntityMapper;
 
     @Override
@@ -24,8 +24,8 @@ public class TokenJpaAdapter implements ITokenPersistencePort {
     }
 
     @Override
-    public TokenModel findByToken(String token) {
-        Optional<TokenEntity> tokenEntity = repository.findByToken(token);
+    public TokenActivationModel findByToken(String token) {
+        Optional<TokenActivationEntity> tokenEntity = repository.findByToken(token);
         if (tokenEntity.isEmpty()) {
             throw new NoDataFoundException("NO DATA FOUND");
         }
@@ -33,14 +33,14 @@ public class TokenJpaAdapter implements ITokenPersistencePort {
     }
 
     @Override
-    public TokenModel create(TokenModel token) {
-        TokenEntity tokenEntity = tokenEntityMapper.toEntity(token);
+    public TokenActivationModel create(TokenActivationModel token) {
+        TokenActivationEntity tokenEntity = tokenEntityMapper.toEntity(token);
         return tokenEntityMapper.toModel(repository.save(tokenEntity));
     }
 
     @Override
-    public TokenModel find(String token) {
-        Optional<TokenEntity> tokenFound = this.repository.findByToken(token);
+    public TokenActivationModel find(String token) {
+        Optional<TokenActivationEntity> tokenFound = this.repository.findByToken(token);
         if (tokenFound.isEmpty()) {
             throw new NoDataFoundException("NO DATA FOUND");
         }
@@ -48,8 +48,8 @@ public class TokenJpaAdapter implements ITokenPersistencePort {
     }
 
     @Override
-    public List<TokenModel> findAll() {
-        List<TokenEntity> tokenEntities = (List<TokenEntity>) repository.findAll();
+    public List<TokenActivationModel> findAll() {
+        List<TokenActivationEntity> tokenEntities = (List<TokenActivationEntity>) repository.findAll();
         if (tokenEntities.isEmpty()){
             throw new NoDataFoundException("NO DATA FOUND");
         }
@@ -57,8 +57,8 @@ public class TokenJpaAdapter implements ITokenPersistencePort {
     }
 
     @Override
-    public TokenModel delete(String token){
-        Optional<TokenEntity> tokenFound = repository.findByToken(token);
+    public TokenActivationModel delete(String token){
+        Optional<TokenActivationEntity> tokenFound = repository.findByToken(token);
         if (token.isEmpty()) {
             throw new NoDataFoundException("NO DATA FOUND");
         }

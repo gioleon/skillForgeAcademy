@@ -1,10 +1,10 @@
 package com.skillForgeAcademy.domain.usecase;
 
-import com.skillForgeAcademy.domain.api.ITokenServicePort;
+import com.skillForgeAcademy.domain.api.ITokenActivationServicePort;
 import com.skillForgeAcademy.domain.api.IUserServicePort;
 import com.skillForgeAcademy.domain.exception.DomainException;
 import com.skillForgeAcademy.domain.model.RolModel;
-import com.skillForgeAcademy.domain.model.TokenModel;
+import com.skillForgeAcademy.domain.model.TokenActivationModel;
 import com.skillForgeAcademy.domain.model.UserModel;
 import com.skillForgeAcademy.domain.model.UserResponseBroker;
 import com.skillForgeAcademy.domain.spi.broker.IEmailSenderPort;
@@ -17,14 +17,14 @@ import java.util.UUID;
 public class UserUseCase implements IUserServicePort {
 
   private IUserPersistencePort userPersistencePort;
-  private ITokenServicePort tokenServicePort;
+  private ITokenActivationServicePort tokenServicePort;
   private IPasswordEncoderPort passwordEncoder;
 
   private IEmailSenderPort emailSenderPort;
 
   public UserUseCase(
       IUserPersistencePort userPersistencePort,
-      ITokenServicePort tokenServicePort,
+      ITokenActivationServicePort tokenServicePort,
       IPasswordEncoderPort passwordEncoderPort,
       IEmailSenderPort emailSenderPort) {
 
@@ -61,7 +61,7 @@ public class UserUseCase implements IUserServicePort {
     // save user
     UserModel user = this.userPersistencePort.create(userModel);
     String code = UUID.randomUUID().toString();
-    TokenModel token = new TokenModel(code, user.getId());
+    TokenActivationModel token = new TokenActivationModel(code, user.getId());
 
     // save token
     this.tokenServicePort.create(token);
@@ -82,7 +82,7 @@ public class UserUseCase implements IUserServicePort {
 
   @Override
   public void activeAccount(String token) {
-    TokenModel tokenFound = this.tokenServicePort.find(token);
+    TokenActivationModel tokenFound = this.tokenServicePort.find(token);
     // set a confirmedAt value
     this.tokenServicePort.confirmToken(token);
     // change isEnable status to true
