@@ -1,6 +1,6 @@
 package com.skillForgeAcademy.infrastructure.output.jpa.repository;
 
-import com.skillForgeAcademy.infrastructure.output.jpa.entity.TokenEntity;
+import com.skillForgeAcademy.infrastructure.output.jpa.entity.TokenActivationEntity;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Repository
-public interface ITokenRepository extends CrudRepository<TokenEntity, Long> {
+public interface ITokenActivationRepository extends CrudRepository<TokenActivationEntity, Long> {
 
-    Optional<TokenEntity> findByToken(String token);
+    Optional<TokenActivationEntity> findByToken(String token);
     @Transactional
     @Modifying
     @Query(value = "UPDATE tokens SET confirmed_at = :confirmedAt WHERE token = :token", nativeQuery = true)

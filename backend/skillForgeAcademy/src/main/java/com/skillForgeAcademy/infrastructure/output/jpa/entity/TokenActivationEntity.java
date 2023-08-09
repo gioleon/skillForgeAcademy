@@ -21,8 +21,8 @@ import jakarta.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tokens")
-public class TokenEntity {
+@Table(name = "tokens_activation")
+public class TokenActivationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

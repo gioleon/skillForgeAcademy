@@ -1,24 +1,24 @@
 package com.skillForgeAcademy.domain.usecase;
 
 import com.skillForgeAcademy.domain.exception.DomainException;
-import com.skillForgeAcademy.domain.model.TokenModel;
-import com.skillForgeAcademy.domain.api.ITokenServicePort;
-import com.skillForgeAcademy.domain.spi.persistence.ITokenPersistencePort;
+import com.skillForgeAcademy.domain.model.TokenActivationModel;
+import com.skillForgeAcademy.domain.api.ITokenActivationServicePort;
+import com.skillForgeAcademy.domain.spi.persistence.ITokenActivationPersistencePort;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class TokenUseCase implements ITokenServicePort {
+public class TokenActivationUseCase implements ITokenActivationServicePort {
 
-    private ITokenPersistencePort tokenPersistencePort;
+    private ITokenActivationPersistencePort tokenPersistencePort;
 
-    public TokenUseCase(ITokenPersistencePort tokenPersistencePort){
+    public TokenActivationUseCase(ITokenActivationPersistencePort tokenPersistencePort){
         this.tokenPersistencePort = tokenPersistencePort;
     }
 
     @Override
     public void confirmToken(String token) {
-        TokenModel tokenFound = tokenPersistencePort.findByToken(token);
+        TokenActivationModel tokenFound = tokenPersistencePort.findByToken(token);
         if (token == null){
             throw new DomainException("TOKEN NOT FOUND");
         } else if (tokenFound.getExpiredAt().isBefore(LocalDateTime.now())){
@@ -30,27 +30,27 @@ public class TokenUseCase implements ITokenServicePort {
     }
 
     @Override
-    public TokenModel findByToken(String token) {
+    public TokenActivationModel findByToken(String token) {
         return tokenPersistencePort.findByToken(token);
     }
 
     @Override
-    public TokenModel create(TokenModel token) {
+    public TokenActivationModel create(TokenActivationModel token) {
         return this.tokenPersistencePort.create(token);
     }
 
     @Override
-    public TokenModel find(String id) {
+    public TokenActivationModel find(String id) {
         return this.tokenPersistencePort.find(id);
     }
 
     @Override
-    public List<TokenModel> findAll() {
+    public List<TokenActivationModel> findAll() {
         return this.tokenPersistencePort.findAll();
     }
 
     @Override
-    public TokenModel delete(String id){
+    public TokenActivationModel delete(String id){
         return this.tokenPersistencePort.delete(id);
     }
 }

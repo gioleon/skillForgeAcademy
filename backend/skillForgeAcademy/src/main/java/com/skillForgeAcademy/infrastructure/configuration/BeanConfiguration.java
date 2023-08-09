@@ -7,7 +7,7 @@ import com.skillForgeAcademy.domain.api.IInscriptionServicePort;
 import com.skillForgeAcademy.domain.api.IRateServicePort;
 import com.skillForgeAcademy.domain.api.IRolServicePort;
 import com.skillForgeAcademy.domain.api.ISectionServicePort;
-import com.skillForgeAcademy.domain.api.ITokenServicePort;
+import com.skillForgeAcademy.domain.api.ITokenActivationServicePort;
 import com.skillForgeAcademy.domain.api.ITutorshipServicePort;
 import com.skillForgeAcademy.domain.api.IUserServicePort;
 import com.skillForgeAcademy.domain.api.IVideoServicePort;
@@ -20,7 +20,7 @@ import com.skillForgeAcademy.domain.spi.persistence.IInscriptionPersistencePort;
 import com.skillForgeAcademy.domain.spi.persistence.IRatePersistencePort;
 import com.skillForgeAcademy.domain.spi.persistence.IRolPersistencePort;
 import com.skillForgeAcademy.domain.spi.persistence.ISectionPersistencePort;
-import com.skillForgeAcademy.domain.spi.persistence.ITokenPersistencePort;
+import com.skillForgeAcademy.domain.spi.persistence.ITokenActivationPersistencePort;
 import com.skillForgeAcademy.domain.spi.persistence.ITutorshipPersistencePort;
 import com.skillForgeAcademy.domain.spi.persistence.IUserPersistencePort;
 import com.skillForgeAcademy.domain.spi.persistence.IVideoPersistencePort;
@@ -31,7 +31,7 @@ import com.skillForgeAcademy.domain.usecase.InscriptionUseCase;
 import com.skillForgeAcademy.domain.usecase.RateUseCase;
 import com.skillForgeAcademy.domain.usecase.RolUseCase;
 import com.skillForgeAcademy.domain.usecase.SectionUseCase;
-import com.skillForgeAcademy.domain.usecase.TokenUseCase;
+import com.skillForgeAcademy.domain.usecase.TokenActivationUseCase;
 import com.skillForgeAcademy.domain.usecase.TutorshipUseCase;
 import com.skillForgeAcademy.domain.usecase.UserUseCase;
 import com.skillForgeAcademy.domain.usecase.VideoUseCase;
@@ -43,7 +43,7 @@ import com.skillForgeAcademy.infrastructure.output.jpa.adapter.InscriptionJpaAda
 import com.skillForgeAcademy.infrastructure.output.jpa.adapter.RateJpaAdapter;
 import com.skillForgeAcademy.infrastructure.output.jpa.adapter.RolJpaAdapter;
 import com.skillForgeAcademy.infrastructure.output.jpa.adapter.SectionJpaAdapter;
-import com.skillForgeAcademy.infrastructure.output.jpa.adapter.TokenJpaAdapter;
+import com.skillForgeAcademy.infrastructure.output.jpa.adapter.TokenActivationJpaAdapter;
 import com.skillForgeAcademy.infrastructure.output.jpa.adapter.TutorshipJpaAdapter;
 import com.skillForgeAcademy.infrastructure.output.jpa.adapter.UserJpaAdapter;
 import com.skillForgeAcademy.infrastructure.output.jpa.adapter.VideoJpaAdapter;
@@ -71,7 +71,7 @@ import com.skillForgeAcademy.infrastructure.output.jpa.repository.IInscriptionRe
 import com.skillForgeAcademy.infrastructure.output.jpa.repository.IRateRepository;
 import com.skillForgeAcademy.infrastructure.output.jpa.repository.IRolRepository;
 import com.skillForgeAcademy.infrastructure.output.jpa.repository.ISectionRepository;
-import com.skillForgeAcademy.infrastructure.output.jpa.repository.ITokenRepository;
+import com.skillForgeAcademy.infrastructure.output.jpa.repository.ITokenActivationRepository;
 import com.skillForgeAcademy.infrastructure.output.jpa.repository.ITutorshipRepository;
 import com.skillForgeAcademy.infrastructure.output.jpa.repository.IUserRepository;
 import com.skillForgeAcademy.infrastructure.output.jpa.repository.IVideoRepository;
@@ -88,7 +88,7 @@ public class BeanConfiguration {
   private final IUserEntityMapper userEntityMapper;
   private final IRolRepository rolRepository;
   private final IRolEntityMapper rolEntityMapper;
-  private final ITokenRepository tokenRepository;
+  private final ITokenActivationRepository tokenRepository;
   private final ITokenEntityMapper tokenEntityMapper;
   private final ICategoryRepository categoryRepository;
   private final ICategoryEntityMapper categoryEntityMapper;
@@ -145,13 +145,13 @@ public class BeanConfiguration {
   }
 
   @Bean
-  public ITokenPersistencePort tokenPersistence() {
-    return new TokenJpaAdapter(tokenRepository, tokenEntityMapper);
+  public ITokenActivationPersistencePort tokenPersistence() {
+    return new TokenActivationJpaAdapter(tokenRepository, tokenEntityMapper);
   }
 
   @Bean
-  public ITokenServicePort tokenService() {
-    return new TokenUseCase(tokenPersistence());
+  public ITokenActivationServicePort tokenService() {
+    return new TokenActivationUseCase(tokenPersistence());
   }
 
   @Bean
