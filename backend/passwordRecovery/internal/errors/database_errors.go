@@ -33,3 +33,11 @@ type ScanError struct {
 func (err *ScanError) Error() string {
 	return fmt.Sprintf("%v", err.Message)
 }
+
+type UpdateRowError struct {
+	Message error
+}
+
+func (err *UpdateRowError) Error() string {
+	return fmt.Sprintf("%v", err.Message)
+}

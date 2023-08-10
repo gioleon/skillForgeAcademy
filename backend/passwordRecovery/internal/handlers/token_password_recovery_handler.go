@@ -3,15 +3,15 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
-	"passwordRecovery/internal/interfaces"
+	"passwordRecovery/internal/adapters"
 	"passwordRecovery/internal/model"
-	"passwordRecovery/internal/repository"
+	"passwordRecovery/internal/ports"
 	"time"
 
 	"github.com/google/uuid"
 )
 
-var tokenRepository interfaces.Persistence[model.TokenPasswordRecovery] = &repository.TokenRepository{}
+var tokenRepository ports.TokenPasswordRecoveryPort = &adapters.TokenAdapter{}
 
 func Create(w http.ResponseWriter, r *http.Request) {
 	// this function in the request body receives the userId
@@ -51,4 +51,33 @@ func DeleteById(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(&id)
 
+}
+
+func ValidateToken(token string) bool {
+	// Get the token
+	foundToken, err := tokenRepository.FindByToken(token)
+	if err != nil {
+		panic(err)
+	}
+
+	// Parsing the representation of null date time from string to time.Time
+	layout := "2006-01-02 00:00:00" // layout specifies the format of the date
+	nullDateRepresentation, err := time.Parse(layout, "0001-01-01 00:00:00")
+	if err != nil {
+		panic(err)
+	}
+
+	// Verify if the token has not been confirmed and is still valid
+	if foundToken.ConfirmedAt.Equal(nullDateRepresentation) && foundToken.ExpiredAt.After(time.Now()) {
+		return true
+	}
+
+	return false
+}
+
+func ConfirmToken(token string) {
+	err := tokenRepository.ConfirmToken(token)
+	if err != nil {
+		panic(err)
+	}
 }
