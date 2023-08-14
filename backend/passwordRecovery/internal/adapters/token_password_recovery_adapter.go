@@ -2,29 +2,15 @@ package adapters
 
 import (
 	"database/sql"
-	"os"
 	"passwordRecovery/internal/errors"
 	"passwordRecovery/internal/model"
-	"passwordRecovery/pkg"
+	"passwordRecovery/internal/utils"
 	"time"
 )
 
-func getDatabaseConnection() *sql.DB {
-	databaseName := "skillforgeacademy"
-
-	return pkg.GetDatabaseConnection(
-		os.Getenv("DB_HOST"), os.Getenv("DB_PORT"),
-		os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"),
-		databaseName)
-}
-
 type TokenAdapter struct{}
 
-func (token *TokenAdapter) Create(t *model.TokenPasswordRecovery) (int, error) {
-
-	db := getDatabaseConnection()
-	defer db.Close()
-
+func (token *TokenAdapter) CreateToken(tx *sql.Tx, t *model.TokenPasswordRecovery) (int, error) {
 	id := -1
 
 	sqlInsertStatement := `
@@ -32,7 +18,7 @@ func (token *TokenAdapter) Create(t *model.TokenPasswordRecovery) (int, error) {
 	    VALUES  ($1, $2, $3, $4, $5)
 		RETURNING id
 	`
-	err := db.QueryRow(sqlInsertStatement, t.ConfirmedAt, t.CreatedAt, t.ExpiredAt, t.Token, t.UserId).Scan(&id)
+	err := tx.QueryRow(sqlInsertStatement, t.ConfirmedAt, t.CreatedAt, t.ExpiredAt, t.Token, t.UserId).Scan(&id)
 	if err != nil {
 		return id, &errors.InsertionError{Message: err}
 	}
@@ -40,11 +26,7 @@ func (token *TokenAdapter) Create(t *model.TokenPasswordRecovery) (int, error) {
 	return id, err
 }
 
-func (token *TokenAdapter) DeleteById(tokenId int) (int, error) {
-
-	db := getDatabaseConnection()
-	defer db.Close()
-
+func (token *TokenAdapter) DeleteTokenById(tx *sql.Tx, tokenId int) (int, error) {
 	id := -1
 
 	sqlDeleteStatement := `
@@ -52,7 +34,7 @@ func (token *TokenAdapter) DeleteById(tokenId int) (int, error) {
 		WHERE id = $1
 		RETURNING id
 	`
-	err := db.QueryRow(sqlDeleteStatement, tokenId).Scan(&id)
+	err := tx.QueryRow(sqlDeleteStatement, tokenId).Scan(&id)
 	if err != nil {
 		return id, &errors.DeleteError{Message: err}
 	}
@@ -60,11 +42,7 @@ func (token *TokenAdapter) DeleteById(tokenId int) (int, error) {
 	return id, err
 }
 
-func (token *TokenAdapter) FindById(tokenId int) (*model.TokenPasswordRecovery, error) {
-
-	db := getDatabaseConnection()
-	defer db.Close()
-
+func (token *TokenAdapter) FindTokenById(tx *sql.Tx, tokenId int) (*model.TokenPasswordRecovery, error) {
 	foundToken := &model.TokenPasswordRecovery{}
 
 	sqlFindStatement := `
@@ -72,7 +50,7 @@ func (token *TokenAdapter) FindById(tokenId int) (*model.TokenPasswordRecovery, 
 		WHERE id = $1
 	`
 
-	err := db.QueryRow(sqlFindStatement, tokenId).Scan(&foundToken.Id, &foundToken.ConfirmedAt, &foundToken.CreatedAt, &foundToken.ExpiredAt, &foundToken.Token, &foundToken.UserId)
+	err := tx.QueryRow(sqlFindStatement, tokenId).Scan(&foundToken.Id, &foundToken.ConfirmedAt, &foundToken.CreatedAt, &foundToken.ExpiredAt, &foundToken.Token, &foundToken.UserId)
 
 	if err != nil {
 		return foundToken, &errors.NoDataFound{Message: err}
@@ -83,7 +61,7 @@ func (token *TokenAdapter) FindById(tokenId int) (*model.TokenPasswordRecovery, 
 
 func (token *TokenAdapter) FindAll() ([]*model.TokenPasswordRecovery, error) {
 
-	db := getDatabaseConnection()
+	db := utils.GetDatabaseConnection()
 	defer db.Close()
 
 	tokens := make([]*model.TokenPasswordRecovery, 0)
@@ -117,11 +95,7 @@ func (token *TokenAdapter) FindAll() ([]*model.TokenPasswordRecovery, error) {
 
 }
 
-func (t *TokenAdapter) FindByToken(token string) (*model.TokenPasswordRecovery, error) {
-
-	db := getDatabaseConnection()
-	defer db.Close()
-
+func (t *TokenAdapter) FindTokenByToken(tx *sql.Tx, token string) (*model.TokenPasswordRecovery, error) {
 	foundToken := &model.TokenPasswordRecovery{}
 
 	sqlFindStatement := `
@@ -129,7 +103,7 @@ func (t *TokenAdapter) FindByToken(token string) (*model.TokenPasswordRecovery, 
 		WHERE token = $1
 	`
 
-	err := db.QueryRow(sqlFindStatement, token).Scan(&foundToken.Id, &foundToken.ConfirmedAt, &foundToken.CreatedAt, &foundToken.ExpiredAt, &foundToken.Token, &foundToken.UserId)
+	err := tx.QueryRow(sqlFindStatement, token).Scan(&foundToken.Id, &foundToken.ConfirmedAt, &foundToken.CreatedAt, &foundToken.ExpiredAt, &foundToken.Token, &foundToken.UserId)
 
 	if err != nil {
 		return foundToken, &errors.NoDataFound{Message: err}
@@ -138,17 +112,14 @@ func (t *TokenAdapter) FindByToken(token string) (*model.TokenPasswordRecovery, 
 	return foundToken, err
 }
 
-func (t *TokenAdapter) ConfirmToken(token string) error {
-	db := getDatabaseConnection()
-	defer db.Close()
-
-	sqlFindStatement := `
+func (t *TokenAdapter) ConfirmToken(tx *sql.Tx, token string) error {
+	sqlUpdateStatement := `
 	    UPDATE tokens_password_recovery
 		SET confirmed_at = $1
 		WHERE token = $2
 	`
 
-	_, err := db.Exec(sqlFindStatement, time.Now(), token)
+	_, err := tx.Exec(sqlUpdateStatement, time.Now(), token)
 	if err != nil {
 		return &errors.UpdateRowError{Message: err}
 	}

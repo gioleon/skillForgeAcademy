@@ -12,7 +12,7 @@ func CreateTable() {
 	databaseName := "skillforgeacademy"
 
 	// Get database connection
-	db := pkg.GetDatabaseConnection(
+	db := pkg.SetDatabaseConnection(
 		os.Getenv("DB_HOST"), os.Getenv("DB_PORT"),
 		os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"),
 		databaseName)
