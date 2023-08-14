@@ -1,8 +1,7 @@
 package handlers
 
 import (
-	"encoding/json"
-	"net/http"
+	"database/sql"
 	"passwordRecovery/internal/adapters"
 	"passwordRecovery/internal/model"
 	"passwordRecovery/internal/ports"
@@ -13,49 +12,31 @@ import (
 
 var tokenRepository ports.TokenPasswordRecoveryPort = &adapters.TokenAdapter{}
 
-func Create(w http.ResponseWriter, r *http.Request) {
+func CreateToken(tx *sql.Tx, userId int) (int, error) {
 	// this function in the request body receives the userId
 	token := &model.TokenPasswordRecovery{}
-
-	// Set user id
-	err := json.NewDecoder(r.Body).Decode(&token)
-	if err != nil {
-		panic(err)
-	}
 
 	// Setting other parameters
 	token.ExpiredAt = time.Now().Add(time.Minute * 15)
 	token.CreatedAt = time.Now()
 	token.Token = uuid.New().String()
+	token.UserId = userId
 
-	id, err := tokenRepository.Create(token)
-	if err != nil {
-		panic(err)
-	}
+	id, err := tokenRepository.CreateToken(tx, token)
 
-	json.NewEncoder(w).Encode(&id)
+	return id, err
 }
 
-func DeleteById(w http.ResponseWriter, r *http.Request) {
-	token := &model.TokenPasswordRecovery{}
-
-	err := json.NewDecoder(r.Body).Decode(&token)
+func DeleteTokenById(tx *sql.Tx, id int) {
+	id, err := tokenRepository.DeleteTokenById(tx, id)
 	if err != nil {
 		panic(err)
 	}
-
-	id, err := tokenRepository.DeleteById(token.Id)
-	if err != nil {
-		panic(err)
-	}
-
-	json.NewEncoder(w).Encode(&id)
-
 }
 
-func ValidateToken(token string) bool {
+func ValidateToken(tx *sql.Tx, token string) bool {
 	// Get the token
-	foundToken, err := tokenRepository.FindByToken(token)
+	foundToken, err := tokenRepository.FindTokenByToken(tx, token)
 	if err != nil {
 		panic(err)
 	}
@@ -75,8 +56,8 @@ func ValidateToken(token string) bool {
 	return false
 }
 
-func ConfirmToken(token string) {
-	err := tokenRepository.ConfirmToken(token)
+func ConfirmToken(tx *sql.Tx, token string) {
+	err := tokenRepository.ConfirmToken(tx, token)
 	if err != nil {
 		panic(err)
 	}

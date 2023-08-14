@@ -1,11 +1,14 @@
 package ports
 
 import (
+	"database/sql"
 	"passwordRecovery/internal/model"
 )
 
 type TokenPasswordRecoveryPort interface {
-	Persistence[model.TokenPasswordRecovery]
-	FindByToken(token string) (*model.TokenPasswordRecovery, error)
-	ConfirmToken(token string) error
+	CreateToken(tx *sql.Tx, token *model.TokenPasswordRecovery) (int, error)
+	DeleteTokenById(tx *sql.Tx, tokenId int) (int, error)
+	FindTokenById(tx *sql.Tx, tokenId int) (*model.TokenPasswordRecovery, error)
+	FindTokenByToken(tx *sql.Tx, token string) (*model.TokenPasswordRecovery, error)
+	ConfirmToken(tx *sql.Tx, token string) error
 }
