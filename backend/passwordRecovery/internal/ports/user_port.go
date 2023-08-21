@@ -8,4 +8,5 @@ import (
 type UserPort interface {
 	FindByEmail(tx *sql.Tx, email string) (*model.User, error)
 	ChangePassword(tx *sql.Tx, id int, newPassword string) error
+	FindByToken(tx *sql.Tx, token string) (*model.User, error)
 }

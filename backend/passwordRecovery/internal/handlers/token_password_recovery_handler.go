@@ -3,6 +3,7 @@ package handlers
 import (
 	"database/sql"
 	"passwordRecovery/internal/adapters"
+	"passwordRecovery/internal/errors"
 	"passwordRecovery/internal/model"
 	"passwordRecovery/internal/ports"
 	"time"
@@ -27,38 +28,34 @@ func CreateToken(tx *sql.Tx, userId int) (int, error) {
 	return id, err
 }
 
-func DeleteTokenById(tx *sql.Tx, id int) {
+func DeleteTokenById(tx *sql.Tx, id int) error {
 	id, err := tokenRepository.DeleteTokenById(tx, id)
 	if err != nil {
-		panic(err)
+		return &errors.DeleteError{Message: err}
 	}
+	return nil
 }
 
-func ValidateToken(tx *sql.Tx, token string) bool {
+func ValidateToken(tx *sql.Tx, token string) (bool, error) {
 	// Get the token
 	foundToken, err := tokenRepository.FindTokenByToken(tx, token)
 	if err != nil {
-		panic(err)
-	}
-
-	// Parsing the representation of null date time from string to time.Time
-	layout := "2006-01-02 00:00:00" // layout specifies the format of the date
-	nullDateRepresentation, err := time.Parse(layout, "0001-01-01 00:00:00")
-	if err != nil {
-		panic(err)
+		return false, &errors.NoDataFound{Message: err}
 	}
 
 	// Verify if the token has not been confirmed and is still valid
-	if foundToken.ConfirmedAt.Equal(nullDateRepresentation) && foundToken.ExpiredAt.After(time.Now()) {
-		return true
+	if foundToken.ConfirmedAt.IsZero() && foundToken.ExpiredAt.After(time.Now().Local()) {
+		return true, nil
 	}
 
-	return false
+	return false, nil
 }
 
-func ConfirmToken(tx *sql.Tx, token string) {
+func ConfirmToken(tx *sql.Tx, token string) error {
 	err := tokenRepository.ConfirmToken(tx, token)
 	if err != nil {
-		panic(err)
+		return &errors.ConfirmTokenError{Message: err}
 	}
+
+	return nil
 }

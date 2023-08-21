@@ -41,3 +41,21 @@ func (u *UserAdapter) ChangePassword(tx *sql.Tx, id int, password string) error 
 
 	return nil
 }
+
+func (u *UserAdapter) FindByToken(tx *sql.Tx, token string) (*model.User, error) {
+
+	user := &model.User{}
+
+	sqlFindStatement := `
+	    SELECT u.id, u.password, u.email FROM users u
+		INNER JOIN tokens_password_recovery t
+		ON u.id = t.user_id 
+	    WHERE t.token = $1
+	`
+	err := tx.QueryRow(sqlFindStatement, token).Scan(&user.Id, &user.Password, &user.Email)
+	if err != nil {
+		return nil, &errors.NoDataFound{Message: err}
+	}
+
+	return user, nil
+}

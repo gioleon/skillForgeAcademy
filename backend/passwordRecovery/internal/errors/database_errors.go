@@ -41,11 +41,3 @@ type UpdateRowError struct {
 func (err *UpdateRowError) Error() string {
 	return fmt.Sprintf("%v", err.Message)
 }
-
-type PasswordEncodingError struct {
-	Message error
-}
-
-func (err *PasswordEncodingError) Error() string {
-	return fmt.Sprintf("%v", err.Message)
-}

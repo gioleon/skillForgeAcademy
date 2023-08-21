@@ -11,6 +11,14 @@ func InitRoutes() {
 		case http.MethodGet:
 			handlers.RecoverPassword(w, r)
 		}
+	})
+
+	http.HandleFunc("/changePassword", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPost {
+			handlers.ChangePassword(w, r)
+		} else {
+			http.Error(w, "Also post method allowed", http.StatusBadRequest)
+		}
 
 	})
 }
