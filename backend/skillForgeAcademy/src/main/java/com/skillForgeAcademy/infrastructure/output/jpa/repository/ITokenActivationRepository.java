@@ -17,7 +17,7 @@ public interface ITokenActivationRepository extends CrudRepository<TokenActivati
     Optional<TokenActivationEntity> findByToken(String token);
     @Transactional
     @Modifying
-    @Query(value = "UPDATE tokens SET confirmed_at = :confirmedAt WHERE token = :token", nativeQuery = true)
+    @Query(value = "UPDATE tokens_activation SET confirmed_at = :confirmedAt WHERE token = :token", nativeQuery = true)
     int updateConfirmedAt(@Param("token") String token,
                           @Param("confirmedAt")LocalDateTime confirmedAt);
 }

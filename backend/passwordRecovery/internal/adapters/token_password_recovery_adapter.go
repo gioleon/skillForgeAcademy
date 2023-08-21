@@ -106,7 +106,7 @@ func (t *TokenAdapter) FindTokenByToken(tx *sql.Tx, token string) (*model.TokenP
 	err := tx.QueryRow(sqlFindStatement, token).Scan(&foundToken.Id, &foundToken.ConfirmedAt, &foundToken.CreatedAt, &foundToken.ExpiredAt, &foundToken.Token, &foundToken.UserId)
 
 	if err != nil {
-		return foundToken, &errors.NoDataFound{Message: err}
+		return nil, &errors.NoDataFound{Message: err}
 	}
 
 	return foundToken, err
