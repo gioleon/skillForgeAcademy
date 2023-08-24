@@ -10,6 +10,8 @@ import com.skillForgeAcademy.domain.model.UserResponseBroker;
 import com.skillForgeAcademy.domain.spi.broker.IEmailSenderPort;
 import com.skillForgeAcademy.domain.spi.passwordencoder.IPasswordEncoderPort;
 import com.skillForgeAcademy.domain.spi.persistence.IUserPersistencePort;
+import com.skillForgeAcademy.domain.utility.ActivationEmailTemplate;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -46,7 +48,9 @@ public class UserUseCase implements IUserServicePort {
 
   @Override
   public void register(UserModel userModel) {
+    
     UserModel userFound = this.userPersistencePort.findByEmail(userModel.getEmail());
+
     if (userFound != null) {
       throw new DomainException(
           "THERE'S ALREADY AN USER WITH THE GIVEN EMAIL: " + userModel.getEmail());
@@ -71,11 +75,14 @@ public class UserUseCase implements IUserServicePort {
 
     // Prepare data to send
     UserResponseBroker userResponseBroker = new UserResponseBroker();
-    userResponseBroker.setActivationLink(activeURL);
+    ActivationEmailTemplate template = new ActivationEmailTemplate(); 
+    
+    userResponseBroker.setSubject("Activate your Skill Forge Academy account");
     userResponseBroker.setRecipientEmail(userModel.getEmail());
-    userResponseBroker.setRecipientName(userModel.getName());
-    userResponseBroker.setExpirationHours("24");
-
+    userResponseBroker.setMessage(
+      template.getActivationEmailTemplate(user.getName(), activeURL, "24")
+    );
+ 
     // Sending activation email.
     emailSenderPort.send("register.data", userResponseBroker);
   }
