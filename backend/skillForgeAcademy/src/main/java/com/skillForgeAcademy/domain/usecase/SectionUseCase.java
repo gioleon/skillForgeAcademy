@@ -5,7 +5,6 @@ import com.skillForgeAcademy.domain.model.SectionModel;
 import com.skillForgeAcademy.domain.model.SectionModelId;
 import com.skillForgeAcademy.domain.spi.persistence.ISectionPersistencePort;
 import java.util.List;
-import java.util.UUID;
 
 public class SectionUseCase implements ISectionServicePort {
 

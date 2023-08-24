@@ -6,7 +6,4 @@ import jakarta.mail.MessagingException;
 public interface IActivateEmail {
 
   void sendActivationEmail(UserResponseBroker userResponseBroker) throws MessagingException;
-
-  String getActivationEmailTemplate(
-      String recipientName, String activationLink, String expirationHours);
 }

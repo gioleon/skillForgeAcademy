@@ -9,10 +9,7 @@ import lombok.NoArgsConstructor;import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResponseBroker {
-
-    private String activationLink;
-    private String recipientName;
-    private String expirationHours;
     private String recipientEmail;
-
+    private String message;
+    private String subject;
 }

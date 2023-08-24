@@ -20,7 +20,6 @@ public class CourseUseCase implements ICourseServicePort {
 
   @Override
   public CourseModel create(CourseModel courseModel) {
-    List<UserModel> users = userPersistencePort.findAll();
     UserModel userModel = userPersistencePort.find(courseModel.getOwner().getId());
     courseModel.setOwner(userModel);
     return coursePersistencePort.create(courseModel);
