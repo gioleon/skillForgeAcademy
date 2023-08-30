@@ -1,4 +1,4 @@
-package adapters
+package persistence
 
 import (
 	"database/sql"
