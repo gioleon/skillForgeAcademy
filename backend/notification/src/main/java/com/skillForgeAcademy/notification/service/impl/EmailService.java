@@ -40,6 +40,8 @@ public class EmailService implements IActivateEmail {
 
     message.setTo(userResponseBroker.getRecipientEmail());
 
+    System.out.println(userResponseBroker.getSubject());
+
     mailSender.send(message);
   }
 
