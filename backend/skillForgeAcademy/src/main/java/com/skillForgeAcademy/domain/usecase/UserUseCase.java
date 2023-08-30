@@ -84,7 +84,7 @@ public class UserUseCase implements IUserServicePort {
     );
  
     // Sending activation email.
-    emailSenderPort.send("register.data", userResponseBroker);
+    emailSenderPort.send("email.sender", userResponseBroker);
   }
 
   @Override
