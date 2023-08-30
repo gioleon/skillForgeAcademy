@@ -2,10 +2,10 @@ package handlers
 
 import (
 	"database/sql"
-	"passwordRecovery/internal/adapters"
+	adapters "passwordRecovery/internal/adapters/persistence"
 	"passwordRecovery/internal/errors"
 	"passwordRecovery/internal/model"
-	"passwordRecovery/internal/ports"
+	ports "passwordRecovery/internal/ports/persistence"
 	"time"
 
 	"github.com/google/uuid"

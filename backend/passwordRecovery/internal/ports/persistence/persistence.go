@@ -1,4 +1,4 @@
-package ports
+package persistence
 
 type Persistence[T any] interface {
 	Create(element *T) (int, error)

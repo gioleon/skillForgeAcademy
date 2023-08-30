@@ -1,4 +1,4 @@
-package ports
+package persistence
 
 import (
 	"database/sql"
