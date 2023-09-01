@@ -4,13 +4,23 @@ import (
 	"database/sql"
 	"os"
 	"passwordRecovery/pkg"
+	"sync"
+)
+
+var (
+	db     *sql.DB
+	dbOnce sync.Once
 )
 
 func GetDatabaseConnection() *sql.DB {
-	databaseName := "skillforgeacademy"
+	dbOnce.Do(func() {
+		databaseName := "skillforgeacademy"
 
-	return pkg.SetDatabaseConnection(
-		os.Getenv("DB_HOST"), os.Getenv("DB_PORT"),
-		os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"),
-		databaseName)
+		db = pkg.SetDatabaseConnection(
+			os.Getenv("DB_HOST"), os.Getenv("DB_PORT"),
+			os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"),
+			databaseName)
+	})
+
+	return db
 }
