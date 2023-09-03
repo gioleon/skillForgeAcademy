@@ -8,9 +8,12 @@ import (
 	"time"
 )
 
-type TokenAdapter struct{}
+type TokenAdapter struct {
+	Tx *sql.Tx
+}
 
-func (token *TokenAdapter) CreateToken(tx *sql.Tx, t *model.TokenPasswordRecovery) (int, error) {
+func (tokenAdapter *TokenAdapter) CreateToken(
+	t *model.TokenPasswordRecovery) (int, error) {
 	id := -1
 
 	sqlInsertStatement := `
@@ -18,7 +21,7 @@ func (token *TokenAdapter) CreateToken(tx *sql.Tx, t *model.TokenPasswordRecover
 	    VALUES  ($1, $2, $3, $4, $5)
 		RETURNING id
 	`
-	err := tx.QueryRow(sqlInsertStatement, t.ConfirmedAt, t.CreatedAt, t.ExpiredAt, t.Token, t.UserId).Scan(&id)
+	err := tokenAdapter.Tx.QueryRow(sqlInsertStatement, t.ConfirmedAt, t.CreatedAt, t.ExpiredAt, t.Token, t.UserId).Scan(&id)
 	if err != nil {
 		return id, &errors.InsertionError{Message: err}
 	}
@@ -26,7 +29,7 @@ func (token *TokenAdapter) CreateToken(tx *sql.Tx, t *model.TokenPasswordRecover
 	return id, err
 }
 
-func (token *TokenAdapter) DeleteTokenById(tx *sql.Tx, tokenId int) (int, error) {
+func (tokenAdapter *TokenAdapter) DeleteTokenById(tokenId int) (int, error) {
 	id := -1
 
 	sqlDeleteStatement := `
@@ -34,7 +37,7 @@ func (token *TokenAdapter) DeleteTokenById(tx *sql.Tx, tokenId int) (int, error)
 		WHERE id = $1
 		RETURNING id
 	`
-	err := tx.QueryRow(sqlDeleteStatement, tokenId).Scan(&id)
+	err := tokenAdapter.Tx.QueryRow(sqlDeleteStatement, tokenId).Scan(&id)
 	if err != nil {
 		return id, &errors.DeleteError{Message: err}
 	}
@@ -42,7 +45,7 @@ func (token *TokenAdapter) DeleteTokenById(tx *sql.Tx, tokenId int) (int, error)
 	return id, err
 }
 
-func (token *TokenAdapter) FindTokenById(tx *sql.Tx, tokenId int) (*model.TokenPasswordRecovery, error) {
+func (tokenAdpater *TokenAdapter) FindTokenById(tokenId int) (*model.TokenPasswordRecovery, error) {
 	foundToken := &model.TokenPasswordRecovery{}
 
 	sqlFindStatement := `
@@ -50,7 +53,7 @@ func (token *TokenAdapter) FindTokenById(tx *sql.Tx, tokenId int) (*model.TokenP
 		WHERE id = $1
 	`
 
-	err := tx.QueryRow(sqlFindStatement, tokenId).Scan(&foundToken.Id, &foundToken.ConfirmedAt, &foundToken.CreatedAt, &foundToken.ExpiredAt, &foundToken.Token, &foundToken.UserId)
+	err := tokenAdpater.Tx.QueryRow(sqlFindStatement, tokenId).Scan(&foundToken.Id, &foundToken.ConfirmedAt, &foundToken.CreatedAt, &foundToken.ExpiredAt, &foundToken.Token, &foundToken.UserId)
 
 	if err != nil {
 		return foundToken, &errors.NoDataFound{Message: err}
@@ -59,7 +62,7 @@ func (token *TokenAdapter) FindTokenById(tx *sql.Tx, tokenId int) (*model.TokenP
 	return foundToken, err
 }
 
-func (token *TokenAdapter) FindAll() ([]*model.TokenPasswordRecovery, error) {
+func (tokenAdapter *TokenAdapter) FindAll() ([]*model.TokenPasswordRecovery, error) {
 
 	db := utils.GetDatabaseConnection()
 	defer db.Close()
@@ -95,7 +98,7 @@ func (token *TokenAdapter) FindAll() ([]*model.TokenPasswordRecovery, error) {
 
 }
 
-func (t *TokenAdapter) FindTokenByToken(tx *sql.Tx, token string) (*model.TokenPasswordRecovery, error) {
+func (tokenAdapter *TokenAdapter) FindTokenByToken(token string) (*model.TokenPasswordRecovery, error) {
 	foundToken := &model.TokenPasswordRecovery{}
 
 	sqlFindStatement := `
@@ -103,7 +106,7 @@ func (t *TokenAdapter) FindTokenByToken(tx *sql.Tx, token string) (*model.TokenP
 		WHERE token = $1
 	`
 
-	err := tx.QueryRow(sqlFindStatement, token).Scan(&foundToken.Id, &foundToken.ConfirmedAt, &foundToken.CreatedAt, &foundToken.ExpiredAt, &foundToken.Token, &foundToken.UserId)
+	err := tokenAdapter.Tx.QueryRow(sqlFindStatement, token).Scan(&foundToken.Id, &foundToken.ConfirmedAt, &foundToken.CreatedAt, &foundToken.ExpiredAt, &foundToken.Token, &foundToken.UserId)
 
 	if err != nil {
 		return nil, &errors.NoDataFound{Message: err}
@@ -112,14 +115,14 @@ func (t *TokenAdapter) FindTokenByToken(tx *sql.Tx, token string) (*model.TokenP
 	return foundToken, err
 }
 
-func (t *TokenAdapter) ConfirmToken(tx *sql.Tx, token string) error {
+func (tokenAdapter *TokenAdapter) ConfirmToken(token string) error {
 	sqlUpdateStatement := `
 	    UPDATE tokens_password_recovery
 		SET confirmed_at = $1
 		WHERE token = $2
 	`
 
-	_, err := tx.Exec(sqlUpdateStatement, time.Now(), token)
+	_, err := tokenAdapter.Tx.Exec(sqlUpdateStatement, time.Now(), token)
 	if err != nil {
 		return &errors.UpdateRowError{Message: err}
 	}

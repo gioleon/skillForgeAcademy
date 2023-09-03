@@ -6,9 +6,11 @@ import (
 	"passwordRecovery/internal/model"
 )
 
-type UserAdapter struct{}
+type UserAdapter struct {
+	Tx *sql.Tx
+}
 
-func (u *UserAdapter) FindByEmail(tx *sql.Tx, email string) (*model.User, error) {
+func (u *UserAdapter) FindByEmail(email string) (*model.User, error) {
 	user := &model.User{}
 
 	sqlFindByEmailStatement := `
@@ -16,7 +18,7 @@ func (u *UserAdapter) FindByEmail(tx *sql.Tx, email string) (*model.User, error)
 		WHERE email = $1
 	`
 
-	err := tx.QueryRow(sqlFindByEmailStatement, email).Scan(&user.Id, &user.Password, &user.Email)
+	err := u.Tx.QueryRow(sqlFindByEmailStatement, email).Scan(&user.Id, &user.Password, &user.Email)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return user, &errors.NoDataFound{Message: err}
@@ -27,14 +29,14 @@ func (u *UserAdapter) FindByEmail(tx *sql.Tx, email string) (*model.User, error)
 	return user, nil
 }
 
-func (u *UserAdapter) ChangePassword(tx *sql.Tx, id int, password string) error {
+func (u *UserAdapter) ChangePassword(id int, password string) error {
 	sqlUpdateStatement := `
 	    UPDATE users
 	    SET password = $1
 	    WHERE id = $2
     `
 
-	_, err := tx.Exec(sqlUpdateStatement, password, id)
+	_, err := u.Tx.Exec(sqlUpdateStatement, password, id)
 	if err != nil {
 		return &errors.UpdateRowError{Message: err}
 	}
@@ -42,7 +44,7 @@ func (u *UserAdapter) ChangePassword(tx *sql.Tx, id int, password string) error 
 	return nil
 }
 
-func (u *UserAdapter) FindByToken(tx *sql.Tx, token string) (*model.User, error) {
+func (u *UserAdapter) FindByToken(token string) (*model.User, error) {
 
 	user := &model.User{}
 
@@ -52,7 +54,7 @@ func (u *UserAdapter) FindByToken(tx *sql.Tx, token string) (*model.User, error)
 		ON u.id = t.user_id 
 	    WHERE t.token = $1
 	`
-	err := tx.QueryRow(sqlFindStatement, token).Scan(&user.Id, &user.Password, &user.Email)
+	err := u.Tx.QueryRow(sqlFindStatement, token).Scan(&user.Id, &user.Password, &user.Email)
 	if err != nil {
 		return nil, &errors.NoDataFound{Message: err}
 	}

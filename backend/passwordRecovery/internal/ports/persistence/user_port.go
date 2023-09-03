@@ -1,12 +1,11 @@
 package persistence
 
 import (
-	"database/sql"
 	"passwordRecovery/internal/model"
 )
 
 type UserPort interface {
-	FindByEmail(tx *sql.Tx, email string) (*model.User, error)
-	ChangePassword(tx *sql.Tx, id int, newPassword string) error
-	FindByToken(tx *sql.Tx, token string) (*model.User, error)
+	FindByEmail(email string) (*model.User, error)
+	ChangePassword(id int, newPassword string) error
+	FindByToken(token string) (*model.User, error)
 }
