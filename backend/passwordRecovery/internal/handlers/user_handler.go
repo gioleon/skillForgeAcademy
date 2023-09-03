@@ -2,14 +2,13 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
+	"log"
 	"net/http"
 	"os"
 	brokerAdapter "passwordRecovery/internal/adapters/broker"
 	persistenceAdapter "passwordRecovery/internal/adapters/persistence"
 	"passwordRecovery/internal/errors"
 	"passwordRecovery/internal/model"
-	persistencePort "passwordRecovery/internal/ports/persistence"
 	"passwordRecovery/internal/utils"
 	"passwordRecovery/scripts"
 
@@ -17,22 +16,39 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-var userRepository persistencePort.UserPort = &persistenceAdapter.UserAdapter{}
+type UserHandler struct {
+}
 
-func RecoverPassword(w http.ResponseWriter, r *http.Request) {
+// userRepository := &persistence.UserAdapter{Tx: tx}
+// userHandler := handlers.UserHandler{
+// 	TokenHandler:   tokenHandler,
+// 	UserRepository: userRepository,
+// }
 
-	fmt.Printf("server: %v", os.Getenv("BOOTSTRAP_SERVERS"))
-
-	email := r.URL.Query().Get("email")
-
+func (userHandler *UserHandler) RecoverPassword(
+	w http.ResponseWriter, r *http.Request) {
 	db := utils.GetDatabaseConnection()
 	defer db.Close()
 
 	tx, err := db.Begin()
 	defer tx.Rollback()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// create instances for handlers
+	tokenHandler := &TokenHandler{
+		TokenRepository: &persistenceAdapter.TokenAdapter{
+			Tx: tx,
+		},
+	}
+
+	userRepository := &persistenceAdapter.UserAdapter{Tx: tx}
+
+	email := r.URL.Query().Get("email")
 
 	// Find user
-	user, err := userRepository.FindByEmail(tx, email)
+	user, err := userRepository.FindByEmail(email)
 	if err != nil {
 		if myError, ok := err.(*errors.NoDataFound); ok {
 			http.Error(w, myError.Error(), http.StatusNotFound)
@@ -43,20 +59,21 @@ func RecoverPassword(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Create token
-	tokenId, err := CreateToken(tx, user.Id)
+	tokenId, err := tokenHandler.CreateToken(user.Id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	// Find token by id
-	foundToken, err := tokenRepository.FindTokenById(tx, tokenId)
+	foundToken, err := tokenHandler.
+		TokenRepository.FindTokenById(tokenId)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	// Saving changes
+	// save changes
 	err = tx.Commit()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -69,8 +86,6 @@ func RecoverPassword(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
-	// email.sender
 
 	// Provide kafka.producer to the emailSenderAdapter
 	emailSender := brokerAdapter.EmailSenderAdapter{
@@ -92,7 +107,8 @@ func RecoverPassword(w http.ResponseWriter, r *http.Request) {
 // This function changes the password of an user.
 // To successfully change the password, this function checks
 // the validity of the token and use the current password to authorize the change.
-func ChangePassword(w http.ResponseWriter, r *http.Request) {
+func (userHandler *UserHandler) ChangePassword(
+	w http.ResponseWriter, r *http.Request) {
 
 	newPasswordRequest := &model.NewPasswordRequest{}
 
@@ -111,8 +127,17 @@ func ChangePassword(w http.ResponseWriter, r *http.Request) {
 	tx, err := db.Begin()
 	defer tx.Rollback()
 
+	// create instances for handlers
+	tokenHandler := &TokenHandler{
+		TokenRepository: &persistenceAdapter.TokenAdapter{
+			Tx: tx,
+		},
+	}
+
+	userRepository := &persistenceAdapter.UserAdapter{Tx: tx}
+
 	// Check validity of the token
-	if isValid, err := ValidateToken(tx, newPasswordRequest.Token); err != nil {
+	if isValid, err := tokenHandler.ValidateToken(newPasswordRequest.Token); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	} else if !isValid {
@@ -121,7 +146,7 @@ func ChangePassword(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Look for the user by token
-	foundUser, err := userRepository.FindByToken(tx, newPasswordRequest.Token)
+	foundUser, err := userRepository.FindByToken(newPasswordRequest.Token)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
@@ -142,14 +167,14 @@ func ChangePassword(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Change password
-	err = userRepository.ChangePassword(tx, foundUser.Id, newHashedPassword)
+	err = userRepository.ChangePassword(foundUser.Id, newHashedPassword)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	// Confirm token to not be able to use it againg
-	err = tokenRepository.ConfirmToken(tx, newPasswordRequest.Token)
+	err = tokenHandler.ConfirmToken(newPasswordRequest.Token)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

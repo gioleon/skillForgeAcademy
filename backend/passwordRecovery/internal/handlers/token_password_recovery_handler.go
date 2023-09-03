@@ -1,8 +1,6 @@
 package handlers
 
 import (
-	"database/sql"
-	adapters "passwordRecovery/internal/adapters/persistence"
 	"passwordRecovery/internal/errors"
 	"passwordRecovery/internal/model"
 	ports "passwordRecovery/internal/ports/persistence"
@@ -11,9 +9,11 @@ import (
 	"github.com/google/uuid"
 )
 
-var tokenRepository ports.TokenPasswordRecoveryPort = &adapters.TokenAdapter{}
+type TokenHandler struct {
+	TokenRepository ports.TokenPasswordRecoveryPort
+}
 
-func CreateToken(tx *sql.Tx, userId int) (int, error) {
+func (tokenHandler *TokenHandler) CreateToken(userId int) (int, error) {
 	// this function in the request body receives the userId
 	token := &model.TokenPasswordRecovery{}
 
@@ -23,22 +23,22 @@ func CreateToken(tx *sql.Tx, userId int) (int, error) {
 	token.Token = uuid.New().String()
 	token.UserId = userId
 
-	id, err := tokenRepository.CreateToken(tx, token)
+	id, err := tokenHandler.TokenRepository.CreateToken(token)
 
 	return id, err
 }
 
-func DeleteTokenById(tx *sql.Tx, id int) error {
-	id, err := tokenRepository.DeleteTokenById(tx, id)
+func (tokenHandler *TokenHandler) DeleteTokenById(id int) error {
+	id, err := tokenHandler.TokenRepository.DeleteTokenById(id)
 	if err != nil {
 		return &errors.DeleteError{Message: err}
 	}
 	return nil
 }
 
-func ValidateToken(tx *sql.Tx, token string) (bool, error) {
+func (tokenHandler *TokenHandler) ValidateToken(token string) (bool, error) {
 	// Get the token
-	foundToken, err := tokenRepository.FindTokenByToken(tx, token)
+	foundToken, err := tokenHandler.TokenRepository.FindTokenByToken(token)
 	if err != nil {
 		return false, &errors.NoDataFound{Message: err}
 	}
@@ -51,8 +51,8 @@ func ValidateToken(tx *sql.Tx, token string) (bool, error) {
 	return false, nil
 }
 
-func ConfirmToken(tx *sql.Tx, token string) error {
-	err := tokenRepository.ConfirmToken(tx, token)
+func (tokenHandler *TokenHandler) ConfirmToken(token string) error {
+	err := tokenHandler.TokenRepository.ConfirmToken(token)
 	if err != nil {
 		return &errors.ConfirmTokenError{Message: err}
 	}
