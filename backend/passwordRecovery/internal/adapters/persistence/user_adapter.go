@@ -1,13 +1,15 @@
 package persistence
 
 import (
-	"database/sql"
+	"context"
 	"passwordRecovery/internal/errors"
 	"passwordRecovery/internal/model"
+
+	"github.com/jackc/pgx/v4"
 )
 
 type UserAdapter struct {
-	Tx *sql.Tx
+	Tx pgx.Tx
 }
 
 func (u *UserAdapter) FindByEmail(email string) (*model.User, error) {
@@ -18,9 +20,9 @@ func (u *UserAdapter) FindByEmail(email string) (*model.User, error) {
 		WHERE email = $1
 	`
 
-	err := u.Tx.QueryRow(sqlFindByEmailStatement, email).Scan(&user.Id, &user.Password, &user.Email)
+	err := u.Tx.QueryRow(context.Background(), sqlFindByEmailStatement, email).Scan(&user.Id, &user.Password, &user.Email)
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if err == pgx.ErrNoRows {
 			return user, &errors.NoDataFound{Message: err}
 		}
 		return nil, err
@@ -36,7 +38,7 @@ func (u *UserAdapter) ChangePassword(id int, password string) error {
 	    WHERE id = $2
     `
 
-	_, err := u.Tx.Exec(sqlUpdateStatement, password, id)
+	_, err := u.Tx.Exec(context.Background(), sqlUpdateStatement, password, id)
 	if err != nil {
 		return &errors.UpdateRowError{Message: err}
 	}
@@ -54,7 +56,7 @@ func (u *UserAdapter) FindByToken(token string) (*model.User, error) {
 		ON u.id = t.user_id 
 	    WHERE t.token = $1
 	`
-	err := u.Tx.QueryRow(sqlFindStatement, token).Scan(&user.Id, &user.Password, &user.Email)
+	err := u.Tx.QueryRow(context.Background(), sqlFindStatement, token).Scan(&user.Id, &user.Password, &user.Email)
 	if err != nil {
 		return nil, &errors.NoDataFound{Message: err}
 	}

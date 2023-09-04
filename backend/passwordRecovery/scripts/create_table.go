@@ -1,25 +1,25 @@
 package scripts
 
 import (
+	"context"
 	"fmt"
+	"log"
 	"os"
-	"passwordRecovery/pkg"
-
-	_ "github.com/lib/pq"
+	"passwordRecovery/internal/utils"
 )
 
 func CreateTable() {
-	databaseName := "skillforgeacademy"
 
 	// Get database connection
-	db := pkg.SetDatabaseConnection(
-		os.Getenv("DB_HOST"), os.Getenv("DB_PORT"),
-		os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"),
-		databaseName)
+	db := utils.GetConnectionPool(context.Background())
 
-	defer db.Close()
+	conn, err := db.Acquire(context.Background())
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer conn.Release()
 
-	_, tableCheck := db.Query("SELECT * FROM tokens_password_recovery LIMIT 1")
+	_, tableCheck := conn.Query(context.Background(), "SELECT * FROM tokens_password_recovery LIMIT 1")
 
 	if tableCheck != nil {
 		query, err := os.ReadFile("scripts/tokens_password_recovery.sql")
@@ -27,7 +27,7 @@ func CreateTable() {
 			panic(err)
 		}
 
-		_, err = db.Exec(string(query))
+		_, err = conn.Exec(context.Background(), string(query))
 		if err != nil {
 			panic(err)
 		}

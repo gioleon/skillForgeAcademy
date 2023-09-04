@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"context"
 	"testing"
 )
 
@@ -9,7 +10,7 @@ type test struct {
 	want error
 }
 
-func TestGetDatabaseConnection(t *testing.T) {
+func TestGetConnectionPool(t *testing.T) {
 	tests := []test{
 		{
 			name: "Valid database connection",
@@ -19,7 +20,7 @@ func TestGetDatabaseConnection(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			db := GetDatabaseConnection()
+			db := GetConnectionPool(context.Background())
 			if db == nil && tc.want != nil {
 				t.Errorf("Failed to get database connection")
 			}

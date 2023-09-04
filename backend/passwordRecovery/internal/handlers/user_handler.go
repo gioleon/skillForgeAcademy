@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -27,11 +28,16 @@ type UserHandler struct {
 
 func (userHandler *UserHandler) RecoverPassword(
 	w http.ResponseWriter, r *http.Request) {
-	db := utils.GetDatabaseConnection()
-	defer db.Close()
+	db := utils.GetConnectionPool(context.Background())
 
-	tx, err := db.Begin()
-	defer tx.Rollback()
+	conn, err := db.Acquire(context.Background())
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer conn.Release()
+
+	tx, err := conn.Begin(context.Background())
+	defer tx.Rollback(context.Background())
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -74,7 +80,7 @@ func (userHandler *UserHandler) RecoverPassword(
 	}
 
 	// save changes
-	err = tx.Commit()
+	err = tx.Commit(context.Background())
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -119,13 +125,19 @@ func (userHandler *UserHandler) ChangePassword(
 		return
 	}
 
-	// Get connections
-	db := utils.GetDatabaseConnection()
-	defer db.Close()
+	db := utils.GetConnectionPool(context.Background())
 
-	// init transaction
-	tx, err := db.Begin()
-	defer tx.Rollback()
+	conn, err := db.Acquire(context.Background())
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer conn.Release()
+
+	tx, err := conn.Begin(context.Background())
+	defer tx.Rollback(context.Background())
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// create instances for handlers
 	tokenHandler := &TokenHandler{
@@ -181,7 +193,7 @@ func (userHandler *UserHandler) ChangePassword(
 	}
 
 	// Save changes
-	err = tx.Commit()
+	err = tx.Commit(context.Background())
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
