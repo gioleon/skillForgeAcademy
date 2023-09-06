@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"context"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -20,24 +19,12 @@ import (
 type UserHandler struct {
 }
 
-// userRepository := &persistence.UserAdapter{Tx: tx}
-// userHandler := handlers.UserHandler{
-// 	TokenHandler:   tokenHandler,
-// 	UserRepository: userRepository,
-// }
-
 func (userHandler *UserHandler) RecoverPassword(
 	w http.ResponseWriter, r *http.Request) {
-	db := utils.GetConnectionPool(context.Background())
+	db := utils.GetConnectionPool()
 
-	conn, err := db.Acquire(context.Background())
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer conn.Release()
-
-	tx, err := conn.Begin(context.Background())
-	defer tx.Rollback(context.Background())
+	tx, err := db.Begin()
+	defer tx.Rollback()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -80,7 +67,7 @@ func (userHandler *UserHandler) RecoverPassword(
 	}
 
 	// save changes
-	err = tx.Commit(context.Background())
+	err = tx.Commit()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -125,19 +112,14 @@ func (userHandler *UserHandler) ChangePassword(
 		return
 	}
 
-	db := utils.GetConnectionPool(context.Background())
+	db := utils.GetConnectionPool()
 
-	conn, err := db.Acquire(context.Background())
+	tx, err := db.Begin()
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer conn.Release()
 
-	tx, err := conn.Begin(context.Background())
-	defer tx.Rollback(context.Background())
-	if err != nil {
-		log.Fatal(err)
-	}
+	defer tx.Rollback()
 
 	// create instances for handlers
 	tokenHandler := &TokenHandler{
@@ -193,7 +175,7 @@ func (userHandler *UserHandler) ChangePassword(
 	}
 
 	// Save changes
-	err = tx.Commit(context.Background())
+	err = tx.Commit()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -218,15 +200,15 @@ func comparePassword(p, p2 string) bool {
 		[]byte(p2),
 	)
 	if err != nil {
-		return true
+		return false
 	}
 
-	return false
+	return true
 }
 
 func getProducer(bootstrap_servers string) (*kafka.Producer, error) {
 	p, err := kafka.NewProducer(&kafka.ConfigMap{
-		"bootstrap.servers": os.Getenv("BOOTSTRAP_SERVERS"),
+		"bootstrap.servers": bootstrap_servers,
 		"client.id":         "1",
 		"acks":              "all"})
 
