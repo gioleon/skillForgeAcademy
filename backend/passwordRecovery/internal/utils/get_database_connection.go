@@ -1,21 +1,21 @@
 package utils
 
 import (
-	"context"
+	"database/sql"
 	"fmt"
 	"os"
 	"sync"
 
-	"github.com/jackc/pgx/v4/pgxpool"
+	_ "github.com/lib/pq"
 )
 
 var (
-	dbPool     *pgxpool.Pool
-	dbPoolOnce sync.Once
+	db   *sql.DB
+	once sync.Once
 )
 
-func GetConnectionPool(ctx context.Context) *pgxpool.Pool {
-	dbPoolOnce.Do(func() {
+func GetConnectionPool() *sql.DB {
+	once.Do(func() {
 		host := os.Getenv("DB_HOST")
 		port := os.Getenv("DB_PORT")
 		user := os.Getenv("DB_USER")
@@ -25,11 +25,11 @@ func GetConnectionPool(ctx context.Context) *pgxpool.Pool {
 		connString := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 			host, port, user, password, databaseName)
 		var err error
-		dbPool, err = pgxpool.Connect(ctx, connString)
+		db, err = sql.Open("postgres", connString)
 		if err != nil {
 			panic(err)
 		}
 	})
 
-	return dbPool
+	return db
 }

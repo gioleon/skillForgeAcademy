@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"context"
 	"testing"
 )
 
@@ -20,7 +19,7 @@ func TestGetConnectionPool(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			db := GetConnectionPool(context.Background())
+			db := GetConnectionPool()
 			if db == nil && tc.want != nil {
 				t.Errorf("Failed to get database connection")
 			}

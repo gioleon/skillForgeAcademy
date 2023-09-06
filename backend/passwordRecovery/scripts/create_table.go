@@ -1,8 +1,6 @@
 package scripts
 
 import (
-	"context"
-	"fmt"
 	"log"
 	"os"
 	"passwordRecovery/internal/utils"
@@ -11,15 +9,9 @@ import (
 func CreateTable() {
 
 	// Get database connection
-	db := utils.GetConnectionPool(context.Background())
+	db := utils.GetConnectionPool()
 
-	conn, err := db.Acquire(context.Background())
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer conn.Release()
-
-	_, tableCheck := conn.Query(context.Background(), "SELECT * FROM tokens_password_recovery LIMIT 1")
+	_, tableCheck := db.Query("SELECT * FROM tokens_password_recovery LIMIT 1")
 
 	if tableCheck != nil {
 		query, err := os.ReadFile("scripts/tokens_password_recovery.sql")
@@ -27,12 +19,12 @@ func CreateTable() {
 			panic(err)
 		}
 
-		_, err = conn.Exec(context.Background(), string(query))
+		_, err = db.Exec(string(query))
 		if err != nil {
 			panic(err)
 		}
-		fmt.Printf("Table tokens password recovery created")
+		log.Printf("Table tokens password recovery created")
 	} else {
-		fmt.Println("Table tokens password recovery already exists")
+		log.Println("Table tokens password recovery already exists")
 	}
 }
