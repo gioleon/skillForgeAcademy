@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
-import { verifyAccount } from "../../../../service";
+import { verifyAccount } from "@/service";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { PublicRoutes } from "../../../../model";
+import { PublicRoutes } from "@/model";
 
 function Verification() {
   const [message, setMessage] = useState("");

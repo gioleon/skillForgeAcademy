@@ -1,12 +1,12 @@
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { AppStore } from "../../../redux/store";
+import { AppStore } from "@/redux/store";
 import BasicTabs from "./components/Tabs";
 import { Avatar, Box } from "@mui/material";
 import { deepOrange } from "@mui/material/colors";
-import { Course, Inscription, PrivateRoutes, courseOA } from "../../../model";
-import { getCourseByIdOwner } from "../../../service";
-import { getUserInscriptions } from "../../../service/enroll.service";
+import { Course, Inscription, PrivateRoutes, courseOA } from "@/model";
+import { getCourseByIdOwner } from "@/service";
+import { getUserInscriptions } from "@/service/enroll.service";
 import { useState, useEffect } from "react";
 
 function Profile() {

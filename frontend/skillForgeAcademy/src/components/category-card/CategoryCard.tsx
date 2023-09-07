@@ -1,4 +1,4 @@
-import { Category } from "../../model";
+import { Category } from "@/model";
 
 export function CategoryCard({ id, name }: Category) {
   return (

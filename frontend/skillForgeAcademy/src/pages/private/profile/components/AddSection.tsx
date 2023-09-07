@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { createSection } from "../../../../service";
-import { Section, PrivateRoutes } from "../../../../model";
+import { createSection } from "@/service";
+import { Section, PrivateRoutes } from "@/model";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
-import { Error } from "../../../../components";
+import { Error } from "@/components";
 import { useSelector } from "react-redux";
-import { AppStore } from "../../../../redux/store";
+import { AppStore } from "@/redux/store";
+
 
 
 function AddSection() {

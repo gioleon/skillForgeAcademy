@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { courses } from "../../../../components/course-card";
+import { courses } from "@/components/course-card";
 
 function EditCourse() {
   return (

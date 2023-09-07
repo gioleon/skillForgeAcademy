@@ -1,7 +1,7 @@
-import { CourseCard } from "../../../components/course-card/CourseCard";
-import { HeroLogin } from "../../../components/hero";
-import { Course } from "../../../model";
-import { getAllCourse } from "../../../service/course.service";
+import { CourseCard } from "@/components/course-card/CourseCard";
+import { HeroLogin } from "@/components/hero";
+import { Course } from "@/model";
+import { getAllCourse } from "@/service/course.service";
 import { useState, useEffect } from "react";
 
 function Home() {

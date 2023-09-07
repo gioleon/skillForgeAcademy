@@ -1,23 +1,23 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getAllTutorShipsByCourseId, getCourseById } from "../../../service";
+import { getAllTutorShipsByCourseId, getCourseById } from "@/service";
 import {
   Course,
   PrivateRoutes,
   Rate,
   Section,
   SectionOA
-} from "../../../model";
+} from "@/model";
 import {
   enroll,
   getCourseEnrollments,
   studentIsEnroll,
-} from "../../../service/enroll.service";
+} from "@/service/enroll.service";
 import { timeout } from "rxjs";
 import { useSelector } from "react-redux";
-import { AppStore } from "../../../redux/store";
-import { getCourseRates } from "../../../service/rate.service";
-import { Tutorship } from '../../../model/tutorship/tutorship';
+import { AppStore } from "@/redux/store";
+import { getCourseRates } from "@/service/rate.service";
+import { Tutorship } from '@/model/tutorship/tutorship';
 
 const ViewCourse = () => {
   const [enrolled, setEnrolled] = useState();

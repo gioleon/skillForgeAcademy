@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { createCourse, getAllCategory } from "../../../../service";
-import { Category, Course, PrivateRoutes } from "../../../../model";
+import { createCourse, getAllCategory } from "@/service";
+import { Category, Course, PrivateRoutes } from "@/model";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { AppStore } from "../../../../redux/store";
-import { Error } from "../../../../components";
+import { AppStore } from "@/redux/store";
+import { Error } from "@/components";
+
 
 
 function AddCourse() {

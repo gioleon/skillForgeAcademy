@@ -1,11 +1,11 @@
-import { PrivateRoutes, User } from "../model";
+import { PrivateRoutes, User } from "@/model";
 import { useSelector } from "react-redux";
-import { AppStore } from "../redux/store";
+import { AppStore } from "@/redux/store";
 import { useDispatch } from "react-redux";
-import { clearUser } from "../redux/states/user";
+import { clearUser } from "@/redux/states/user";
 import { Navigate, Outlet } from "react-router-dom";
 import { ReactElement } from "react";
-import { PublicRoutes } from "../model/routes";
+import { PublicRoutes } from "@/model/routes";
 
 export const PublicGuard = () => {
   const user = useSelector((state: AppStore) => state.user);
