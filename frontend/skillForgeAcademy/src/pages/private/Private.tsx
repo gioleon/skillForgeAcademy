@@ -4,7 +4,7 @@ import { Route, Navigate } from "react-router-dom";
 import { RoutesWithNotFound } from "../../utilities";
 
 // Lazy imports.
-const Profile = lazy(() => import("./profile/Profile.tsx"));
+const Profile = lazy(() => import("./profile/Profile"));
 
 function Private() {
   return (
