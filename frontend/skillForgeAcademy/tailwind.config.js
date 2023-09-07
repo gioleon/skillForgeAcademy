@@ -4,8 +4,8 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        login: "url('./src/img/hero-login.jpg')",
-        register: "url('./src/img/hero-register.jpg')",
+        login: "url('/src/img/hero-login.jpg')",
+        register: "url('/src/img/hero-register.jpg')",
       },
     },
   },

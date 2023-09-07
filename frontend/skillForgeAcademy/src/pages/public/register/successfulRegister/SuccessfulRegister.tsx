@@ -1,5 +1,5 @@
 import { Link, useLocation, useParams } from "react-router-dom";
-import { PublicRoutes } from "../../../../model";
+import { PublicRoutes } from "@/model";
 
 function SuccessfulRegister() {
   // use useLocation to get the state sent by register page.

@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
-import { getTutorshipById } from "../../../service";
-import { TutorshipId } from "../../../model/tutorship/tutorshipId";
-import { PrivateRoutes, Tutorship } from "../../../model";
+import { getTutorshipById } from "@/service";
+import { TutorshipId } from "@/model/tutorship/tutorshipId";
+import { PrivateRoutes, Tutorship } from "@/model";
 import { useEffect, useState } from "react";
 
 function ViewClass() {

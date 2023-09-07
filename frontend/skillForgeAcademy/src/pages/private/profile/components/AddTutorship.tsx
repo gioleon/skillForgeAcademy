@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { createTutorShip } from "../../../../service";
-import { PrivateRoutes, Tutorship } from "../../../../model";
+import { createTutorShip } from "@/service";
+import { PrivateRoutes, Tutorship } from "@/model";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
-import { Error } from "../../../../components";
+import { Error } from "@/components";
+
 
 function AddTutorship() {
   const [inputErrors, setInputErrors] = useState(false);

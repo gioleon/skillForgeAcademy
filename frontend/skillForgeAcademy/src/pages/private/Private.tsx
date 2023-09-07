@@ -1,7 +1,7 @@
 import { lazy } from "react";
-import { Route, Navigate } from "react-router-dom";
+import { Route } from "react-router-dom";
 
-import { RoutesWithNotFound } from "../../utilities";
+import { RoutesWithNotFound } from "@/utilities";
 
 // Lazy imports.
 const Profile = lazy(() => import("./profile/Profile"));

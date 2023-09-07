@@ -1,6 +1,6 @@
-import { Category } from "../../../model";
-import { CategoryCard } from "../../../components";
-import { getAllCategory } from "../../../service";
+import { Category } from "@/model";
+import { CategoryCard } from "@/components";
+import { getAllCategory } from "@/service";
 import { useState, useEffect } from "react";
 
 function Categories() {

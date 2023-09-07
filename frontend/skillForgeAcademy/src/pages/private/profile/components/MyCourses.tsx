@@ -1,6 +1,6 @@
-import { CourseCard } from "../../../../components/course-card";
-import { Course } from "../../../../model";
-import { getCourseByIdOwner } from "../../../../service/course.service";
+import { CourseCard } from "@/components/course-card";
+import { Course } from "@/model";
+import { getCourseByIdOwner } from "@/service/course.service";
 import { useEffect, useState } from "react";
 
 interface Props {

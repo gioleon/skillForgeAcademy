@@ -1,15 +1,15 @@
-import { login, authenticationKey } from "../../../service";
+import { login, authenticationKey } from "@/service";
 import { useEffect, useState } from "react";
-import { User } from "../../../model/user/user";
+import { User } from "@/model/user/user";
 import { useDispatch } from "react-redux";
-import { setUser, clearUser } from "../../../redux/states/user";
-import { clearLocalStorage } from "../../../utilities";
-import { Error } from "../../../components";
+import { setUser, clearUser } from "@/redux/states/user";
+import { clearLocalStorage } from "@/utilities";
 import { Link, useNavigate } from "react-router-dom";
-import { PrivateRoutes, PublicRoutes, UserLogin } from "../../../model";
-import { decodeJwt } from "../../../utilities/jwt.utility";
+import { PrivateRoutes, PublicRoutes, UserLogin } from "@/model";
+import { decodeJwt } from "@/utilities/jwt.utility";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import Alert from "@/components/alert-generic/Alert";
 
 function Login() {
   // As we have some inputs, we'll use useState.
@@ -27,6 +27,15 @@ function Login() {
     dispacth(clearUser());
   }, []);
 
+  useEffect(() => {
+    if (error) {
+      const timeout = setTimeout(() => {
+        setError(false);
+      }, 5000);
+      return () => clearTimeout(timeout);
+    }
+  }, [error]);
+
   // validations
   const loginSchema = Yup.object().shape({
     email: Yup.string().required(),
@@ -39,7 +48,7 @@ function Login() {
       email: "",
       password: "",
     },
-    onSubmit: (values) => {},
+    onSubmit: (values) => { },
 
     validationSchema: loginSchema,
   });
@@ -108,7 +117,7 @@ function Login() {
             <input
               type="text"
               name="email"
-              placeholder="@ejemplo.com"
+              placeholder="Correo electrónico"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className="input input-bordered w-full max-w-full"
@@ -123,7 +132,7 @@ function Login() {
             <input
               type="password"
               name="password"
-              placeholder="***********"
+              placeholder="Contraseña"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className="input input-bordered w-full max-w-full"
@@ -134,7 +143,9 @@ function Login() {
         <button className="btn btn-block  bg-gray-800 text-white normal-case border-none hover:bg-blue-500">
           Iniciar sesion
         </button>
-        <Error error={error} message={errorMessage} />
+        {error ? (
+          <Alert message={errorMessage} showIcon={true} />
+        ) : null}
         <div className="flex justify-between items-center mt-5">
           <h2 className="text-1x0">¿No tienes una cuenta?</h2>
           <Link
