@@ -40,13 +40,37 @@ func (s *ProgressTrackingService) SaveUserProgress(ctx context.Context, progress
 }
 
 func (s *ProgressTrackingService) GetUserProgress(ctx context.Context, userId, courseId int) ([]*models.ProgressTracking, error) {
-	userProgress, err := s.Repository.GetUserProgress(ctx, userId, courseId)
-	if err != nil {
-		log.Print(err)
-		return nil, err
+
+	// Define channels
+	errCh := make(chan error, 1000)
+	progressCh := make(chan []*models.ProgressTracking, 1000)
+
+	defer close(errCh)
+	defer close(progressCh)
+
+	var progress []*models.ProgressTracking
+
+	// Run function concurrently
+	go func() {
+		userProgress, err := s.Repository.GetUserProgress(ctx, userId, courseId)
+		if err != nil {
+			errCh <- err
+		}
+		progressCh <- userProgress
+	}()
+
+	// Get info acording to the first channel response
+	for {
+		select {
+		case <-ctx.Done():
+			return []*models.ProgressTracking{}, &errors.DatabaseTimeOutError{}
+		case err := <-errCh:
+			return []*models.ProgressTracking{}, err
+		case progress = <-progressCh:
+			return progress, nil
+		}
 	}
 
-	return userProgress, nil
 }
 
 func (s *ProgressTrackingService) ValidateProgress(ctx context.Context, progress *models.ProgressTracking) error {
@@ -66,10 +90,29 @@ func (s *ProgressTrackingService) ValidateProgress(ctx context.Context, progress
 }
 
 func (s *ProgressTrackingService) SaveProgress(ctx context.Context, progress *models.ProgressTracking) error {
-	err := s.Repository.SaveProgress(ctx, progress)
-	if err != nil {
-		log.Fatal(err)
-		return err
+
+	errCh := make(chan error)
+	savedCh := make(chan bool)
+
+	defer close(errCh)
+	defer close(savedCh)
+
+	go func() {
+		err := s.Repository.SaveProgress(ctx, progress)
+		if err != nil {
+			errCh <- err
+		}
+		savedCh <- true
+	}()
+
+	for {
+		select {
+		case <-ctx.Done():
+			return &errors.DatabaseTimeOutError{}
+		case <-savedCh:
+			return nil
+		case err := <-errCh:
+			return err
+		}
 	}
-	return nil
 }
