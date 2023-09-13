@@ -3,7 +3,6 @@ package database
 import (
 	"database/sql"
 	"fmt"
-	"log"
 	"os"
 	"sync"
 
@@ -16,9 +15,6 @@ var (
 )
 
 func GetConnectionPool() *sql.DB {
-
-	log.Println("Database connections started")
-
 	once.Do(func() {
 		host := os.Getenv("DB_HOST")
 		port := os.Getenv("DB_PORT")
@@ -35,8 +31,6 @@ func GetConnectionPool() *sql.DB {
 			panic(err)
 		}
 	})
-
-	log.Println("Dtabase connection finished")
 
 	return db
 }
