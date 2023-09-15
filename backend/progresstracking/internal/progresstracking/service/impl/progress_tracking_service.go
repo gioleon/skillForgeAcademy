@@ -63,11 +63,15 @@ func (s *ProgressTrackingService) GetUserProgress(ctx context.Context, userId, c
 	for {
 		select {
 		case <-ctx.Done():
-			return []*models.ProgressTracking{}, &errors.DatabaseTimeOutError{}
+			return nil, &errors.DatabaseTimeOutError{}
 		case err := <-errCh:
-			return []*models.ProgressTracking{}, err
+			return nil, err
 		case progress = <-progressCh:
-			return progress, nil
+			var err error
+			if len(progress) == 0 {
+				err = &errors.DomainError{Message: "No progress found for user"}
+			}
+			return progress, err
 		}
 	}
 
@@ -115,4 +119,38 @@ func (s *ProgressTrackingService) SaveProgress(ctx context.Context, progress *mo
 			return err
 		}
 	}
+}
+
+func (s *ProgressTrackingService) GetProgress(ctx context.Context, p *models.ProgressTracking) (bool, error) {
+
+	errCh := make(chan error)
+	flagCh := make(chan bool)
+
+	defer close(errCh)
+	defer close(flagCh)
+
+	var alreadyExists bool
+
+	go func() {
+		alreadyExists, err := s.Repository.GetProgress(ctx, p)
+		if err != nil {
+			log.Print(err)
+			errCh <- err
+		}
+
+		errCh <- nil
+		flagCh <- alreadyExists
+	}()
+
+	for {
+		select {
+		case <-ctx.Done():
+			return true, &errors.DatabaseTimeOutError{}
+		case alreadyExists = <-flagCh:
+			return alreadyExists, nil
+		case err := <-errCh:
+			return true, err
+		}
+	}
+
 }

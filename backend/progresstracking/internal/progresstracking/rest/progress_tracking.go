@@ -28,20 +28,27 @@ func SaveUserProgress(c *gin.Context) {
 	progress := &models.ProgressTracking{}
 
 	if err := c.BindJSON(&progress); err != nil {
-		c.AbortWithError(http.StatusInternalServerError, err)
+		c.IndentedJSON(
+			http.StatusInternalServerError,
+			&models.ApiError{Code: http.StatusInternalServerError, Message: err.Error()},
+		)
+		return
 	}
 
 	if err := service.SaveUserProgress(ctx, progress); err != nil {
-		switch err {
-		case &errors.DomainError{}:
-			c.AbortWithError(http.StatusBadGateway, err)
-		default:
-			c.AbortWithError(http.StatusInternalServerError, err)
+		if err, ok := err.(*errors.DomainError); ok {
+			c.IndentedJSON(http.StatusBadRequest,
+				&models.ApiError{Code: http.StatusBadRequest, Message: err.Error()},
+			)
+			return
 		}
+		c.IndentedJSON(http.StatusInternalServerError,
+			&models.ApiError{Code: http.StatusInternalServerError, Message: err.Error()},
+		)
+		return
 	}
 
 	c.IndentedJSON(http.StatusCreated, "OK")
-
 }
 
 func GetUserProgress(c *gin.Context) {
@@ -55,19 +62,30 @@ func GetUserProgress(c *gin.Context) {
 
 	userId, err := strconv.ParseInt(c.Query("userId"), 8, 64)
 	if err != nil {
-		c.AbortWithError(http.StatusInternalServerError, err)
+		c.IndentedJSON(http.StatusInternalServerError,
+			&models.ApiError{Code: http.StatusInternalServerError, Message: err.Error()},
+		)
+		return
 	}
 
 	courseId, err := strconv.ParseInt(c.Query("courseId"), 8, 64)
 	if err != nil {
-		c.AbortWithError(http.StatusInternalServerError, err)
+		c.IndentedJSON(http.StatusInternalServerError,
+			&models.ApiError{Code: http.StatusInternalServerError, Message: err.Error()},
+		)
+		return
 	}
 
 	progress, err := service.GetUserProgress(ctx, int(userId), int(courseId))
 	if err != nil {
 		log.Print(err)
-		c.AbortWithError(http.StatusInternalServerError, err)
+		c.IndentedJSON(http.StatusInternalServerError,
+			&models.ApiError{Code: http.StatusInternalServerError, Message: err.Error()},
+		)
+		return
 	}
 
-	c.IndentedJSON(http.StatusOK, progress)
+	c.IndentedJSON(http.StatusOK,
+		&models.ApiError{Code: http.StatusOK, Message: progress},
+	)
 }
