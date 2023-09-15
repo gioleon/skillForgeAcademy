@@ -12,16 +12,16 @@ export const createCourse = (course: Course) => {
     });
 };
 
-export const getAllCourse = () => {
-  return axios
-    .get(`${import.meta.env.VITE_APP_API_BASE_URL}/course/all`)
-    .then((response: AxiosResponse<Course[]>) => {
-      return response.data;
-    })
-    .catch((error) => {
-      return error.request.status;
-    });
+export const getAllCourse = async (): Promise<Course[]> => {
+  try {
+    const response = await axios.get<Course[]>(`${import.meta.env.VITE_APP_API_BASE_URL}/course/all`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
+
 
 export const getCourseByIdOwner = (id: number) => {
   return axios

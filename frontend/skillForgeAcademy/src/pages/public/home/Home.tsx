@@ -5,19 +5,21 @@ import { getAllCourse } from "@/service/course.service";
 import { useState, useEffect } from "react";
 
 function Home() {
-  const [courses, setCourses] = useState([]);
+  const [courses, setCourses] = useState<Course[]>([]);
 
   const handleGetCourses = async () => {
-    const curso = await getAllCourse();
-    if (curso != 0) {
-      setCourses(curso)
+    try {
+      const curso = await getAllCourse();
+      setCourses(curso);
+    } catch (error) {
+      console.error('Error fetching courses:', error);
     }
   };
 
   useEffect(() => {
     handleGetCourses();
-  });
-  
+  }, []);
+
   const courseList = courses.map((c: Course) => {
     return (
       <CourseCard
