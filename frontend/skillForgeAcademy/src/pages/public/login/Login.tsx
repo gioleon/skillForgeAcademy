@@ -106,6 +106,24 @@ function Login() {
         onSubmit={(e) => handleSubmit(e)}
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-xl grid place-content-center"
       >
+        <div className="text-center font-bold my-4">
+          <Link to={`/${PublicRoutes.HOME}`} className="text-gray-800 cursor-pointer hover:text-blue-500 inline-flex items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 mr-2"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+            Home Back
+          </Link>
+        </div>
+
         <h1 className="text-4xl font-bold text-center p-10">
           Bienvenido de vuelta
         </h1>
@@ -146,6 +164,9 @@ function Login() {
         {error ? (
           <Alert message={errorMessage} showIcon={true} />
         ) : null}
+
+        <Link className="mt-3 text-red-400" to={`/${PublicRoutes.RECOVER_PASSWORD}`}>Forgot password?</Link>
+
         <div className="flex justify-between items-center mt-5">
           <h2 className="text-1x0">¿No tienes una cuenta?</h2>
           <Link

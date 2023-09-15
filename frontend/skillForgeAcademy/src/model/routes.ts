@@ -5,6 +5,8 @@ export enum PublicRoutes {
   VERIFICATION = "verification",
   SUCCESSFUL = "successful",
   CATEGORIES = "categories",
+  RECOVER_PASSWORD = "password-recovery",
+  CHANGE_PASSWORD = "password-reset"  
 }
 
 export enum PrivateRoutes {

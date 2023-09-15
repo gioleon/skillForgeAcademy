@@ -7,7 +7,7 @@ import store from "./redux/store";
 import { RoutesWithNotFound } from "./utilities";
 import { PrivateRoutes, PublicRoutes } from "./model/routes";
 import { AuthGuard } from "./guard/auth.guard";
-import { Home } from "./pages/public";
+import { ChangePassword, Home, RecoverPassword } from "./pages/public";
 import { CircularProgress } from "@mui/material";
 import { Navbar } from "./components";
 import { PublicGuard } from "./guard/public.guard";
@@ -55,6 +55,8 @@ function App() {
               {/* public routes */}
               <Route path={PublicRoutes.LOGIN} element={<Login />} />
               <Route path={PublicRoutes.CATEGORIES} element={<Categories />} />
+              <Route path={PublicRoutes.RECOVER_PASSWORD} element={<RecoverPassword />} />
+              <Route path={PublicRoutes.CHANGE_PASSWORD} element={<ChangePassword />} />
 
               <Route element={<PublicGuard />}>
                 <Route
