@@ -19,7 +19,7 @@ export const getAllCourse = () => {
       return response.data;
     })
     .catch((error) => {
-      return error.response.status;
+      return error.request.status;
     });
 };
 

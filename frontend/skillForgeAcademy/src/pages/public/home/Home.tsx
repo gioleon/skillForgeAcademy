@@ -9,7 +9,9 @@ function Home() {
 
   const handleGetCourses = async () => {
     const curso = await getAllCourse();
-    setCourses(curso);
+    if (curso != 0) {
+      setCourses(curso)
+    }
   };
 
   useEffect(() => {
