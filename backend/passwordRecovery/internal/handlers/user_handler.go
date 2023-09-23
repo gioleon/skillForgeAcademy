@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -21,6 +22,7 @@ type UserHandler struct {
 
 func (userHandler *UserHandler) RecoverPassword(
 	w http.ResponseWriter, r *http.Request) {
+
 	db := utils.GetConnectionPool()
 
 	tx, err := db.Begin()
@@ -86,6 +88,8 @@ func (userHandler *UserHandler) RecoverPassword(
 
 	// Link with the token to recover the password
 	link := os.Getenv("RECOVERY_LINK") + foundToken.Token
+
+	fmt.Println(link)
 
 	// construct an userResponseBroker to send via kafka
 	userResponseBroker := &model.UserResponseBroker{
