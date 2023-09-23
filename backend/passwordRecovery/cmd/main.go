@@ -4,6 +4,8 @@ import (
 	"passwordRecovery/api/server"
 	"passwordRecovery/config"
 	"passwordRecovery/scripts"
+
+	"github.com/rs/cors"
 )
 
 func main() {
@@ -13,11 +15,16 @@ func main() {
 	// Create table if not exists
 	scripts.CreateTable()
 
-	// init routes
-	server.InitRoutes()
-
 	// Get server
 	srv := server.New("8088")
+
+	cors := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"},
+		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE"},
+		AllowedHeaders: []string{"Content-Type", "Authorization"},
+	})
+
+	srv.Handler = cors.Handler(server.InitRoutes())
 
 	err := srv.ListenAndServe()
 	if err != nil {

@@ -5,23 +5,27 @@ import (
 	"passwordRecovery/internal/handlers"
 )
 
-func InitRoutes() {
+func InitRoutes() http.Handler {
 
 	userHandler := &handlers.UserHandler{}
 
-	http.HandleFunc("/recoverPassword", func(w http.ResponseWriter, r *http.Request) {
+	mux := http.NewServeMux()
+
+	mux.HandleFunc("/recoverPassword", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodGet:
 			userHandler.RecoverPassword(w, r)
 		}
 	})
 
-	http.HandleFunc("/changePassword", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/changePassword", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost {
 			userHandler.ChangePassword(w, r)
 		} else {
-			http.Error(w, "Also post method allowed", http.StatusBadRequest)
+			http.Error(w, "Only post method allowed", http.StatusBadRequest)
 		}
 
 	})
+
+	return mux
 }
