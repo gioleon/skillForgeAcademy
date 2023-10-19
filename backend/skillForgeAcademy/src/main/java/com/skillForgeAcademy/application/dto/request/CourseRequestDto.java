@@ -18,4 +18,5 @@ public class CourseRequestDto {
   private UserRequestDto owner;
   private String description;
   private String urlImage;
+  private UniversityRequestDto university;
 }

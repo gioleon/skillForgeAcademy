@@ -1,12 +1,7 @@
 package com.skillForgeAcademy.infrastructure.output.jpa.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,4 +25,7 @@ public class CourseEntity {
   @ManyToOne private UserEntity owner;
   private String name;
   private String urlImage;
+
+  @ManyToOne(fetch = FetchType.EAGER)
+  private UniversityEntity university;
 }

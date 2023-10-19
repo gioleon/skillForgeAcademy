@@ -16,6 +16,7 @@ public class CourseModel {
     private UserModel owner;
     private String description;
     private String urlImage;
+    private UniversityModel university;
 
 
 }

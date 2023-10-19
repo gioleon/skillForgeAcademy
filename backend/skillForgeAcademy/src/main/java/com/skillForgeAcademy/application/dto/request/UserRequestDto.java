@@ -22,4 +22,6 @@ public class UserRequestDto {
     private String email;
     @JsonProperty("password")
     private String password;
+
+    private UniversityRequestDto university;
 }

@@ -13,4 +13,5 @@ public class UserResponseDto {
   private String email;
   private boolean isEnable;
   private Collection<RolResponseDto> roles;
+  private UniversityResponseDto university;
 }
