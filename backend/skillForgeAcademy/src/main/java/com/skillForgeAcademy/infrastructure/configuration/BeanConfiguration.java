@@ -1,80 +1,14 @@
 package com.skillForgeAcademy.infrastructure.configuration;
 
-import com.skillForgeAcademy.domain.api.ICategoryServicePort;
-import com.skillForgeAcademy.domain.api.ICommentServicePort;
-import com.skillForgeAcademy.domain.api.ICourseServicePort;
-import com.skillForgeAcademy.domain.api.IInscriptionServicePort;
-import com.skillForgeAcademy.domain.api.IRateServicePort;
-import com.skillForgeAcademy.domain.api.IRolServicePort;
-import com.skillForgeAcademy.domain.api.ISectionServicePort;
-import com.skillForgeAcademy.domain.api.ITokenActivationServicePort;
-import com.skillForgeAcademy.domain.api.ITutorshipServicePort;
-import com.skillForgeAcademy.domain.api.IUserServicePort;
-import com.skillForgeAcademy.domain.api.IVideoServicePort;
+import com.skillForgeAcademy.domain.api.*;
 import com.skillForgeAcademy.domain.spi.broker.IEmailSenderPort;
 import com.skillForgeAcademy.domain.spi.passwordencoder.IPasswordEncoderPort;
-import com.skillForgeAcademy.domain.spi.persistence.ICategoryPersistencePort;
-import com.skillForgeAcademy.domain.spi.persistence.ICommentPersistencePort;
-import com.skillForgeAcademy.domain.spi.persistence.ICoursePersistencePort;
-import com.skillForgeAcademy.domain.spi.persistence.IInscriptionPersistencePort;
-import com.skillForgeAcademy.domain.spi.persistence.IRatePersistencePort;
-import com.skillForgeAcademy.domain.spi.persistence.IRolPersistencePort;
-import com.skillForgeAcademy.domain.spi.persistence.ISectionPersistencePort;
-import com.skillForgeAcademy.domain.spi.persistence.ITokenActivationPersistencePort;
-import com.skillForgeAcademy.domain.spi.persistence.ITutorshipPersistencePort;
-import com.skillForgeAcademy.domain.spi.persistence.IUserPersistencePort;
-import com.skillForgeAcademy.domain.spi.persistence.IVideoPersistencePort;
-import com.skillForgeAcademy.domain.usecase.CategoryUseCase;
-import com.skillForgeAcademy.domain.usecase.CommentUseCase;
-import com.skillForgeAcademy.domain.usecase.CourseUseCase;
-import com.skillForgeAcademy.domain.usecase.InscriptionUseCase;
-import com.skillForgeAcademy.domain.usecase.RateUseCase;
-import com.skillForgeAcademy.domain.usecase.RolUseCase;
-import com.skillForgeAcademy.domain.usecase.SectionUseCase;
-import com.skillForgeAcademy.domain.usecase.TokenActivationUseCase;
-import com.skillForgeAcademy.domain.usecase.TutorshipUseCase;
-import com.skillForgeAcademy.domain.usecase.UserUseCase;
-import com.skillForgeAcademy.domain.usecase.VideoUseCase;
+import com.skillForgeAcademy.domain.spi.persistence.*;
+import com.skillForgeAcademy.domain.usecase.*;
 import com.skillForgeAcademy.infrastructure.output.broker.adapter.EmailSenderAdapter;
-import com.skillForgeAcademy.infrastructure.output.jpa.adapter.CategoryJpaAdapter;
-import com.skillForgeAcademy.infrastructure.output.jpa.adapter.CommentJpaAdapter;
-import com.skillForgeAcademy.infrastructure.output.jpa.adapter.CourseJpaAdapter;
-import com.skillForgeAcademy.infrastructure.output.jpa.adapter.InscriptionJpaAdapter;
-import com.skillForgeAcademy.infrastructure.output.jpa.adapter.RateJpaAdapter;
-import com.skillForgeAcademy.infrastructure.output.jpa.adapter.RolJpaAdapter;
-import com.skillForgeAcademy.infrastructure.output.jpa.adapter.SectionJpaAdapter;
-import com.skillForgeAcademy.infrastructure.output.jpa.adapter.TokenActivationJpaAdapter;
-import com.skillForgeAcademy.infrastructure.output.jpa.adapter.TutorshipJpaAdapter;
-import com.skillForgeAcademy.infrastructure.output.jpa.adapter.UserJpaAdapter;
-import com.skillForgeAcademy.infrastructure.output.jpa.adapter.VideoJpaAdapter;
-import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ICategoryEntityMapper;
-import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ICommentEntityIdMapper;
-import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ICommentEntityMapper;
-import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ICourseEntityMapper;
-import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IInscriptionEntityIdMapper;
-import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IInscriptionEntityMapper;
-import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IRateEntityIdMapper;
-import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IRateEntityMapper;
-import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IRolEntityMapper;
-import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ISectionEntityIdMapper;
-import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ISectionEntityMapper;
-import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ITokenEntityMapper;
-import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ITutorshipEntityIdMapper;
-import com.skillForgeAcademy.infrastructure.output.jpa.mapper.ITutorshipEntityMapper;
-import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IUserEntityMapper;
-import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IVideoEntityIdMapper;
-import com.skillForgeAcademy.infrastructure.output.jpa.mapper.IVideoEntityMapper;
-import com.skillForgeAcademy.infrastructure.output.jpa.repository.ICategoryRepository;
-import com.skillForgeAcademy.infrastructure.output.jpa.repository.ICommentRepository;
-import com.skillForgeAcademy.infrastructure.output.jpa.repository.ICourseRepository;
-import com.skillForgeAcademy.infrastructure.output.jpa.repository.IInscriptionRepository;
-import com.skillForgeAcademy.infrastructure.output.jpa.repository.IRateRepository;
-import com.skillForgeAcademy.infrastructure.output.jpa.repository.IRolRepository;
-import com.skillForgeAcademy.infrastructure.output.jpa.repository.ISectionRepository;
-import com.skillForgeAcademy.infrastructure.output.jpa.repository.ITokenActivationRepository;
-import com.skillForgeAcademy.infrastructure.output.jpa.repository.ITutorshipRepository;
-import com.skillForgeAcademy.infrastructure.output.jpa.repository.IUserRepository;
-import com.skillForgeAcademy.infrastructure.output.jpa.repository.IVideoRepository;
+import com.skillForgeAcademy.infrastructure.output.jpa.adapter.*;
+import com.skillForgeAcademy.infrastructure.output.jpa.mapper.*;
+import com.skillForgeAcademy.infrastructure.output.jpa.repository.*;
 import com.skillForgeAcademy.infrastructure.output.passwordencoder.PasswordEncoderAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -112,6 +46,8 @@ public class BeanConfiguration {
   private final IInscriptionRepository inscriptionRepository;
   private final IInscriptionEntityMapper inscriptionEntityMapper;
   private final IInscriptionEntityIdMapper inscriptionEntityIdMapper;
+  private final IUniversityEntityMapper universityEntityMapper;
+  private final IUniversityRepository universityRepository;
 
   @Bean
   public IPasswordEncoderPort passwordEncoderPort() {
@@ -237,5 +173,15 @@ public class BeanConfiguration {
   @Bean
   public IInscriptionServicePort inscriptionServicePort() {
     return new InscriptionUseCase(inscriptionPersistencePort());
+  }
+
+  @Bean
+  public IUniversityPersistencePort universityRepositoryPort() {
+    return new UniversityJpaAdapter(universityRepository, universityEntityMapper);
+  }
+
+  @Bean
+  public IUniversityServicePort universityServicePort() {
+    return new UniversityUseCase(universityRepositoryPort());
   }
 }
