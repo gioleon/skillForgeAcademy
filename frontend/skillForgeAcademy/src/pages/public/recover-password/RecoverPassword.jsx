@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import { PublicRoutes } from "@/model";
+import Alert from "@/components/alert-generic/Alert";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -47,22 +48,22 @@ const ForgotPassword = () => {
     <div className="max-w-4xl mx-auto mt-24">
       <div className="flex flex-col items-center justify-center p-4 space-y-4 antialiased text-gray-900">
         <div className="w-full px-8 max-w-lg space-y-6 bg-white rounded-md py-16 bg-gray-100">
-        <div className="text-center font-bold my-4">
+          <div className="text-center font-bold my-4">
             <Link
               to={`/${PublicRoutes.HOME}`}
               className="text-gray-800 cursor-pointer hover:text-blue-500 inline-flex items-center"
             ><svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 mr-2"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 mr-2"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+                <path
+                  fillRule="evenodd"
+                  d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
               Home Back
             </Link>
           </div>
@@ -84,7 +85,7 @@ const ForgotPassword = () => {
               onChange={formik.handleChange}
             />
             {formik.touched.email && formik.errors.email ? (
-              <div className="mt-2 text-sm text-red-600">{formik.errors.email}</div>
+              <Alert message={formik.errors.email} showIcon={true} type="error" />
             ) : null}
             <div>
               <button
@@ -95,10 +96,10 @@ const ForgotPassword = () => {
               </button>
             </div>
           </form>
-          {message && <p className="mt-2 text-sm text-red-600">{message}</p>}
+          {message && <Alert message={message} type="error" />}
           <div className="text-sm text-gray-600 items-center flex justify-between">
             <p className="text-gray-800 cursor-pointer hover:text-blue-500 inline-flex items-center ml-4">
-            <svg
+              <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 mr-2"
                 viewBox="0 0 20 20"

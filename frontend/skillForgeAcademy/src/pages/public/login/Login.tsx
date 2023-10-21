@@ -162,7 +162,7 @@ function Login() {
           Iniciar sesion
         </button>
         {error ? (
-          <Alert message={errorMessage} showIcon={true} />
+          <Alert message={errorMessage} showIcon={true} type="error" />
         ) : null}
 
         <Link className="mt-3 text-red-400" to={`/${PublicRoutes.RECOVER_PASSWORD}`}>Forgot password?</Link>

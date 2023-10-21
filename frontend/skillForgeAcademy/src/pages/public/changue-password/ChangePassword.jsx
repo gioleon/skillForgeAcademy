@@ -4,12 +4,18 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link, useLocation } from "react-router-dom";
 import { PublicRoutes } from "@/model";
+import Alert from "@/components/alert-generic/Alert";
 
 const validationSchema = Yup.object({
   oldPassword: Yup.string()
     .required("La contraseña antigua es obligatoria"),
+    
   newPassword: Yup.string()
-    .required("La nueva contraseña es obligatoria"),
+    .required("La nueva contraseña es obligatoria")
+    .matches(/[A-Z]+/, "La contraseña debe tener al menos una letra mayúscula")
+    .matches(/[a-z]+/, "La contraseña debe tener al menos una letra minúscula")
+    .matches(/[0-9]+/, "La contraseña debe tener al menos un número")
+    .min(8, "La contraseña debe tener al menos 8 caracteres"),
 });
 
 const ChangePassword = () => {
@@ -62,17 +68,17 @@ const ChangePassword = () => {
               to={`/${PublicRoutes.HOME}`}
               className="text-gray-800 cursor-pointer hover:text-blue-500 inline-flex items-center"
             ><svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 mr-2"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 mr-2"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+                <path
+                  fillRule="evenodd"
+                  d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
               Home Back
             </Link>
           </div>
@@ -94,7 +100,7 @@ const ChangePassword = () => {
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
               />
               {formik.touched.oldPassword && formik.errors.oldPassword ? (
-                <div className="mt-2 text-sm text-red-600">{formik.errors.oldPassword}</div>
+                <Alert message={formik.errors.oldPassword} showIcon={true} type="error" />
               ) : null}
             </div>
             <div>
@@ -111,7 +117,7 @@ const ChangePassword = () => {
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
               />
               {formik.touched.newPassword && formik.errors.newPassword ? (
-                <div className="mt-2 text-sm text-red-600">{formik.errors.newPassword}</div>
+                <Alert message={formik.errors.newPassword} showIcon={true} type="error" />
               ) : null}
             </div>
             <button
@@ -122,12 +128,7 @@ const ChangePassword = () => {
             </button>
           </form>
           {message && (
-            <p
-              className="mt-2 text-sm text-red-600"
-              style={{ minHeight: "1em" }}
-            >
-              {message}
-            </p>
+            <Alert message={message} showIcon={true} type="error" />
           )}
         </div>
       </div>

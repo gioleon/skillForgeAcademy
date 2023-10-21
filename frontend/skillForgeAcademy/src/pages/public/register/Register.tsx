@@ -138,7 +138,7 @@ function Register() {
               className="input input-bordered w-full max-w-full"
             />
             {formik.errors.name ? (
-              <Alert message={formik.errors.name} />
+              <Alert message={formik.errors.name} type="error" />
             ) : null}
           </div>
           <div>
@@ -155,7 +155,7 @@ function Register() {
               className="input input-bordered w-full max-w-full"
             />
             {formik.errors.lastName && formik.touched.lastName ? (
-              <Alert message={formik.errors.lastName} />
+              <Alert message={formik.errors.lastName} type="error" />
             ) : null}
           </div>
         </div>
@@ -171,7 +171,7 @@ function Register() {
           className="input input-bordered w-full max-w-full"
         />
         {formik.errors.email && formik.touched.email ? (
-          <Alert message={formik.errors.email} />
+          <Alert message={formik.errors.email} type="error"  />
         ) : null}
         <div className="flex-col sm:flex justify-between">
           <div>
@@ -187,7 +187,7 @@ function Register() {
               className="input input-bordered w-full max-w-full"
             />
             {formik.errors.password && formik.touched.password ? (
-              <Alert message={formik.errors.password} />
+              <Alert message={formik.errors.password} type="error"  />
             ) : null}
           </div>
           <div>
@@ -203,7 +203,7 @@ function Register() {
               className="input input-bordered w-full max-w-full"
             />
             {formik.errors.confirmPassword && formik.touched.confirmPassword ? (
-              <Alert message={formik.errors.confirmPassword} />
+              <Alert message={formik.errors.confirmPassword} type="error"  />
             ) : null}
           </div>
         </div>
@@ -215,11 +215,11 @@ function Register() {
           Regístrate
         </button>
         {inputErrors && submitAttempted ? (
-          <Alert message={completeAllFieldsMessage} showIcon={true} />
+          <Alert message={completeAllFieldsMessage} showIcon={true} type="error"  />
         ) : null}
 
         {userExists ? (
-          <Alert message={accountExistsMessage} showIcon={true} />
+          <Alert message={accountExistsMessage} showIcon={true} type="error"  />
         ) : null}
         <div className="flex justify-between items-center mt-5">
           <h2 className="text-1x0">¿Ya tienes una cuenta?</h2>
