@@ -135,6 +135,14 @@ const ViewCourse = () => {
                   </Link>
                 </div>
               ) : null}
+              <div className="py-5 flex gap-2">
+                  <Link
+                    to={`/${PrivateRoutes.PRIVATE}/${idUser}/${PrivateRoutes.COURSE}/${idCourse}/${PrivateRoutes.SECTION}/1/${PrivateRoutes.TUTORSHIP}/1`}
+                    className="btn bg-blue-500 normal-case border-none hover:bg-gray-800 hover:text-white "
+                  >
+                    Ver clases
+                  </Link>
+                </div>
             </div>
             <section className="lg:w-5/12 order-2">
               <img
@@ -150,50 +158,6 @@ const ViewCourse = () => {
           </div>
         </div>
       </div>
-      {enrolled || numberIdUser === course.owner.id ? (
-        <section className="container m-auto px-6 py-6">
-          <h2 className="text-2xl font-bold leading-tight mb-5 capitalize">
-            Temario del curso
-          </h2>
-          {sections.map((s: SectionOA, y: number) => {
-            return (
-              <div
-                key={y}
-                tabIndex={y}
-                className="collapse collapse-open border border-base-300 bg-base-100 rounded-box mt-2"
-              >
-                <div className="collapse-title text-xl font-medium flex justify-between">
-                  {s.name} 
-                  {numberIdUser === course.owner.id ? 
-                    (<Link
-                    to={`/${PrivateRoutes.PRIVATE}/${numberIdUser}/${PrivateRoutes.COURSE}/${numberIdCourse}/${PrivateRoutes.SECTION}/${s.id}/${PrivateRoutes.TUTORSHIP}`}
-                    className="btn w-15 flex justify-between bg-blue-500 normal-case border-none hover:bg-gray-800 hover:text-white "
-                  >
-                    Crear tutoria
-                  </Link> ) : null
-                  }
-                  
-                </div>
-                <div className="collapse-content">
-                  {tutorships.map((t: Tutorship, i: number) => {
-                    return t.section.id === s.id ? (
-                      <Link
-                        key={i}
-                        to={`/${PrivateRoutes.PRIVATE}/${idUser}/${PrivateRoutes.COURSE}/${idCourse}/${PrivateRoutes.SECTION}/${s.id}/${PrivateRoutes.TUTORSHIP}/${t.id}`}
-                        className="btn bg-gray-800  mt-1.5 text-lef flex justify-start text-white normal-case border-none hover:btn-info "
-                      >
-                        {i.toString() + ". " + t.name}
-                      </Link>
-                    ) : null;
-                  })}
-                  
-                </div>
-              </div>
-            );
-          })}
-        </section>
-      ) : null}
-
       <section className="shadow-lg bg-gray-800 container m-auto px-6 mb-5">
         <div className="stat">
           <div className="stat-figure text-secondary">

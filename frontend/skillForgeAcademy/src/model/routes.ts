@@ -16,4 +16,5 @@ export enum PrivateRoutes {
   SECTION = "section",
   COURSE = "course",
   TUTORSHIP = "tutorship",
+  VIEW_COURSE = "view-course",
 }
