@@ -45,4 +45,9 @@ public class CourseRestController {
   public ResponseEntity<List<CourseResponseDto>> findByOwner(@PathVariable Long idOwner) {
     return ResponseEntity.ok(courseHandler.findByOwner(idOwner));
   }
+  @GetMapping("/name/{courseName}")
+  public ResponseEntity<List<CourseResponseDto>> findByName(@PathVariable String courseName) {
+    return ResponseEntity.ok(courseHandler.findByName(courseName));
+  }
+
 }

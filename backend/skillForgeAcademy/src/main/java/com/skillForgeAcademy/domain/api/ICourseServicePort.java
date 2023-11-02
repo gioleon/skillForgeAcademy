@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ICourseServicePort extends GenericService<CourseModel, Long> {
   List<CourseModel> findByOwner(Long idOwner);
+  List<CourseModel> findByName(String courseName);
 }

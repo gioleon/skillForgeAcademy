@@ -44,3 +44,13 @@ export const getCourseById = (id: number) => {
       return error.response.status;
     });
 };
+
+export const getCourseByName = async (name: string): Promise<Course[]> => {
+  try {
+    const response = await axios.get<Course[]>(`${import.meta.env.VITE_APP_API_BASE_URL}/course/name/${name}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};

@@ -87,7 +87,7 @@ export default function BasicTabs({
             ? createdCourses.map((c: Course, index) => {
                 return (
                   <CourseCard
-                    key={index}
+                    key={c.id} // Aquí estás usando 'id' como clave
                     id={c.id}
                     category={c.category}
                     name={c.name}
@@ -106,7 +106,7 @@ export default function BasicTabs({
             ? enrolledCourses.map((c: courseOA, index) => {
                 return (
                   <CourseCard
-                    key={index}
+                    key={c.id} // Aquí estás usando 'id' como clave
                     id={c.id}
                     category={c.category}
                     name={c.name!}

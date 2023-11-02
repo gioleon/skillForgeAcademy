@@ -43,4 +43,10 @@ public class CourseHandlerImpl implements ICourseHandler {
   public List<CourseResponseDto> findByOwner(Long idOwner) {
     return courseResponseMapper.toResponseList(courseServicePort.findByOwner(idOwner));
   }
+
+  @Override
+  public List<CourseResponseDto> findByName(String name) {
+    return courseResponseMapper.toResponseList(courseServicePort.findByName(name));
+  }
+
 }

@@ -15,7 +15,7 @@ function Categories() {
     handleGetCategories();
   });
   const categorieList = categories.map((c: Category) => {
-    return <CategoryCard id={c.id} name={c.name} />;
+    return <CategoryCard key={c.id} id={c.id} name={c.name} />;
   });
 
   return (

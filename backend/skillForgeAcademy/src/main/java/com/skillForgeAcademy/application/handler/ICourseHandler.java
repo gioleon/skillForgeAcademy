@@ -14,4 +14,6 @@ public interface ICourseHandler {
   List<CourseResponseDto> getAllCourses();
 
   List<CourseResponseDto> findByOwner(Long id);
+
+  List<CourseResponseDto> findByName(String name);
 }

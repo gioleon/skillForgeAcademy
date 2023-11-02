@@ -22,5 +22,5 @@ func main() {
 	routes.POST("/api/progress", rest.SaveUserProgress)
 	routes.GET("/api/progress", rest.GetUserProgress)
 
-	routes.Run(":8088")
+	routes.Run(":8089")
 }

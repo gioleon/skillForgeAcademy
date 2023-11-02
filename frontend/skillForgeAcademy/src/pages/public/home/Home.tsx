@@ -1,42 +1,27 @@
+import React, { useContext } from "react";
 import { CourseCard } from "@/components/course-card/CourseCard";
 import { HeroLogin } from "@/components/hero";
-import { Course } from "@/model";
-import { getAllCourse } from "@/service/course.service";
-import { useState, useEffect } from "react";
+import { CourseContext } from "@/components/course-card/CourseContext";
+
 
 function Home() {
-  const [courses, setCourses] = useState<Course[]>([]);
+  const { courses } = useContext(CourseContext);
 
-  const handleGetCourses = async () => {
-    try {
-      const curso = await getAllCourse();
-      setCourses(curso);
-    } catch (error) {
-      console.error('Error fetching courses:', error);
-    }
-  };
-
-  useEffect(() => {
-    handleGetCourses();
-  }, []);
-
-  const courseList = courses.map((c: Course) => {
-    return (
-      <CourseCard
-        key={c.id}
-        id={c.id}
-        category={c.category}
-        name={c.name}
-        owner={c.owner}
-        description={c.description}
-        urlImage={c.urlImage}
-      />
-    );
-  });
+  const courseList = courses.map((c) => (
+    <CourseCard
+      key={c.id}
+      id={c.id}
+      category={c.category}
+      name={c.name}
+      owner={c.owner}
+      description={c.description}
+      urlImage={c.urlImage}
+    />
+  ));
 
   return (
     <div>
-      <HeroLogin />
+       <HeroLogin />
       <h2 className="mb-5 text-6xl font-bold text-center p-10">
         Cursos disponibles
       </h2>

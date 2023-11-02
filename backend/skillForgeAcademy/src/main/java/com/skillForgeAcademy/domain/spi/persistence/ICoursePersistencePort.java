@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ICoursePersistencePort extends GenericService<CourseModel, Long> {
   List<CourseModel> findByOwner(UserModel owner);
+  List<CourseModel> findByName(String courseName);
 }

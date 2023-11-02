@@ -46,4 +46,10 @@ public class CourseUseCase implements ICourseServicePort {
     owner.setId(idOwner);
     return coursePersistencePort.findByOwner(owner);
   }
+
+  @Override
+  public List<CourseModel> findByName(String courseName) {
+    return coursePersistencePort.findByName(courseName);
+  }
+
 }

@@ -1,7 +1,8 @@
+import React, { useContext } from 'react';
 import { Box, createTheme, ThemeProvider  } from "@mui/material";
 import { SearchInputWrapper, StyledInputBase } from "../styled-components";
 import { theme } from './customTheme';
-
+import { CourseContext } from '../../course-card/CourseContext';
 
 interface DisplayBreakpoints {
   xs: string;
@@ -15,6 +16,8 @@ interface Props {
 }
 
 function SearchInputNavbar(props: Props) {
+  const { searchTerm, setSearchTerm } = useContext(CourseContext);
+
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -25,7 +28,12 @@ function SearchInputNavbar(props: Props) {
         }}
       >
         <SearchInputWrapper>
-          <StyledInputBase placeholder="Buscar..." fullWidth/>
+          <StyledInputBase 
+            placeholder="Buscar..." 
+            fullWidth
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </SearchInputWrapper>
       </Box>
     </ThemeProvider>

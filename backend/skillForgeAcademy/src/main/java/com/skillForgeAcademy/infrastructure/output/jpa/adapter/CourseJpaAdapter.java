@@ -55,4 +55,11 @@ public class CourseJpaAdapter implements ICoursePersistencePort {
     UserEntity userEntity = userEntityMapper.toEntity(owner);
     return courseEntityMapper.toModelList(courseRepository.findByOwner(userEntity));
   }
+
+  @Override
+  public List<CourseModel> findByName(String courseName) {
+    List<CourseEntity> courseEntities = courseRepository.findByName(courseName);
+    return courseEntityMapper.toModelList(courseEntities);
+  }
+
 }
