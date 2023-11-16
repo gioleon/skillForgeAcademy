@@ -11,14 +11,14 @@ interface CourseContextProps {
 export const CourseContext = createContext<CourseContextProps>({
   courses: [],
   searchTerm: '',
-  setSearchTerm: () => {},
+  setSearchTerm: () => { },
 });
 
 interface CourseProviderProps {
-    children: ReactNode;
-  }
+  children: ReactNode;
+}
 
-  export const CourseProvider: React.FC<CourseProviderProps> = ({ children }) =>  {
+export const CourseProvider: React.FC<CourseProviderProps> = ({ children }) => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -37,11 +37,12 @@ interface CourseProviderProps {
 
   useEffect(() => {
     if (searchTerm) {
-        getCourseByName(searchTerm).then(data => setCourses(data));
+      getCourseByName(searchTerm).then(data => setCourses(data)).catch(error => console.error('Error fetching course by name:', error));
     } else {
       handleGetCourses();
     }
-  }, [searchTerm]);
+  }, [searchTerm, handleGetCourses]);
+
 
   return (
     <CourseContext.Provider value={{ courses, searchTerm, setSearchTerm }}>
