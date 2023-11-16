@@ -125,16 +125,7 @@ const ViewCourse = () => {
                   </Link>
                 </div>
               ) : null}
-              {numberIdUser === course.owner.id ? (
-                <div className="py-5 flex gap-2">
-                  <Link
-                    to={`/${PrivateRoutes.PRIVATE}/${numberIdUser}/${PrivateRoutes.COURSE}/${numberIdCourse}/${PrivateRoutes.SECTION}`}
-                    className="btn bg-blue-500 normal-case border-none hover:bg-gray-800 hover:text-white "
-                  >
-                    Crear nueva sección
-                  </Link>
-                </div>
-              ) : null}
+              {enrolled || numberIdUser == course.owner.id ? (
               <div className="py-5 flex gap-2">
                   <Link
                     to={`/${PrivateRoutes.PRIVATE}/${idUser}/${PrivateRoutes.COURSE}/${idCourse}/${PrivateRoutes.SECTION}/1/${PrivateRoutes.TUTORSHIP}/1`}
@@ -142,7 +133,7 @@ const ViewCourse = () => {
                   >
                     Ver clases
                   </Link>
-                </div>
+                </div>) : null}
             </div>
             <section className="lg:w-5/12 order-2">
               <img

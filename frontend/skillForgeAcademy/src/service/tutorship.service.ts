@@ -1,6 +1,9 @@
 import axios, { AxiosResponse } from "axios";
 import { Tutorship } from "../model";
 import { TutorshipId } from "../model/tutorship/tutorshipId";
+import { setLocalStorage } from "@/utilities";
+
+export const tutorshipKey = "tutorship"
 
 export const createTutorShip = (tutorship: Tutorship) => {
   return axios
@@ -32,7 +35,8 @@ export const getTutorshipById = (id: TutorshipId) => {
       }/${id.id}`
     )
     .then((response: AxiosResponse<Tutorship>) => {
-      return response.data;
+      setLocalStorage(tutorshipKey, response.data)
+      return 200;
     })
     .catch((error) => {
       return error.response.status;

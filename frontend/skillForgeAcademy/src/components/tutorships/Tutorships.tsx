@@ -5,10 +5,11 @@ import { Link, useParams } from 'react-router-dom';
 
 interface Props {
     course: Course,
-    setTutorship: React.Dispatch<React.SetStateAction<Tutorship>>
+    setTutorship: React.Dispatch<React.SetStateAction<Tutorship>>,
+    tutorship: Tutorship
 }
 
-function Tutorships({course, setTutorship} : Props) {
+function Tutorships({course, setTutorship, tutorship} : Props) {
 
     const [tutorships, setTutorships] = useState<Tutorship[]>([]);
     
@@ -19,13 +20,16 @@ function Tutorships({course, setTutorship} : Props) {
     
     // Get tutorships
     const getTutorShip = async () => {
+      if (course.id != 0) {
         const foundTutorShip = await getAllTutorShipsByCourseId(numberIdCourse);
         setTutorships(foundTutorShip);
+      }
+        
     };
 
     useEffect(() => {
         getTutorShip();
-    })
+    }, [tutorship])
 
     // Get sections
     const sections: SectionOA[] = [];
@@ -45,6 +49,16 @@ function Tutorships({course, setTutorship} : Props) {
           <h2 className="text-2xl font-bold leading-tight mb-5 capitalize">
             Temario del curso
           </h2>
+          {numberIdUser === course.owner.id ? (
+                <div className="py-5 flex gap-2">
+                  <Link
+                    to={`/${PrivateRoutes.PRIVATE}/${numberIdUser}/${PrivateRoutes.COURSE}/${numberIdCourse}/${PrivateRoutes.SECTION}`}
+                    className="btn bg-blue-500 normal-case border-none hover:bg-gray-800 hover:text-white "
+                  >
+                    Crear nueva sección
+                  </Link>
+                </div>
+              ) : null}
           {sections.map((s: SectionOA, y: number) => {
             return (
               <div

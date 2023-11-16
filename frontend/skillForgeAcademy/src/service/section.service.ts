@@ -12,6 +12,7 @@ export const createSection = (section: Section) => {
     });
 };
 
+
 export const getAllSection = () => {
   return axios
     .get(`${import.meta.env.VITE_APP_API_BASE_URL}/section/all`)

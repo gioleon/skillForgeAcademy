@@ -78,6 +78,7 @@ function AddSection() {
 
     // give the user to the method.
     const response = await createSection(section);
+    console.log(response)
 
     if (response.status === 403) {
     } else if (response.status === 201) {
