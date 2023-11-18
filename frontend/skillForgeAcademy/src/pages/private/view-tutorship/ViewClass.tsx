@@ -96,7 +96,7 @@ function ViewClass() {
               <Link
                 to={`/${PrivateRoutes.PRIVATE}/${Number.parseInt(idUser!)}/${
                   PrivateRoutes.COURSE
-                }/${tutorship.course.id}`}
+                }/${course.id}`}
                 className="btn bg-blue-500 w-40 mt-5  text-white normal-case border-none hover:bg-gray-800 "
               >
                 Regresar al curso
