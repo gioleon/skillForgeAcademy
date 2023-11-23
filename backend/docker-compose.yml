@@ -1,0 +1,94 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:14.2
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: skillforgeacademy
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - 5433:5432
+    networks:
+      - common
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.0
+    hostname: zookeeper
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - common
+
+  broker:
+    image: confluentinc/cp-kafka:7.3.0
+    container_name: broker
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_LISTENERS: PLAINTEXT://:29092,PLAINTEXT_HOST://0.0.0.0:9092
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - common
+
+  password-recovery:
+    image: password-recovery:latest
+    build: ./passwordRecovery
+    container_name: password-recovery
+    ports:
+      - 8088:8088
+    depends_on:
+      - postgres
+      - broker
+    networks:
+      - common
+
+  skillforgeacademy:
+    image: skillforgeacademy:latest
+    build: ./skillForgeAcademy
+    container_name: skillforgeacademy
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+      - broker
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5433/skillforgeacademy
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_JPA_HIBERNATE_DDL_AUTO: create
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+      JWT_SECRET: "este es el string por ahora"
+      SPRING_CLOUD_STREAM_KAFKA_BINDER_DEFAULTBROKERPORT: broker:9092
+    networks:
+      - common
+
+  notification:
+    image: notification:latest
+    build: ./notification
+    container_name: notification
+    ports:
+      - 8081:8081
+    depends_on:
+      - postgres
+      - broker
+    networks:
+      - common
+
+networks:
+  common:
+    driver: bridge
+
+volumes:
+  postgres_data:
